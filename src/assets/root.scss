@@ -78,7 +78,9 @@ li:hover {
     color: var(--acc-2);
   }
 }
-
+.logo {
+  background-image: url("@/assets/logo/logo.svg");
+}
 /* --------------------------------------- MAIN */
 
 section {

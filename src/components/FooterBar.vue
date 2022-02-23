@@ -1,9 +1,8 @@
 <template>
     <footer>
-        <img src="#" id="footer-logo" alt="Logo">
+        <logoSVG />
         <br>
         <ul id="contact">
-
             <a href="mailto:binkowski95@gmail.com" target="_self">
                 <li>
                     <p class="fa-solid fa-envelope-open"></p>
@@ -28,7 +27,11 @@
         <br>
         <p>This website was designed and built by <strong>Robert Binkowski</strong></p>
         <br>
-        <p>Special Thanks</p>
+        <div class="thanks">
+            <p>Special Thanks</p><br>
+            <p><a href="https://www.linkedin.com/in/veronika-leginusov%C3%A1-865a11109/" target="_BLANC">Veronika Leginusová</a> -  Logo Design</p>
+            <p><a href="https://www.linkedin.com/in/emma-oconnor/" target="_BLANC">Emma O'Connor</a> -  Logo Design</p>
+        </div>
     </footer>
 </template>
 
@@ -36,9 +39,7 @@
 @import '@/assets/root.scss';
 
     footer {
-        text-align: center;
         background: var(--fott-back);
-        border-top: 1px solid var(--acc-1);
         padding-top: 2em;
         padding-bottom: 3em;
         min-height: 10vh;
@@ -52,3 +53,14 @@
         }
     }
 </style>
+
+<script>
+import LogoSVG from '../components/LogoSVG.vue';
+
+export default {
+  name: 'app',
+  components: {
+    LogoSVG
+  },
+};
+</script>

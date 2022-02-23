@@ -2,6 +2,7 @@
   <div id="app">
     <div class="main">
     <TopNav />
+    <logoSVG />
     <WelcomePage />
     <AboutSection />
     </div>
@@ -14,6 +15,7 @@ import TopNav from './components/TopNav.vue';
 import FooterBar from './components/FooterBar.vue';
 import WelcomePage from './views/WelcomePage.vue';
 import AboutSection from './views/AboutSection.vue';
+import LogoSVG from './components/LogoSVG.vue';
 
 export default {
   name: 'app',
@@ -21,7 +23,8 @@ export default {
     FooterBar,
     TopNav,
     WelcomePage,
-    AboutSection
+    AboutSection,
+    LogoSVG
   },
 };
 </script>

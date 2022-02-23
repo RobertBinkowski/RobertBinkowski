@@ -1,10 +1,11 @@
 <template>
     <header>
         <nav>
+            <logoSVG class=""/>
             <ul class="nav-ul">
-                <a href="index.html" class="nav-a">
+                <a href="index.html" class="nav-a a-logo">
                     <li class="nav-li">
-                        <strong><img src="../assets/logo/logo.svg" alt="logo" class="logo"></strong>
+                        <strong><img src="" alt="logo" class="logo"></strong>
                     </li>
                 </a>
                 <a href="#" class="nav-a" target="_self">
@@ -102,3 +103,14 @@ nav {
     }
 }
 </style>
+
+<script>
+import LogoSVG from '../components/LogoSVG.vue';
+
+export default {
+  name: 'app',
+  components: {
+    LogoSVG
+  },
+};
+</script>
