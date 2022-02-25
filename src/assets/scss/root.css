@@ -1,0 +1,273 @@
+/*
+
+Name:           ROOT FILE FOR A WEBSITE
+Designed By:    Robert Binkowski
+Date:           25/2/22
+
+*/
+/* --------------------------------------- Imports */
+main {
+  -webkit-box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
+          box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
+}
+
+footer {
+  background: #2e3133;
+}
+
+/* ----------------------------------- Variables */
+/*-------------------------------------------------------------SCREEN SISES*/
+/*-------------------------------------------------------BIG*/
+@media only screen and (min-width: 600px) {
+  nav .nav-li p {
+    display: none;
+  }
+  footer #contact {
+    display: block;
+    position: fixed;
+    bottom: 0em;
+    left: 1em;
+  }
+  footer #contact::after {
+    content: "";
+    background-color: #58d68d;
+    height: 100px;
+    display: block;
+    width: 2px;
+    margin: 0px auto -15px auto;
+  }
+}
+
+/*-----------------------------------------------------SMALL*/
+@media only screen and (max-width: 600px) {
+  nav {
+    bottom: 0px;
+    left: 0px;
+    width: 100vw;
+  }
+  nav ul {
+    margin: 0em;
+  }
+  nav ul p {
+    font-size: 1.5em;
+  }
+  nav ul .nav-li {
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+  nav ul .a-logo {
+    display: none;
+  }
+  nav strong {
+    display: none;
+  }
+  footer {
+    margin-bottom: 3em;
+  }
+  footer #contact {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100vw;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  footer a {
+    width: 100%;
+  }
+}
+
+/* ------------------------------------ DEFAULT */
+body {
+  font-family: "Poppins", sans-serif;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  overflow-x: hidden;
+  background: #202938;
+  color: #949494;
+  text-shadow: 2px 3px #272727;
+}
+
+nav {
+  top: 0;
+}
+
+nav .nav-ul {
+  background-color: rgba(78, 96, 119, 0.5);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+a {
+  text-decoration: none;
+  color: #949494;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+}
+
+a:hover {
+  color: #58d68d;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+p {
+  margin: 0;
+}
+
+p strong {
+  color: #58d68d;
+}
+
+/*----------------------------------------------LI*/
+li {
+  border-radius: 0.2em;
+  padding: 0.3em;
+  text-shadow: none;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+}
+
+li a {
+  font-size: 1.5em;
+}
+
+li:hover {
+  margin-top: -0.2em;
+  margin-bottom: 0.2em;
+}
+
+/* --------------------------------------- MAIN */
+section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 1em;
+  margin: auto;
+  margin-top: 1em;
+  min-height: 20vh;
+  -webkit-box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
+          box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
+}
+
+section:not(:first-child) {
+  max-width: 1300px;
+}
+
+/* ------------------------------------- BUTTON */
+.button {
+  padding: 1em;
+  margin: 1em;
+  cursor: pointer;
+  border: 1px solid #58d68d;
+  border-radius: 1em;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.button:hover {
+  border-radius: 0.5em;
+  background-color: #58d68c1f;
+}
+
+/*.button {
+  position: relative;
+  background: none;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 0;
+  border: none;
+  font-weight: bold;
+  fill: white;
+  color: white;
+  fill: var(--acc-1);
+  color: var(--acc-1);
+  text-shadow: none;
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: var(--acc-1);
+  z-index: -1;
+  -webkit-transition: var(--tr-s);
+  transition: var(--tr-s);
+}
+
+.button:before {
+  border-radius: 20% 20% 0 0;
+}
+
+.button:hover {
+  -webkit-box-shadow: 0 0 1rem 0 var(--acc-1);
+  box-shadow: 0 0 1rem 0 var(--acc-1);
+  text-shadow: none;
+  -webkit-transition: var(--tr-s);
+  transition: var(--tr-s);
+}
+
+.button:hover::before {
+  height: 180%;
+}
+
+.button:hover i,
+.button:hover a,
+.button:hover p,
+.button:hover span,
+.button:hover h3 {
+  fill: var(--acc-2);
+  color: var(--acc-2);
+}
+
+.button:hover input[type="submit"],
+.button:hover input[type="button"] {
+  width: 100%;
+  fill: var(--acc-2);
+  color: var(--acc-2);
+}
+
+.button:visited {
+  -webkit-transition: var(--tr-s);
+  transition: var(--tr-s);
+}
+
+.button:visited::before {
+  height: 180%;
+}
+
+.button:visited i,
+.button:visited a,
+.button:visited input[type="submit"] {
+  fill: var(--acc-2);
+  color: var(--acc-2);
+}
+
+.button a {
+  -webkit-transition: var(--tr-s);
+  transition: var(--tr-s);
+}
+
+.button a:hover {
+  color: var(--txt-2);
+  text-shadow: 2px 3px var(--acc-1);
+}
+*/
+/*# sourceMappingURL=root.css.map */

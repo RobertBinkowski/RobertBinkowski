@@ -1,11 +1,10 @@
 <template>
     <header>
         <nav>
-            <logoSVG class=""/>
             <ul class="nav-ul">
                 <a href="index.html" class="nav-a a-logo">
                     <li class="nav-li">
-                        <strong><img src="" alt="logo" class="logo"></strong>
+                        <LogoSVG/>
                     </li>
                 </a>
                 <a href="#" class="nav-a" target="_self">
@@ -52,9 +51,6 @@
 </template>
 
 <style lang="scss">
-@import '@/assets/root.scss';
-
-/* ------------------------------------- NAVBAR */
 nav {
   max-width: 100vw;
   left: 0;
@@ -63,18 +59,13 @@ nav {
   position: fixed;
 
     .nav-ul {
-        background-color: var(--nav-bg);
-        -webkit-box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
         box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
-        display: -webkit-box;
-        display: -ms-flexbox;
         width: 100vw;
+        margin: 0;
         max-width: 1500px;
         display: flex;
         margin-left: auto;
         margin-right: auto;
-        -ms-flex-pack: distribute;
-        transition: var(--tr-f) margin-top;
     }
 
     .nav-li {
@@ -84,10 +75,7 @@ nav {
     }
 
     .nav-a {
-        font-weight: bold;
         font-size: large;
-        margin: 0;
-        overflow: hidden;
     }
     a{
         width: 100%;
@@ -96,9 +84,9 @@ nav {
         display: none;
         font-size: 1.2em;
     }
-    .logo{
-        height: 2em;
-        margin-top: -2em;
+    .a-logo{
+        font-size: .7em;
+        margin-top: -.2em;
         margin-bottom: -.7em;
     }
 }
@@ -108,9 +96,8 @@ nav {
 import LogoSVG from '../components/LogoSVG.vue';
 
 export default {
-  name: 'app',
-  components: {
-    LogoSVG
-  },
-};
+    components: {
+        LogoSVG
+    }    
+}
 </script>

@@ -36,20 +36,17 @@
 </template>
 
 <style lang="scss">
-@import '@/assets/root.scss';
 
     footer {
-        background: var(--fott-back);
         padding-top: 2em;
         padding-bottom: 3em;
         min-height: 10vh;
-        margin-top: 1em;
         #footer-logo{
             font-size: 2em;
             margin-bottom: 1em;
         }
         li{
-            font-size: 1.4em;
+            font-size: 1.2em;
         }
     }
 </style>
