@@ -2,8 +2,21 @@
 /*-------------------------------------------------------BIG*/
 @media only screen and (min-width: 600px) {
   nav {
-    .nav-li p {
-      display: none;
+    top: 0;
+    .nav-li {
+      padding-top: 1.5em;
+      p {
+        display: none;
+      }
+    }
+  }
+  section {
+    &:not(:first-of-type) {
+      flex-direction: row;
+      div {
+        margin: auto;
+        padding: 1em;
+      }
     }
   }
   footer {
@@ -13,14 +26,6 @@
       bottom: 0em;
       left: 1em;
     }
-    #contact::after {
-      content: "";
-      background-color: $acc-2;
-      height: 100px;
-      display: block;
-      width: 2px;
-      margin: 0px auto -15px auto;
-    }
   }
 }
 /*-----------------------------------------------------SMALL*/
@@ -29,6 +34,9 @@
     bottom: 0px;
     left: 0px;
     width: 100vw;
+    .a-logo {
+      display: none;
+    }
     ul {
       margin: 0em;
       p {
@@ -38,21 +46,29 @@
         padding-top: 1em;
         padding-bottom: 1em;
       }
-      .a-logo {
-        display: none;
-      }
     }
     strong {
       display: none;
     }
   }
+  #welcomeSection {
+    .topLogo {
+      display: block;
+      svg {
+        height: 10em;
+      }
+    }
+  }
   footer {
-    margin-bottom: 3em;
+    padding-bottom: 6em;
     #contact {
       margin-left: auto;
       margin-right: auto;
       width: 100vw;
       display: flex;
+    }
+    #contact::after {
+      display: none;
     }
     a {
       width: 100%;

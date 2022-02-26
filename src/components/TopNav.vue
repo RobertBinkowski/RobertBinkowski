@@ -2,36 +2,36 @@
     <header>
         <nav>
             <ul class="nav-ul">
-                <a href="index.html" class="nav-a a-logo">
+                <a href="#welcomeSection" class="nav-a a-logo">
                     <li class="nav-li">
                         <LogoSVG/>
                     </li>
                 </a>
-                <a href="#" class="nav-a" target="_self">
+                <a href="#aboutSection" class="nav-a" target="_self">
                     <li class="nav-li">
                         <p class="fa-solid fa-circle-info"></p>
                         <strong class="nav-txt">About</strong>
                     </li>
                 </a>
-                <a href="#" class="nav-a" target="_self">
+                <a href="#projectsSection" class="nav-a" target="_self">
                     <li class="nav-li">
                         <p class="fa-solid fa-code-branch"></p>
                         <strong class="nav-txt">Projects</strong>
                     </li>    
                 </a>
-                <a href="#" class="nav-a" target="_self">
+                <a href="#experienceSection" class="nav-a" target="_self">
                     <li class="nav-li">
                         <p class="fa-solid fa-briefcase"></p>
-                        <strong class="nav-txt">Work</strong>
+                        <strong class="nav-txt">Experience</strong>
                     </li>
                 </a>
-                <a href="#" class="nav-a" target="_self">
+                <a href="#contactSection" class="nav-a" target="_self">
                     <li class="nav-li">
                         <p class="fa-solid fa-user"></p>
                         <strong class="nav-txt">Contact</strong>
                     </li>
                 </a>
-                <a href="https://docs.google.com/document/d/1SQ6XWF39Ibd1BbfVPTALshtNB7liDILF/edit?usp=sharing&ouid=114853186190064157568&rtpof=true&sd=true" 
+                <a href="https://docs.google.com/document/d/1SQ6XWF39Ibd1BbfVPTALshtNB7liDILF/view" 
                     class="nav-a li-resume" target="_self" >
                     <li class="nav-li">
                         <p class="fa-solid fa-file-signature"></p>
@@ -39,13 +39,6 @@
                     </li>
                 </a>
             </ul>
-            <a href="https://docs.google.com/document/d/1SQ6XWF39Ibd1BbfVPTALshtNB7liDILF/edit?usp=sharing&ouid=114853186190064157568&rtpof=true&sd=true" 
-                    class="resume" target="_self" >
-                    <p class="fa-solid fa-file-signature"></p>
-                    <div class="resume-flip">
-                        <strong class="nav-txt">Resume</strong>
-                    </div>
-            </a>
         </nav>
     </header>
 </template>
@@ -80,14 +73,13 @@ nav {
     a{
         width: 100%;
     }
-    .resume{
-        display: none;
-        font-size: 1.2em;
-    }
     .a-logo{
-        font-size: .7em;
-        margin-top: -.2em;
-        margin-bottom: -.7em;
+        margin: -.5em;
+        font-size: 1em;
+    }
+    li:hover {
+        margin-top: -0.2em;
+        margin-bottom: 0.2em;
     }
 }
 </style>

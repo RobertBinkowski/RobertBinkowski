@@ -28,25 +28,40 @@
         <p>This website was designed and built by <strong>Robert Binkowski</strong></p>
         <br>
         <div class="thanks">
-            <p>Special Thanks</p><br>
-            <p><a href="https://www.linkedin.com/in/veronika-leginusov%C3%A1-865a11109/" target="_BLANC">Veronika Leginusová</a> -  Logo Design</p>
-            <p><a href="https://www.linkedin.com/in/emma-oconnor/" target="_BLANC">Emma O'Connor</a> -  Logo Design</p>
+            <p>Special Thanks</p>
+            <p><a href="https://www.linkedin.com/in/veronika-leginusov%C3%A1-865a11109/" target="_self">Veronika Leginusová</a> -  Logo Design</p>
+            <p><a href="https://www.linkedin.com/in/emma-oconnor/" target="_self">Emma O'Connor</a> -  Logo Design</p>
         </div>
     </footer>
 </template>
 
 <style lang="scss">
+@import "../assets/scss/variables";
 
     footer {
         padding-top: 2em;
         padding-bottom: 3em;
         min-height: 10vh;
-        #footer-logo{
-            font-size: 2em;
-            margin-bottom: 1em;
-        }
         li{
             font-size: 1.2em;
+        }
+        #contact{
+            p{
+                font-size: 1.2em;
+            }
+        
+            &::after {
+            content: "";
+            background-color: $acc-2;
+            height: 100px;
+            display: block;
+            width: 1px;
+            margin: 0px auto -15px auto;
+            }
+        }
+        li:hover {
+            margin-top: -0.2em;
+            margin-bottom: 0.2em;
         }
     }
 </style>

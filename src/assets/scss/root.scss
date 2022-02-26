@@ -11,33 +11,43 @@ Date:           25/2/22
 @import "../scss/screens";
 
 /* ------------------------------------ DEFAULT */
-body {
-  font-family: "Poppins", sans-serif;
-  padding: 0;
-  margin: 0;
-  text-align: center;
-  overflow-x: hidden;
-  background: $bg-1;
-  color: $txt-1;
-  text-shadow: 2px 3px $shadow;
+html {
+  scroll-behavior: smooth;
+  body {
+    font-family: "Poppins", sans-serif;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    overflow-x: hidden;
+    background: $bg-1;
+    color: $txt-1;
+    text-shadow: 2px 3px $shadow;
+    main {
+      min-height: 100vh;
+      padding-bottom: 1em;
+    }
+  }
 }
 nav {
-  top: 0;
   .nav-ul {
     background-color: $nav-bg;
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
   }
 }
 a {
   text-decoration: none;
   color: $txt-1;
+  font-weight: bold;
   transition: $tr-f;
   &:hover {
     color: $acc-2;
   }
 }
-
+em {
+  font-weight: bold;
+  color: $acc-1;
+}
 ul {
   list-style: none;
   padding: 0;
@@ -57,25 +67,33 @@ li {
   a {
     font-size: 1.5em;
   }
-  &:hover {
-    margin-top: -0.2em;
-    margin-bottom: 0.2em;
-  }
 }
 /* --------------------------------------- MAIN */
 
 section {
-  @include flexCenter(column);
+  @include flexCenter();
   padding: 1em;
+  margin-right: 0;
   margin: auto;
   margin-top: 1em;
   min-height: 20vh;
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
-  &:not(:first-child) {
+  flex-direction: column;
+  &:not(:first-of-type) {
     max-width: 1300px;
   }
+  div {
+    padding: 1em;
+  }
 }
-
+.grid {
+  display: grid;
+  column-gap: 1em;
+  grid-template-columns: auto auto;
+  em {
+    padding: 0.5em;
+  }
+}
 /* ------------------------------------- BUTTON */
 
 .button {

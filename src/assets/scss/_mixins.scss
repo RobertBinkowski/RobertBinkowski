@@ -1,7 +1,7 @@
 /* ----------------------------------- Variables */
-@mixin flexCenter($direction) {
+@mixin flexCenter() {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: $direction;
+  flex-direction: column;
 }

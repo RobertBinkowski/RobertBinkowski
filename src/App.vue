@@ -1,9 +1,11 @@
 <template>
-  <div id="app">
+  <div>
     <main>
     <TopNav />
-    <WelcomePage />
+    <WelcomeSection />
     <AboutSection />
+    <ProjectsSection/>
+    <ExperienceSection />
     <ContactSection />
     </main>
     <FooterBar />
@@ -14,9 +16,11 @@
 import TopNav from './components/TopNav.vue';
 import FooterBar from './components/FooterBar.vue';
 
-import WelcomePage from './views/WelcomePage.vue';
+import WelcomeSection from './views/WelcomeSection.vue';
 import AboutSection from './views/AboutSection.vue';
 import ContactSection from './views/ContactSection.vue';
+import ExperienceSection from './views/ExperienceSection.vue';
+import ProjectsSection from './views/ProjectsSection.vue';
 
 export default {
   name: 'app',
@@ -24,16 +28,22 @@ export default {
     FooterBar,
     TopNav,
 
-    WelcomePage,
+    WelcomeSection,
     AboutSection,
-    ContactSection
+    ContactSection,
+    ExperienceSection,
+    ProjectsSection
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scope>
 @import 'assets/scss/root';
-main{
-  min-height: 100vh;
+#app{
+  left:0;
+  right: 0;
+  width: 100vw;
+  margin-top: -1em;
 }
+
 </style>
