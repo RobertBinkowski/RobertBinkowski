@@ -1,9 +1,22 @@
 <template>
-<svg class="svg" viewBox="0 0 640 640"><defs><path d="M221.99 478.67L381.89 318.76L459.27 396.14L299.36 556.05L221.99 478.67Z" id="d6tiybipT"></path><path d="M236.75 55.1L519.59 337.94L492.54 364.99L209.7 82.15L236.75 55.1Z" id="iN3YnEzfo"></path><path d="M212.92 428.87L212.92 146.02L354.34 287.44L212.92 428.87Z" id="b14DFpbIEo"></path></defs><g><g><g><g><filter id="shadow15878594" x="212.99" y="309.76" width="256.29" height="256.29" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse"><feFlood></feFlood><feComposite in2="SourceAlpha" operator="in"></feComposite><feGaussianBlur stdDeviation="1"></feGaussianBlur><feOffset dx="1" dy="1" result="afterOffset"></feOffset><feFlood flood-color="#000000" flood-opacity="0.5"></feFlood><feComposite in2="afterOffset" operator="in"></feComposite><feMorphology operator="dilate" radius="1"></feMorphology><feComposite in2="SourceAlpha" operator="out"></feComposite></filter><path d="M221.99 478.67L381.89 318.76L459.27 396.14L299.36 556.05L221.99 478.67Z" id="b1r34qpx3c" fill="white" fill-opacity="1" filter="url(#shadow15878594)"></path></g><use xlink:href="#d6tiybipT" opacity="1" fill="#ffffff" fill-opacity="1"></use></g><g><g><filter id="shadow14740229" x="200.7" y="46.1" width="328.89" height="328.89" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse"><feFlood></feFlood><feComposite in2="SourceAlpha" operator="in"></feComposite><feGaussianBlur stdDeviation="1"></feGaussianBlur><feOffset dx="1" dy="1" result="afterOffset"></feOffset><feFlood flood-color="#000000" flood-opacity="0.5"></feFlood><feComposite in2="afterOffset" operator="in"></feComposite><feMorphology operator="dilate" radius="1"></feMorphology><feComposite in2="SourceAlpha" operator="out"></feComposite></filter><path d="M236.75 55.1L519.59 337.94L492.54 364.99L209.7 82.15L236.75 55.1Z" id="ebXehva3T" fill="white" fill-opacity="1" filter="url(#shadow14740229)"></path></g><use xlink:href="#iN3YnEzfo" opacity="1" fill="#ffffff" fill-opacity="1"></use></g><g><g><filter id="shadow5785739" x="203.92" y="137.02" width="160.42" height="301.84" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse"><feFlood></feFlood><feComposite in2="SourceAlpha" operator="in"></feComposite><feGaussianBlur stdDeviation="1"></feGaussianBlur><feOffset dx="1" dy="1" result="afterOffset"></feOffset><feFlood flood-color="#000000" flood-opacity="0.5"></feFlood><feComposite in2="afterOffset" operator="in"></feComposite><feMorphology operator="dilate" radius="1"></feMorphology><feComposite in2="SourceAlpha" operator="out"></feComposite></filter><path d="M212.92 428.87L212.92 146.02L354.34 287.44L212.92 428.87Z" id="c2TE95Juj" fill="white" fill-opacity="1" filter="url(#shadow5785739)"></path></g><use xlink:href="#b14DFpbIEo" opacity="1" fill="#ffffff" fill-opacity="1"></use></g></g></g></svg>
+<svg class="svg" viewBox="0 0 1080 1080">
+<g transform="matrix(1 0 0 1 500 540)" >
+<path style="stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(0, 0)" d="M -200 300 L -200 -500 L 200 -100 L 0 100 L 200 300 L 0 500 L 0 -291.57518000000005" stroke-linecap="round" />
+</g>
+<g transform="matrix(1 0 0 1 400 440)" >
+<path style="stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(0, 0)" d="M 100 200 L -100 0 L 100 -200" stroke-linecap="round" />
+</g>
+</svg>
 </template>
 
 <style lang="scss" scoped>
+@import "../assets/scss/variables";
     .svg{
-        height: 3em;
+        stroke-width: 2;
+        height: 7em;
+        stroke: $acc-1;
+        &:hover{
+            stroke: $acc-2;
+        }
     }
 </style>

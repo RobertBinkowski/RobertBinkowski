@@ -69,6 +69,10 @@ nav {
 
     .nav-a {
         font-size: large;
+        .svg{
+            height: 2em;
+            stroke-width: 1;
+        }
     }
     a{
         width: 100%;
