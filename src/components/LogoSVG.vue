@@ -12,7 +12,7 @@
 <style lang="scss" scoped>
 @import "../assets/scss/variables";
     .svg{
-        stroke-width: 2;
+        stroke-width: 4;
         height: 7em;
         stroke: $acc-1;
         &:hover{

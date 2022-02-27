@@ -70,8 +70,9 @@ nav {
     .nav-a {
         font-size: large;
         .svg{
-            height: 2em;
-            stroke-width: 1;
+            height: 3em;
+            margin: -.5em;
+            stroke-width: 2;
         }
     }
     a{
