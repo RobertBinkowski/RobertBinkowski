@@ -4,10 +4,13 @@
             <h2>A little About Me</h2>
             <p>Hello, My name is Robert and I love working on new and interesting Technologies.<br>
                 Ever since my first interaction with Web Development in <em>2017</em>, I was intrigued.<br>
-                I always try to learn something new. Staying stationary is not an option.
+                There is always something new and exciting on the horyzon of software development.<br>
+                Which always pushes me forward to reach new hights.
                 <br><br>
                 I always strive to implement new and well implemented coding techniques such as 
                 <strong>Responsive Design</strong>. 
+                <br>
+                My favourite IDE is Visual Studio Code thanks to it's modularity.
                 <br>
                 Here are a few technologies I have experience with:
             </p>
