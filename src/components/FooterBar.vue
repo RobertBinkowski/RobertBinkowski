@@ -30,7 +30,6 @@
         <div class="thanks">
             <p>Special Thanks</p>
             <p><a href="https://www.linkedin.com/in/veronika-leginusov%C3%A1-865a11109/" target="_self">Veronika Leginusová</a> -  Logo Design</p>
-            <p><a href="https://www.linkedin.com/in/emma-oconnor/" target="_self">Emma O'Connor</a> -  Logo Design</p>
         </div>
     </footer>
 </template>

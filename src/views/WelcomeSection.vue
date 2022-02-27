@@ -5,8 +5,11 @@
         </div>
         <p>Hi, I'm</p>
         <h1>Robert Binkowski</h1>
-        <h2>Web Developer</h2>
-        <p>I am a Software Developer, specialised in <strong>Web Development</strong>.</p>
+        <h2>Full Stack Developer</h2>
+        <p>
+            I am a Software Developer, specialised in <strong>Web Development</strong>.<br>
+            My work branches from <em>UI</em> and <em>UX</em> to <em>Server</em>. 
+        </p>
         <div style="display:flex;">
             <a href="https://github.com/RobertBinkowski" target="_self" class="button">GitHub</a>
             <a href="https://docs.google.com/document/d/1SQ6XWF39Ibd1BbfVPTALshtNB7liDILF/view" target="_self" class="button">Resume</a>

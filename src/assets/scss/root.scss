@@ -12,6 +12,7 @@ Date:           25/2/22
 
 /* ------------------------------------ DEFAULT */
 html {
+  overflow: none;
   scroll-behavior: smooth;
   body {
     font-family: "Poppins", sans-serif;
@@ -30,6 +31,7 @@ html {
 }
 nav {
   .nav-ul {
+    overflow: hidden;
     background-color: $nav-bg;
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
@@ -67,6 +69,9 @@ li {
   a {
     font-size: 1.5em;
   }
+  &:hover {
+    @include gradient();
+  }
 }
 /* --------------------------------------- MAIN */
 
@@ -76,11 +81,10 @@ section {
   margin-right: 0;
   margin: auto;
   margin-top: 1em;
-  min-height: 20vh;
-  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
-  flex-direction: column;
+  min-height: 60vh;
   &:not(:first-of-type) {
     max-width: 1300px;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
   }
   div {
     padding: 1em;
@@ -88,8 +92,8 @@ section {
 }
 .grid {
   display: grid;
-  column-gap: 1em;
-  grid-template-columns: auto auto;
+  grid-gap: 1em;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
   em {
     padding: 0.5em;
   }
@@ -105,7 +109,31 @@ section {
   transition: $tr-s;
   &:hover {
     border-radius: 0.5em;
-    background-color: $button-hover;
+    @include gradient();
+  }
+}
+.experience {
+  padding: 2em;
+  transition: $tr-s;
+  &:hover {
+    @include gradient();
+    .exp-screen {
+      filter: grayscale(0);
+      border-color: $acc-2;
+      border-radius: 0.1em;
+    }
+  }
+  .corner {
+    position: inherit;
+    top: 0;
+    text-align: right;
+  }
+  .exp-screen {
+    width: calc(20rem + 10vw);
+    border-radius: 1em;
+    border: 1px solid #ffffff00;
+    filter: grayscale(100%);
+    transition: $tr-s;
   }
 }
 

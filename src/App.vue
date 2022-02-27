@@ -6,6 +6,7 @@
     <AboutSection />
     <ProjectsSection/>
     <ExperienceSection />
+    <EducationSection />
     <ContactSection />
     </main>
     <FooterBar />
@@ -20,6 +21,7 @@ import WelcomeSection from './views/WelcomeSection.vue';
 import AboutSection from './views/AboutSection.vue';
 import ContactSection from './views/ContactSection.vue';
 import ExperienceSection from './views/ExperienceSection.vue';
+import EducationSection from './views/EducationSection.vue';
 import ProjectsSection from './views/ProjectsSection.vue';
 
 export default {
@@ -32,7 +34,8 @@ export default {
     AboutSection,
     ContactSection,
     ExperienceSection,
-    ProjectsSection
+    ProjectsSection,
+    EducationSection
   },
 };
 </script>
