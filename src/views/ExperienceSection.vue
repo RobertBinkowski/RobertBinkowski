@@ -12,12 +12,13 @@
                     </p>
                     <br>
                     <p>
-                        <em>Responsive</em>, <em>Mobile First</em> Website designed to help advertise customers appartments.
+                        <em>Responsive</em>, <em>Mobile First</em> Website designed to help advertise customers apartments.
                     </p>
                     <div class="grid">
                         <em>HTML</em>
                         <em>CSS</em>
                         <em>PHP</em>
+                        <em>JavaScript</em>
                     </div>
                 </div>
                 <div>

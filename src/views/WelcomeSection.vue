@@ -8,7 +8,7 @@
         <h2>Full Stack Developer</h2>
         <p>
             I am a Software Developer, specialised in <strong>Web Development</strong>.<br>
-            My work branches from <em>UI</em> and <em>UX</em> to <em>Server</em>. 
+            My work branches from <em>UI</em> and <em>UX</em> to the <em>Server</em>. 
         </p>
         <div style="display:flex;">
             <a href="https://github.com/RobertBinkowski" target="_self" class="button">GitHub</a>

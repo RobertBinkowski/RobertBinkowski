@@ -3,11 +3,20 @@
         <h2>Get In Touch</h2>
         <p>
             Although, I am always busy working on my next big thing, <br>
-            you are always welcome to email me for a <em>job opportunity</em> or to <em>say hi</em>. <br>
+            You are always welcome to email me for a <em>job opportunity</em> or to <em>say hi</em>. <br>
             I always try to answer in a timely fashion.
         </p>
         <br>
-        <a href="mailto:binkowski95@gmail.com" class="button">Email</a>
+        <div>
+            <a href="https://www.linkedin.com/in/robert-binkowski-9bb565195/" class="button" target="_self">LinkedIn</a>
+            <a href="mailto:binkowski95@gmail.com" class="button" target="_self">Email</a>
+        </div>
+        
 
     </section>
 </template>
+
+<style lang="scss">
+@import "../assets/scss/variables";
+
+</style>

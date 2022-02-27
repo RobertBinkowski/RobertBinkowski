@@ -223,8 +223,8 @@ section div {
   display: -ms-grid;
   display: grid;
   grid-gap: 1em;
-  -ms-grid-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  -ms-grid-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
 }
 
 .grid em {
@@ -262,12 +262,6 @@ section div {
           filter: grayscale(0);
   border-color: #58d68d;
   border-radius: 0.1em;
-}
-
-.experience .corner {
-  position: inherit;
-  top: 0;
-  text-align: right;
 }
 
 .experience .exp-screen {

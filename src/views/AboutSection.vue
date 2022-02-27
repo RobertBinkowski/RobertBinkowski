@@ -9,7 +9,7 @@
                 I always strive to implement new and well implemented coding techniques such as 
                 <strong>Responsive Design</strong>. 
                 <br>
-                Here is a few technologies I have experience with:
+                Here are a few technologies I have experience with:
             </p>
             <div class="grid">
                 <em>Java</em>
@@ -18,6 +18,8 @@
                 <em>PHP</em>
                 <em>SCSS</em>
                 <em>MySQL</em>
+                <em>JavaScript</em>
+                <em>Python</em>
             </div>
         </div>
         <div>
