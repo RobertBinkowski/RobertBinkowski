@@ -38,7 +38,9 @@
 }
 </style>
 
-<script >
+<script>
+import gsap from 'gsap';
+
 import LogoSVG from '../components/LogoSVG.vue';
 export default {
     components: {
@@ -46,6 +48,6 @@ export default {
     }    
 }
 
-//gsap.to(".topLogo",{opacity: 0, duration: 1})
+gsap.to("div",{opacity: 1, duration: 2})
 
 </script>

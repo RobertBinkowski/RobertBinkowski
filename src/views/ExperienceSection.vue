@@ -15,10 +15,10 @@
                         <em>Responsive</em>, <em>Mobile First</em> Website designed to help advertise customers apartments.
                     </p>
                     <div class="grid">
-                        <em>HTML</em>
-                        <em>CSS</em>
-                        <em>PHP</em>
-                        <em>JavaScript</em>
+                        <em class="fa-brands fa-html5"></em>
+                        <em class="fa-brands fa-css3-alt"></em>
+                        <em class="fa-brands fa-php"></em>
+                        <em class="fa-brands fa-js"></em>
                     </div>
                 </div>
                 <div>
@@ -36,6 +36,9 @@
         .exp-logo{
             height: 5em;
         }
+    }
+    .fa-brands{
+        font-size: 2em;
     }
 }
 </style>

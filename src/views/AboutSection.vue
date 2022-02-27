@@ -12,14 +12,14 @@
                 Here are a few technologies I have experience with:
             </p>
             <div class="grid">
-                <em>Java</em>
-                <em>C++</em>
-                <em>Vue.Js</em>
-                <em>PHP</em>
-                <em>SCSS</em>
-                <em>MySQL</em>
-                <em>JavaScript</em>
-                <em>Python</em>
+                <em title="Java" class="fa-brands fa-java"></em>
+                <em title="JavaScript" class="fa-brands fa-js"></em>
+                <em title="Python" class="fa-brands fa-python"></em>
+                <em title="Vue.Js" class="fa-brands fa-vuejs"></em>
+                <em title="SASS" class="fa-brands fa-sass"></em>
+                <em title="PHP" class="fa-brands fa-php"></em>
+                <em title="MySQL" class="fa-solid fa-database"></em>
+                <em title="C++" class="fa-solid fa-c">++</em>
             </div>
         </div>
         <div>
@@ -30,7 +30,11 @@
 
 <style lang="scss">
 @import "../assets/scss/variables";
-.myPic{
+#aboutSection{
+    .fa-brands, .fa-solid{
+        font-size: 2em;
+    }
+    .myPic{
     height:20em;
     border: 1px solid #ffffff00;
     border-radius: 1em; 
@@ -41,5 +45,6 @@
         border-color: $acc-2;
         border-radius: .1em;
     }
+}
 }
 </style>

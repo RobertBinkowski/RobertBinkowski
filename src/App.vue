@@ -24,6 +24,7 @@ import ExperienceSection from './views/ExperienceSection.vue';
 import EducationSection from './views/EducationSection.vue';
 import ProjectsSection from './views/ProjectsSection.vue';
 
+
 export default {
   name: 'app',
   components: {
