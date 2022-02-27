@@ -26,7 +26,7 @@
             </div>
         </div>
         <div>
-            <img src="../assets/logo/photo.jpg" alt="myphoto" class="myPic">
+            <img src="../assets/logo/photo.jpeg" alt="myphoto" class="myPic">
         </div>
     </section>    
 </template>
