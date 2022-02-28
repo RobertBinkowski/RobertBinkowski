@@ -22,7 +22,7 @@
                 <em title="SASS" class="fa-brands fa-sass"></em>
                 <em title="PHP" class="fa-brands fa-php"></em>
                 <em title="MySQL" class="fa-solid fa-database"></em>
-                <em title="C++" class="fa-solid fa-c">++</em>
+                <em title="C++" class="fa-solid fa-code"></em>
             </div>
         </div>
         <div>

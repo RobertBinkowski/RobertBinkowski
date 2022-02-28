@@ -12,7 +12,6 @@ Date:           25/2/22
 
 /* ------------------------------------ DEFAULT */
 html {
-  overflow: none;
   scroll-behavior: smooth;
   body {
     font-family: "Poppins", sans-serif;
@@ -86,9 +85,6 @@ section {
     max-width: 1300px;
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
   }
-  div {
-    padding: 1em;
-  }
 }
 .grid {
   display: grid;
@@ -116,8 +112,11 @@ section {
   }
 }
 .experience {
-  padding: 2em;
+  padding: 1em;
   transition: $tr-s;
+  div {
+    padding: 1em;
+  }
   &:hover {
     @include gradient();
     .exp-screen {
@@ -127,7 +126,7 @@ section {
     }
   }
   .exp-screen {
-    width: calc(20rem + 10vw);
+    width: calc(18rem + 15vw);
     border-radius: 1em;
     border: 1px solid #ffffff00;
     filter: grayscale(100%);

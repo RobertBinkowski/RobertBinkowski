@@ -34,7 +34,10 @@
                         </div>
                         <h3>Stock Market Prediction</h3>
                         <p>
-                            Mobile First, a <em>Progressive Web Application (PWA)</em> designed to allow users to advertise their services to others. - <small><em>In Progress</em></small>
+                            Mobile First, a <em>Progressive Web Application (PWA)</em>.<br>Designed to allow users to find specialists nearby.<br>
+                            Allowing users to advertise their skills as specialists, allowing them to view, edit current contracts.<br>
+                            The service will use google maps to display all local specialists available.<br>
+                            You can see the progress of the app on my GitHub. - <small><em>In Progress</em></small>
                         </p>
                         <div class="grid technology">
                             <em title="Vue.Js" class="fa-brands fa-vuejs"></em>
@@ -84,14 +87,14 @@
             position: relative;
             .left{
                 position: absolute;
-                top: 1em;
-                left: 0;
-                font-size: 1.2em;
+                top: 0em;
+                left: 1em;
+                font-size: 2em;
             }
             .right{
                 position: absolute;
-                top: 0em;
-                right: 0em;
+                top: -1em;
+                right: 1em;
                 font-size: 1.2em;
             }
             .technology{

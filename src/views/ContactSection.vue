@@ -18,5 +18,9 @@
 
 <style lang="scss">
 @import "../assets/scss/variables";
-
+#contactSection{
+    div{
+        padding: 1em;
+    }
+}
 </style>
