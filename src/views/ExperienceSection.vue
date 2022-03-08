@@ -2,7 +2,7 @@
     <section id="experienceSection">
         <h2>Some Work I Have Done</h2>
         <div class="experience">
-            <a href="https://sykownochata.pl/" target="_self">
+            <a href="https://sykownochata.pl/" target="_blank">
                 <div>
                     <p>
                         <img src="../assets/logo/experience/logo_2.png" alt="SykownoChataLogo" class="exp-logo"><br>

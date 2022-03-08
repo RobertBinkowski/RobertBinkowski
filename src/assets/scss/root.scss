@@ -21,10 +21,14 @@ html {
     overflow-x: hidden;
     background: $bg-1;
     color: $txt-1;
-    text-shadow: 2px 3px $shadow;
+    text-shadow: 1px 1px 1px $shadow;
     main {
       min-height: 100vh;
       padding-bottom: 1em;
+    }
+    h1,
+    h2 {
+      text-shadow: 2px 2px 2px $shadow;
     }
   }
 }

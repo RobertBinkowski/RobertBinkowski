@@ -8,8 +8,8 @@
         </p>
         <br>
         <div>
-            <a href="https://www.linkedin.com/in/robert-binkowski-9bb565195/" class="button" target="_self">LinkedIn</a>
-            <a href="mailto:binkowski95@gmail.com" class="button" target="_self">Email</a>
+            <a href="https://www.linkedin.com/in/robert-binkowski-9bb565195/" class="button" target="_blank">LinkedIn</a>
+            <a href="mailto:binkowski95@gmail.com" class="button" target="_blank">Email</a>
         </div>
         
 

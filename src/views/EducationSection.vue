@@ -3,7 +3,7 @@
         <h2>Skills Learned</h2>
         <div class="grid">
             <div class="experience">
-                <a href="https://www.itcarlow.ie/" target="_self">
+                <a href="https://www.itcarlow.ie/" target="_blank">
                     <p>
                         <strong class="fa-solid fa-graduation-cap icon"></strong> <br><br>
                         <strong>Software Development</strong><br><br>
@@ -14,7 +14,7 @@
                 </a>
             </div>
             <div class="experience">
-                <a href="https://www.itcarlow.ie/" target="_self">
+                <a href="https://www.itcarlow.ie/" target="_blank">
                     <p>
                         <strong class="fa-solid fa-user-tie icon"></strong> <br><br>
                         <strong>Class Representative</strong><br><br>
@@ -24,7 +24,7 @@
                 </a>
             </div>
             <div class="experience">
-                <a href="https://www.facebook.com/100376461368721/photos/a.138133117593055/139192507487116/?type=3" target="_self">
+                <a href="https://www.facebook.com/100376461368721/photos/a.138133117593055/139192507487116/?type=3" target="_blank">
                     <p>
                         <strong class="fa-solid fa-handshake-angle icon"></strong><br><br>
                         <strong>Volunteer Green Campus - Secretary</strong><br><br>

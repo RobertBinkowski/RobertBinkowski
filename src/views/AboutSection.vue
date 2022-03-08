@@ -44,7 +44,7 @@
     filter: grayscale(100%);
     transition: $tr-s;
     &:hover{
-        filter: grayscale(0%);
+        filter: grayscale(20%);
         border-color: $acc-2;
         border-radius: .1em;
     }

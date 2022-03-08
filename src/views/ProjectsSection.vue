@@ -2,7 +2,7 @@
     <section id="projectsSection">
         <h2>Some Projects I Have Done</h2>
             <div class="experience">
-                <a href="https://github.com/RobertBinkowski/Stock-Market-Price-Prediction" target="_self">
+                <a href="https://github.com/RobertBinkowski/Stock-Market-Price-Prediction" target="_blank">
                     <div>
                         <p class="fa-solid fa-folder-open left"></p>
                         <div class="right">
@@ -26,7 +26,7 @@
                 </a>
             </div>
             <div class="experience">
-                <a href="https://github.com/RobertBinkowski/Services-App-and-Dashboard" target="_self">
+                <a href="https://github.com/RobertBinkowski/Services-App-and-Dashboard" target="_blank">
                     <div>
                         <p class="fa-solid fa-folder-open left"></p>
                         <div class="right">
@@ -52,7 +52,7 @@
                 </a>
             </div>
             <div class="experience">
-                <a href="https://github.com/RobertBinkowski/grocery-app" target="_self">
+                <a href="https://github.com/RobertBinkowski/grocery-app" target="_blank">
                     <div>
                         <p class="fa-solid fa-folder-open left"></p>
                         <div class="right">

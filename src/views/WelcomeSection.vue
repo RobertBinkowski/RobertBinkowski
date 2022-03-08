@@ -11,8 +11,8 @@
             My work branches from <em>UI</em> and <em>UX</em> to the <em>Server</em>. 
         </p>
         <div style="display:flex;">
-            <a href="https://github.com/RobertBinkowski" target="_self" class="button">GitHub</a>
-            <a href="https://docs.google.com/document/d/1SQ6XWF39Ibd1BbfVPTALshtNB7liDILF/view" target="_self" class="button">Resume</a>
+            <a href="https://github.com/RobertBinkowski" target="_blank" class="button">GitHub</a>
+            <a href="https://docs.google.com/document/d/1SQ6XWF39Ibd1BbfVPTALshtNB7liDILF/view" target="_blank" class="button">Resume</a>
         </div>
     </section>
 </template>
@@ -23,9 +23,9 @@
 #welcomeSection{
     height: 100vh;
     h1 {
-        color: $acc-2;
         font-size: calc(3rem + 2vw);
         margin-bottom: 0;
+        color: $acc-2;
     }
     h2{
         margin-top: 0;
@@ -39,8 +39,6 @@
 </style>
 
 <script>
-import gsap from 'gsap';
-
 import LogoSVG from '../components/LogoSVG.vue';
 export default {
     components: {
@@ -48,6 +46,5 @@ export default {
     }    
 }
 
-gsap.to("div",{opacity: 1, duration: 2})
 
 </script>
