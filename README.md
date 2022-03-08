@@ -1,24 +1,23 @@
-# resume
+👋 Hi, I’m @RobertBinkowski
 
-## Project setup
-```
-npm install
-```
+I am interested in Technology, Mobile Devices and Web Development 
+It is the future is connected and easy to manage
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Though, I like variety as you can see in my language knowledge, I especially like to work with Vue.js
 
-### Compiles and minifies for production
-```
-npm run build
-```
+I have experience with:
+- java
+- JavaScript
+-   Vue.js
+- C++
+- Python
+-   Flask
+-   Hosting
+- CSS
+-   SASS
+- MySQL
+- PHP
 
-### Lints and fixes files
-```
-npm run lint
-```
+I am currently working on Laravel and MariaDB
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+You can always welcome to reach me on robertbinkowski.me or my email, binkowski95@gmail.com
