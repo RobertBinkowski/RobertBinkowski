@@ -17,6 +17,7 @@ I have experience with:
 -   SASS
 - MySQL
 - PHP
+-   Laravel
 
 I am currently working on Laravel and MariaDB
 
