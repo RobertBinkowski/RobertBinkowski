@@ -6,11 +6,11 @@ It is the future is connected and easy to manage
 Though, I like variety as you can see in my language knowledge, I especially like to work with Vue.js
 
 I have experience with:
-- java
+- jaVa
 - JavaScript
 -   Vue.js
 - C++
-- Python
+- PyThOn
 -   Flask
 -   Hosting
 - CSS
