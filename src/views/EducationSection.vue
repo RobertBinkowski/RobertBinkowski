@@ -7,7 +7,7 @@
                     <p>
                         <strong class="fa-solid fa-graduation-cap icon"></strong> <br><br>
                         <strong>Software Development</strong><br><br>
-                        <em>Institute Of Technology - Carlow</em><br>
+                        <em>South East Technological University  - Carlow</em><br>
                         August 2018 -<em>Current</em>
                     
                     </p>
