@@ -6,7 +6,7 @@ It is the future is connected and easy to manage
 Though, I like variety as you can see in my language knowledge, I especially like to work with Vue.js
 
 I have experience with:
-- jaVa
+- java
 - JavaScript
 -   Vue.js
 - C++
@@ -15,11 +15,11 @@ I have experience with:
 -   Hosting
 - CSS
 -   SASS
-- MySQL
+- SQL
+-   NoSQL
+-   MySQL
 - PHP
 -   Laravel
-
-I am currently working on Laravel and MariaDB
 
 You are always welcome to visit my website @ https://robertbinkowski.github.io/RobertBinkowski/
 
