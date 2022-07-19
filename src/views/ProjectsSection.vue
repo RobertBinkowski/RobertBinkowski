@@ -20,9 +20,9 @@
                             <em title="LSTM" class="fa-solid fa-code"></em>
                         </div>
                     </div>
-                    <div>
+                    <!-- <div>
                         <img src="../assets/logo/projects/project1.png" alt="project1 ScreenCapture" class="exp-screen">
-                    </div>
+                    </div> -->
                 </a>
             </div>
             <div class="experience">
@@ -46,9 +46,9 @@
                             <em title="PWA" class="fa-solid fa-download"></em>
                         </div>
                     </div>
-                    <div>
+                    <!-- <div>
                         <img src="../assets/logo/projects/project2.png" alt="project2 ScreenCapture" class="exp-screen">
-                    </div>
+                    </div> -->
                 </a>
             </div>
             <div class="experience">
@@ -70,9 +70,9 @@
                             <em title="MySQL" class="fa-solid fa-database"></em>
                         </div>
                     </div>
-                    <div>
+                    <!-- <div>
                         <img src="../assets/logo/projects/project3.png" alt="project3 ScreenCapture" class="exp-screen">
-                    </div>
+                    </div> -->
                 </a>
             </div>
     </section>

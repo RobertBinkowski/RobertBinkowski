@@ -25,9 +25,9 @@
                 <em title="C++" class="fa-solid fa-code"></em>
             </div>
         </div>
-        <div>
+        <!-- <div>
             <img src="../assets/logo/photo.jpeg" alt="myphoto" class="myPic">
-        </div>
+        </div> -->
     </section>    
 </template>
 
