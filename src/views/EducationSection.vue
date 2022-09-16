@@ -17,7 +17,7 @@
                     <p>
                         <img src="../assets/logo/CollegeLogo.png" alt="College Logo" class="img"> <br><br>
                         <strong>Class Representative</strong><br><br>
-                        <em>Institute Of Technology - Carlow</em><br>
+                        <em>South East Technological University  - Carlow</em><br>
                         August 2021 - May 2022
                     </p>
                 </a>

@@ -5,7 +5,7 @@
         </div>
         <p>Hi, I'm</p>
         <h1>Robert Binkowski</h1>
-        <h2>Full Stack Developer</h2>
+        <h2>Software Developer</h2>
         <p>
             I am a Software Developer, specialised in <strong>Web Development</strong>.<br>
             My work branches from <em>UI</em> and <em>UX</em> to the <em>Server</em>. 
