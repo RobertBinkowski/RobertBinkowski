@@ -1,26 +1,10 @@
 👋 Hi, I’m @RobertBinkowski
 
-I am interested in Technology, Mobile Devices and Web Development 
-It is the future is connected and easy to manage
+The future of computing is remote development.
+I ahvae always been interested in developing the next application or the next web based project.
 
-Though, I like variety as you can see in my language knowledge, I especially like to work with Vue.js
-
-I have experience with:
-- java
-- JavaScript
--   Vue.js
-- C++
-- PyThOn
--   Flask
--   Hosting
-- CSS
--   SASS
-- SQL
--   NoSQL
--   MySQL
-- PHP
--   Laravel
+Hence why I decided to focus my efforts and specialise on Web Development.
 
 You are always welcome to visit my website @ https://robertbinkowski.github.io/RobertBinkowski/
 
-You can always welcome to reach me on robertbinkowski.me or my email, binkowski95@gmail.com
+You can always welcome to reach me on my email, binkowski95@gmail.com
