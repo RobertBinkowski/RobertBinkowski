@@ -1,13 +1,12 @@
 /*-------------------------------------------------------------SCREEN SISES*/
 /*-------------------------------------------------------BIG*/
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 601px) {
   nav {
     top: 0;
-    .nav-li {
-      padding-top: 1.5em;
-      p {
-        display: none;
-      }
+  }
+  #welcomeSection {
+    .logo {
+      display: none;
     }
   }
   #aboutSection {
@@ -30,36 +29,10 @@
 /*-----------------------------------------------------SMALL*/
 @media only screen and (max-width: 600px) {
   nav {
-    bottom: 0px;
-    left: 0px;
-    width: 100vw;
-    .a-logo {
-      display: none;
-    }
-    ul {
-      margin: 0em;
-      p {
-        font-size: 1.5em;
-      }
-      .nav-li {
-        padding-top: 1em;
-        padding-bottom: 1em;
-      }
-    }
-    strong {
-      display: none;
-    }
+    
   }
   section {
     display: block;
-  }
-  #welcomeSection {
-    .topLogo {
-      display: block;
-      svg {
-        height: 10em;
-      }
-    }
   }
   #aboutSection {
     flex-direction: column;

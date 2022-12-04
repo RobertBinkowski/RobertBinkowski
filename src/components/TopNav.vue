@@ -1,100 +1,128 @@
 <template>
-    <header>
-        <nav>
-            <ul class="nav-ul">
-                <a href="#welcomeSection" class="nav-a a-logo">
-                    <li class="nav-li">
-                        <LogoSVG/>
-                    </li>
-                </a>
-                <a href="#aboutSection" class="nav-a" target="_self">
-                    <li class="nav-li">
-                        <p class="fa-solid fa-circle-info"></p>
-                        <strong class="nav-txt">About</strong>
-                    </li>
-                </a>
-                <a href="#projectsSection" class="nav-a" target="_self">
-                    <li class="nav-li">
-                        <p class="fa-solid fa-code-branch"></p>
-                        <strong class="nav-txt">Projects</strong>
-                    </li>    
-                </a>
-                <a href="#experienceSection" class="nav-a" target="_self">
-                    <li class="nav-li">
-                        <p class="fa-solid fa-briefcase"></p>
-                        <strong class="nav-txt">Experience</strong>
-                    </li>
-                </a>
-                <a href="#contactSection" class="nav-a" target="_self">
-                    <li class="nav-li">
-                        <p class="fa-solid fa-user"></p>
-                        <strong class="nav-txt">Contact</strong>
-                    </li>
-                </a>
-                <a href="https://docs.google.com/document/d/1SQ6XWF39Ibd1BbfVPTALshtNB7liDILF/view" 
-                    class="nav-a li-resume" target="_self" >
-                    <li class="nav-li">
-                        <p class="fa-solid fa-file-signature"></p>
-                        <strong class="nav-txt">Resume</strong>
-                    </li>
-                </a>
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <nav>
+      <!-- Logo -->
+      <a href="#top" class="nav-logo">
+        <LogoSVG />
+      </a>
+      <!-- End Logo -->
+      <!-- Links -->
+      <div class="nav-content">
+        <ul class="nav-ul">
+          <a
+            v-for="link in links"
+            :key="link.id"
+            :href="link.link"
+            class="nav-a"
+            target="_self"
+            v-show="link.enabled"
+          >
+            <li class="nav-li">
+              <div :class="link.button ? 'button nav-item' : 'nav-item'">
+                <i v-show="link.ico" :class="link.ico"></i>
+                <p v-show="link.name">{{ link.name }}</p>
+              </div>
+            </li>
+          </a>
+        </ul>
+        <!-- End Links -->
+        <ul class="nav-ul">
+          <a
+            v-for="feature in features"
+            :key="feature.id"
+            :href="feature.link"
+            v-show="feature.enabled"
+            class="nav-a li-resume"
+            target="_self"
+          >
+            <li class="nav-li">
+              <div :class="feature.button ? 'button nav-item' : 'nav-item'">
+                <i v-show="feature.ico" :class="feature.ico"></i>
+                <p v-show="feature.name">{{ feature.name }}</p>
+              </div>
+            </li>
+          </a>
+        </ul>
+      </div>
+    </nav>
+  </header>
 </template>
 
 <style lang="scss">
-nav {
-  max-width: 100vw;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  position: fixed;
+  @import "../assets/scss/variables";
+  @import "../assets/scss/mixins";
 
-    .nav-ul {
-        box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
-        width: 100vw;
-        margin: 0;
-        max-width: 1500px;
-        display: flex;
-        margin-left: auto;
-        margin-right: auto;
-    }
+  header {
+    left: 0;
+    right: 0;
+    z-index: 1;
+    position: fixed;
 
-    .nav-li {
-        width: 100%;
-        height: 100%;
-        padding: 1em 0 1em 0;
-    }
+    nav {
+      box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
+      margin: 0;
+      width: 100vw;
+      max-width: 1500px;
+      display: flex;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: $rad-2;
+      display: flex;
 
-    .nav-a {
-        font-size: large;
-        .svg{
-            height: 3em;
-            margin: -.5em;
-            stroke-width: 2;
+      .nav-logo {
+        padding: 1em;
+        .svg {
+          height: 4em;
+          stroke-width: 2;
         }
+      }
+
+      ul {
+        display: flex;
+        .nav-item {
+          padding: 0.2em;
+          margin: 0;
+        }
+      }
+      .nav-a {
+        padding: 1em;
+        .nav-li {
+          width: 100%;
+          height: 100%;
+          margin: auto;
+          strong {
+            width: 100%;
+
+            i {
+              padding-right: 1em;
+            }
+          }
+        }
+        font-size: large;
+        .svg {
+          height: 2em;
+          margin: -0.5em;
+          stroke-width: 2;
+        }
+      }
     }
-    a{
-        width: 100%;
-    }
-    .a-logo{
-        margin: -.5em;
-        font-size: 1em;
-    }
-    li:hover {
-        margin-top: -0.2em;
-        margin-bottom: 0.2em;
-    }
-}
+  }
 </style>
 
 <script>
-import LogoSVG from '../components/LogoSVG.vue';
+  import LogoSVG from "./SVGs/LogoSVG.vue";
 
-export default {
+  export default {
     components: {
-        LogoSVG
-    }    
-}
+      LogoSVG,
+    },
+    props: {
+      links: {
+        required: true,
+      },
+      features: {
+        required: true,
+      },
+    },
+  };
 </script>
