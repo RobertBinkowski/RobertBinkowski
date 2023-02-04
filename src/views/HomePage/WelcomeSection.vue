@@ -1,5 +1,10 @@
 <template>
   <section id="welcomeSection">
+    <div class="circle-container">
+      <div class="circle">
+        <div class="transparent"></div>
+      </div>
+    </div>
     <LogoSVG class="logo" />
     <p>Hi, I'm</p>
     <h1>Robert Binkowski</h1>
@@ -27,6 +32,7 @@
 
 <style lang="scss" scope>
   @import "../../assets/scss/variables";
+  @import "../../assets/scss/mixins";
 
   #welcomeSection {
     .logo {
@@ -52,6 +58,31 @@
     .links {
       display: flex;
       margin-top: 5em;
+    }
+    .circle-container {
+      position: absolute;
+      top: 60vh;
+      left: 5vw;
+      .circle {
+        position: relative;
+        height: 20em;
+        width: 20em;
+        background: rgb(63, 94, 251);
+        background: radial-gradient(circle, $acc-1 25%, $acc-2 100%);
+        box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
+        animation: bigCircle $tr-ss infinite;
+        border-radius: 10em;
+
+        .transparent {
+          height: 10em;
+          width: 10em;
+          border-radius: 1em;
+          background-color: $nav-bg;
+          backdrop-filter: blur(20px);
+          box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
+          animation: smallCircle $tr-ss infinite;
+        }
+      }
     }
   }
 </style>
