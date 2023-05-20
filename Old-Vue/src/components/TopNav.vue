@@ -26,7 +26,7 @@
           </a>
         </ul>
         <!-- End Links -->
-        <ul class="nav-ul">
+        <ul v-if="false" class="nav-ul">
           <a
             v-for="feature in features"
             :key="feature.id"

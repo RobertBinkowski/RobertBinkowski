@@ -1,6 +1,6 @@
 <template>
   <section id="welcomeSection">
-    <div class="circle-container">
+    <div v-if="false" class="circle-container">
       <div class="circle">
         <div class="transparent"></div>
       </div>
