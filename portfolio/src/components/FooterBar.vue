@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <!-- <logoSVG /> -->
+    <logoSVG />
     <br />
     <ul id="contact">
       <a
@@ -55,12 +55,12 @@ footer {
 </style> -->
 
 <script>
-// import LogoSVG from "./SVGs/LogoSVG.vue";
+import LogoSVG from './icons/LogoSVG.vue'
 
 export default {
   name: 'app',
   components: {
-    // LogoSVG,
+    LogoSVG
   },
   props: {
     contacts: {

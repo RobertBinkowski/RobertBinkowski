@@ -1,0 +1,74 @@
+/*-------------------------------------------------------------SCREEN SISES*/
+/*-------------------------------------------------------BIG*/
+@media only screen and (min-width: 601px) {
+  nav {
+    top: 0;
+  }
+  #welcomeSection {
+    .logo {
+      display: none;
+    }
+  }
+  #aboutSection {
+    flex-direction: row;
+  }
+  .experience {
+    a {
+      display: flex;
+    }
+  }
+  footer {
+    #contact {
+      display: block;
+      position: fixed;
+      bottom: 0em;
+      left: 1em;
+    }
+  }
+}
+/*-----------------------------------------------------SMALL*/
+@media only screen and (max-width: 600px) {
+  nav {
+    
+  }
+  section {
+    display: block;
+  }
+  #aboutSection {
+    flex-direction: column;
+  }
+  #educationSection {
+    .grid {
+      display: block;
+    }
+  }
+  .experience {
+    a {
+      display: block;
+    }
+  }
+  #projectsSection {
+    .grid {
+      display: block;
+      .project {
+        margin: 1em;
+      }
+    }
+  }
+
+  footer {
+    padding-bottom: 6em;
+    #contact {
+      margin-left: auto;
+      margin-right: auto;
+      width: 100vw;
+      display: flex;
+    }
+    #contact::after {
+      display: none;
+    }
+    a {
+      width: 100%;
+    }
+  }
+}
