@@ -1,7 +1,29 @@
-<script setup lang="ts"></script>
-
 <template>
   <main>
-    <h1>Home</h1>
+    <WelcomeSection />
+    <AboutSection />
+    <TimelineSection />
+    <ProjectsSection />
+    <ContactSection />
   </main>
 </template>
+
+<style lang="scss" scoped></style>
+
+<script>
+import WelcomeSection from '../components/HomePage/WelcomeSection.vue'
+import AboutSection from '../components/HomePage/AboutSection.vue'
+import ContactSection from '../components/HomePage/ContactSection.vue'
+import TimelineSection from '../components/HomePage/TimelineSection.vue'
+import ProjectsSection from '../components/HomePage/ProjectsSection.vue'
+
+export default {
+  components: {
+    WelcomeSection,
+    AboutSection,
+    ContactSection,
+    TimelineSection,
+    ProjectsSection
+  }
+}
+</script>

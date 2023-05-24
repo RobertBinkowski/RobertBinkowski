@@ -55,7 +55,7 @@ footer {
 </style> -->
 
 <script>
-import LogoSVG from './icons/LogoSVG.vue'
+import LogoSVG from '../assets/icons/LogoSVG.vue'
 
 export default {
   name: 'app',
