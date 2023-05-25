@@ -1,8 +1,11 @@
 /*-------------------------------------------------------------SCREEN SISES*/
 /*-------------------------------------------------------BIG*/
-@media only screen and (min-width: 601px) {
-  nav {
-    top: 0;
+@media only screen and (min-width: 768px) {
+  nav{
+    margin: 0 auto 0 auto;
+    #expand-notification{
+      display: none;
+    }
   }
   #welcomeSection {
     .logo {
@@ -11,6 +14,9 @@
   }
   #aboutSection {
     flex-direction: row;
+  }
+  ul{
+    display: flex;
   }
   .experience {
     a {
@@ -27,9 +33,15 @@
   }
 }
 /*-----------------------------------------------------SMALL*/
-@media only screen and (max-width: 600px) {
-  nav {
-    
+@media only screen and (max-width: 767px) {
+  nav{
+    margin: 0;
+    flex-direction: column;
+    .left-corner,
+    .center,
+    .right-corner {
+      margin-bottom: 10px;
+    }
   }
   section {
     display: block;

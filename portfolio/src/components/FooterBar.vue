@@ -23,7 +23,7 @@
   </footer>
 </template>
 
-<!-- <style lang="scss">
+<style lang="scss">
 @import '../assets/scss/variables';
 
 footer {
@@ -52,7 +52,7 @@ footer {
     margin-bottom: 0.2em;
   }
 }
-</style> -->
+</style>
 
 <script>
 import LogoSVG from '../assets/icons/LogoSVG.vue'

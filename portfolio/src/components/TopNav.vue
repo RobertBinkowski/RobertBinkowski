@@ -2,9 +2,11 @@
   <header>
     <nav>
       <!-- Logo -->
-      <a href="#top" class="nav-logo">
-        <LogoSVG />
-      </a>
+      <div class="left-corner">
+        <a href="/" class="nav-logo">
+          <LogoSVG />
+        </a>
+      </div>
       <!-- End Logo -->
       <!-- Links -->
       <div class="nav-content">
@@ -18,32 +20,32 @@
             v-show="link.enabled"
           >
             <li class="nav-li">
-              <div :class="link.button ? 'button nav-item' : 'nav-item'">
-                <i v-show="link.ico" :class="link.ico"></i>
-                <p v-show="link.name">{{ link.name }}</p>
-              </div>
-            </li>
-          </a>
-        </ul>
-        <!-- End Links -->
-        <ul v-if="false" class="nav-ul">
-          <a
-            v-for="feature in features"
-            :key="feature.id"
-            :href="feature.link"
-            v-show="feature.enabled"
-            class="nav-a li-resume"
-            target="_self"
-          >
-            <li class="nav-li">
-              <div :class="feature.button ? 'button nav-item' : 'nav-item'">
-                <i v-show="feature.ico" :class="feature.ico"></i>
-                <p v-show="feature.name">{{ feature.name }}</p>
+              <div :class="nav - item">
+                <p v-show="link.name">
+                  <i v-show="link.ico" :class="link.ico"></i>
+                  {{ link.name }}
+                </p>
               </div>
             </li>
           </a>
         </ul>
       </div>
+      <!-- End Links -->
+      <!-- Extra Features -->
+      <div css="right-corner" v-show="true">
+        <a class="button">Sign In</a>
+      </div>
+      <!-- End Extra Features -->
+      <div
+        id="expand-notification"
+        @click="openNavitaion()"
+        :class="[open ? 'inactive' : 'active']"
+      >
+        <span class="line top"></span>
+        <span class="line mid"></span>
+        <span class="line bot"></span>
+      </div>
+      <div class="progress-bar" :style="{ width: progressBarWidth }"></div>
     </nav>
   </header>
 </template>
@@ -55,61 +57,80 @@
 header {
   left: 0;
   right: 0;
-  z-index: 1;
+  z-index: 1000;
   position: fixed;
 
   nav {
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
-    margin: 0;
     width: 100vw;
-    max-width: 1500px;
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 1300px;
     border-radius: $rad-2;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 3px;
 
-    .nav-logo {
-      padding: 1em;
+    .route-active {
+      background-color: $acc-1;
+    }
+
+    .left-corner {
+      padding: 1rem;
       .svg {
-        height: 4em;
-        stroke-width: 2;
+        position: absolute;
+        top: 1rem;
+        left: 1em;
+        height: 2.2rem;
+        stroke-width: 1.2;
       }
     }
-
     ul {
-      display: flex;
-      .nav-item {
-        padding: 0.2em;
-        margin: 0;
+      // display: flex;
+      i {
+        padding: 0.3em;
       }
     }
-    .nav-a {
-      padding: 1em;
-      .nav-li {
-        width: 100%;
-        height: 100%;
-        margin: auto;
-        strong {
-          width: 100%;
+    .right-corner {
+    }
+    #expand-notification {
+      position: absolute;
+      top: 1em;
+      right: 4em;
+      cursor: pointer;
 
-          i {
-            padding-right: 1em;
-          }
+      .line {
+        display: block;
+        height: 2px;
+        width: 2em;
+        margin: 5px;
+        border-radius: $rad-1;
+        background-color: $acc-1;
+        transition: $tr-s;
+      }
+
+      &:hover {
+        .mid {
+          width: 1.5em;
+        }
+        .bot {
+          width: 1em;
         }
       }
-      font-size: large;
-      .svg {
-        height: 2em;
-        margin: -0.5em;
-        stroke-width: 2;
-      }
+    }
+    .progress-bar {
+      height: 3px;
+      background-color: $acc-2;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      box-shadow: 0 0 1rem 0 $acc-2;
     }
   }
 }
 </style>
 
 <script>
+import { ref } from '@vue/reactivity'
 import LogoSVG from '../assets/icons/LogoSVG.vue'
 
 export default {
@@ -122,6 +143,38 @@ export default {
     },
     features: {
       required: true
+    }
+  },
+  data() {
+    return {
+      progressBarWidth: '0%'
+    }
+  },
+  setup() {
+    let open = ref(true)
+
+    function openNavitaion() {
+      open.value = !open.value
+      if (!open.value) {
+        document.getElementById('nav').style.height = '100vh'
+      } else {
+        document.getElementById('nav').style.height = '3.5em'
+      }
+    }
+    return { open, openNavitaion }
+  },
+  mounted() {
+    window.addEventListener('scroll', this.updateProgressBar)
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.updateProgressBar)
+  },
+  methods: {
+    updateProgressBar() {
+      const main = document.querySelector('main')
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+      const progress = (scrollTop / (main.offsetHeight - window.innerHeight)) * 100
+      this.progressBarWidth = `${progress}%`
     }
   }
 }

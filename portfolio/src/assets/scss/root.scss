@@ -111,9 +111,11 @@ section {
   color: $txt-2;
   border-radius: $rad-1;
   transition: $tr-s;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
   &:hover {
     color: $acc-2;
     border-radius: $rad-2;
+    box-shadow: none;
     @include gradient();
   }
 }
