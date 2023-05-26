@@ -173,6 +173,28 @@ li:hover {
   background: radial-gradient(rgba(83, 158, 114, 0.1215686275) 0, rgba(0, 0, 0, 0) 75%);
 }
 
+/* --------------------------------- Scroll Bar */
+/* width */
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #35435c;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #58d68d;
+  border-radius: 3em;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #39885a;
+}
+
 /* --------------------------------------- MAIN */
 section {
   display: flex;

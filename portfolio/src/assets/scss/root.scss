@@ -75,6 +75,27 @@ li {
     @include gradient();
   }
 }
+/* --------------------------------- Scroll Bar */
+/* width */
+::-webkit-scrollbar {
+  width: .5rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: $bg-1-l;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $acc-2;
+  border-radius: $rad-1;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $acc-2-d;
+}
 /* --------------------------------------- MAIN */
 
 section {
