@@ -3,6 +3,7 @@
 @media only screen and (min-width: 768px) {
   nav{
     margin: 0 auto 0 auto;
+    border-radius: $rad-2;
     #expand-notification{
       display: none;
     }
@@ -37,10 +38,11 @@
   nav{
     margin: 0;
     flex-direction: column;
-    .left-corner,
-    .center,
-    .right-corner {
-      margin-bottom: 10px;
+    .nav-content{
+      margin-top: 2em;
+    }
+    .right-corner{
+      padding-bottom: 2em;
     }
   }
   section {

@@ -32,6 +32,7 @@ footer {
 @media only screen and (min-width: 768px) {
   nav {
     margin: 0 auto 0 auto;
+    border-radius: 0.3em;
   }
   nav #expand-notification {
     display: none;
@@ -61,10 +62,11 @@ footer {
     margin: 0;
     flex-direction: column;
   }
-  nav .left-corner,
-  nav .center,
+  nav .nav-content {
+    margin-top: 2em;
+  }
   nav .right-corner {
-    margin-bottom: 10px;
+    padding-bottom: 2em;
   }
   section {
     display: block;

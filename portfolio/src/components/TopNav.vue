@@ -1,6 +1,6 @@
 <template>
   <header>
-    <nav>
+    <nav :id="[openNav ? 'nav-open' : 'nav-closed']">
       <!-- Logo -->
       <div class="left-corner">
         <a href="/" class="nav-logo">
@@ -32,15 +32,11 @@
       </div>
       <!-- End Links -->
       <!-- Extra Features -->
-      <div css="right-corner" v-show="true">
+      <div class="right-corner" v-show="true">
         <a class="button">Sign In</a>
       </div>
       <!-- End Extra Features -->
-      <div
-        id="expand-notification"
-        @click="openNavitaion()"
-        :class="[open ? 'inactive' : 'active']"
-      >
+      <div id="expand-notification" @click="openNavigation()">
         <span class="line top"></span>
         <span class="line mid"></span>
         <span class="line bot"></span>
@@ -64,11 +60,11 @@ header {
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
     width: 100vw;
     max-width: 1300px;
-    border-radius: $rad-2;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-bottom: 3px;
+    transition: height $tr-s;
 
     .route-active {
       background-color: $acc-1;
@@ -91,11 +87,12 @@ header {
       }
     }
     .right-corner {
+      padding-right: 2em;
     }
     #expand-notification {
       position: absolute;
       top: 1em;
-      right: 4em;
+      right: 2em;
       cursor: pointer;
 
       .line {
@@ -117,6 +114,12 @@ header {
         }
       }
     }
+    &#nav-closed {
+      height: 4em;
+    }
+    &#nav-open {
+      height: 100vh;
+    }
     .progress-bar {
       height: 3px;
       background-color: $acc-2;
@@ -130,7 +133,6 @@ header {
 </style>
 
 <script>
-import { ref } from '@vue/reactivity'
 import LogoSVG from '../assets/icons/LogoSVG.vue'
 
 export default {
@@ -147,27 +149,22 @@ export default {
   },
   data() {
     return {
-      progressBarWidth: '0%'
+      progressBarWidth: '0%',
+      openNav: false
     }
-  },
-  setup() {
-    let open = ref(true)
-
-    function openNavitaion() {
-      open.value = !open.value
-      if (!open.value) {
-        document.getElementById('nav').style.height = '100vh'
-      } else {
-        document.getElementById('nav').style.height = '3.5em'
-      }
-    }
-    return { open, openNavitaion }
   },
   mounted() {
+    // Listener for Progress bar
     window.addEventListener('scroll', this.updateProgressBar)
+
+    this.checkScreenWidth()
+    window.addEventListener('resize', this.checkScreenWidth)
   },
   beforeDestroy() {
+    // Listener for
     window.removeEventListener('scroll', this.updateProgressBar)
+
+    window.removeEventListener('resize', this.checkScreenWidth)
   },
   methods: {
     updateProgressBar() {
@@ -175,6 +172,16 @@ export default {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop
       const progress = (scrollTop / (main.offsetHeight - window.innerHeight)) * 100
       this.progressBarWidth = `${progress}%`
+    },
+    openNavigation() {
+      this.openNav = !this.openNav
+    },
+    checkScreenWidth() {
+      const currentScreenWidth = window.innerWidth
+      if (currentScreenWidth > this.prevScreenWidth) {
+        this.openNav = false
+      }
+      this.prevScreenWidth = currentScreenWidth
     }
   }
 }
