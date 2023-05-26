@@ -4,6 +4,8 @@
   nav{
     margin: 0 auto 0 auto;
     border-radius: $rad-2;
+    justify-content: space-between;
+
     #expand-notification{
       display: none;
     }
@@ -36,13 +38,12 @@
 /*-----------------------------------------------------SMALL*/
 @media only screen and (max-width: 767px) {
   nav{
-    margin: 0;
     flex-direction: column;
     .nav-content{
       margin-top: 2em;
-    }
-    .right-corner{
-      padding-bottom: 2em;
+      .nav-li{
+        padding: 2em;
+      }
     }
   }
   section {

@@ -3,7 +3,7 @@
     <nav :id="[openNav ? 'nav-open' : 'nav-closed']">
       <!-- Logo -->
       <div class="left-corner">
-        <a href="/" class="nav-logo">
+        <a href="/">
           <LogoSVG />
         </a>
       </div>
@@ -32,11 +32,15 @@
       </div>
       <!-- End Links -->
       <!-- Extra Features -->
-      <div class="right-corner" v-show="true">
+      <div class="right-corner" v-show="false">
         <a class="button">Sign In</a>
       </div>
       <!-- End Extra Features -->
-      <div id="expand-notification" @click="openNavigation()">
+      <div
+        id="expand-notification"
+        @click="openNavigation()"
+        :class="[openNav ? 'nav-opened' : 'nav-closed']"
+      >
         <span class="line top"></span>
         <span class="line mid"></span>
         <span class="line bot"></span>
@@ -59,9 +63,9 @@ header {
   nav {
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
     width: 100vw;
+    padding-right: 1em;
     max-width: 1300px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding-bottom: 3px;
     transition: height $tr-s;
@@ -71,35 +75,33 @@ header {
     }
 
     .left-corner {
-      padding: 1rem;
       .svg {
         position: absolute;
         top: 1rem;
-        left: 1em;
+        left: 2em;
         height: 2.2rem;
         stroke-width: 1.2;
+        &:hover {
+          stroke-width: 1.7;
+        }
       }
     }
-    ul {
-      // display: flex;
-      i {
-        padding: 0.3em;
-      }
+    i {
+      padding: 0.5em;
     }
     .right-corner {
-      padding-right: 2em;
     }
     #expand-notification {
       position: absolute;
       top: 1em;
-      right: 2em;
+      right: 2.5em;
       cursor: pointer;
 
       .line {
         display: block;
-        height: 2px;
-        width: 2em;
-        margin: 5px;
+        height: 0.25rem;
+        width: 2.1rem;
+        margin: 0.4rem;
         border-radius: $rad-1;
         background-color: $acc-1;
         transition: $tr-s;
@@ -107,10 +109,12 @@ header {
 
       &:hover {
         .mid {
-          width: 1.5em;
+          margin-left: 0.8rem;
+          width: 1.5rem;
         }
         .bot {
-          width: 1em;
+          margin-left: 1.05rem;
+          width: 1rem;
         }
       }
     }
