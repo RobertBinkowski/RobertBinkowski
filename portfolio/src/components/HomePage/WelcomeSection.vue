@@ -1,9 +1,9 @@
 <template>
   <section id="welcomeSection">
-    <div v-if="false" class="circle-container">
-      <div class="circle">
-        <div class="transparent"></div>
-      </div>
+    <div v-if="true" id="interactive">
+      <div class="key">D</div>
+      <div class="key">I</div>
+      <div class="key">V</div>
     </div>
     <LogoSVG class="logo" />
     <p>Hi, I'm</p>
@@ -56,29 +56,35 @@
     display: flex;
     margin-top: 5em;
   }
-  .circle-container {
-    position: absolute;
-    top: 60vh;
-    left: 5vw;
-    .circle {
-      position: relative;
-      height: 20em;
-      width: 20em;
-      background: rgb(63, 94, 251);
-      background: radial-gradient(circle, $acc-1 25%, $acc-2 100%);
-      box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
-      animation: bigCircle $tr-ss infinite;
-      border-radius: 10em;
+  #interactive {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    .key {
+      position: absolute;
+      display: inline-block;
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      background-color: $acc-1;
+      border-radius: 3px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
-      .transparent {
-        height: 10em;
-        width: 10em;
-        border-radius: 1em;
-        background-color: $nav-bg;
-        backdrop-filter: blur(20px);
-        box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
-        animation: smallCircle $tr-ss infinite;
+      &:hover {
+        background-color: $acc-1-d;
+        cursor: pointer;
       }
+    }
+    .key:first-child {
+      left: 100%;
+    }
+
+    .key:nth-child(2) {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .key:nth-child(3) {
+      right: 10%;
     }
   }
 }
