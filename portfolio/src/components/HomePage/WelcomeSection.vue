@@ -1,6 +1,6 @@
 <template>
   <section id="welcomeSection">
-    <div v-if="true" id="interactive">
+    <div v-if="false" id="interactive">
       <div class="key">D</div>
       <div class="key">I</div>
       <div class="key">V</div>
