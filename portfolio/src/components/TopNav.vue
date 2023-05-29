@@ -78,7 +78,7 @@ header {
       .svg {
         position: absolute;
         top: 1rem;
-        left: 2em;
+        left: 1em;
         height: 2.2rem;
         stroke-width: 1.2;
         &:hover {
@@ -88,6 +88,9 @@ header {
     }
     i {
       padding: 0.5em;
+    }
+    .nav-content {
+      padding-right: 1em;
     }
     .right-corner {
     }
