@@ -1,7 +1,9 @@
 <template>
   <main>
-    <h1>Timeline Page</h1>
-    <TimelineObject />
+    <article>
+      <h1>Timeline Page</h1>
+      <TimelineObject />
+    </article>
   </main>
 </template>
 
@@ -14,9 +16,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-main {
-  margin-top: 10em;
-}
-</style>
