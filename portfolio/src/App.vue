@@ -52,37 +52,23 @@ export default {
         {
           enabled: true,
           button: false,
-          link: '#aboutSection',
-          ico: 'fa-solid fa-address-card',
-          name: 'About'
+          link: '/',
+          ico: 'fa-solid fa-house-chimney',
+          name: 'Home'
         },
         {
           enabled: true,
           button: false,
-          link: '#timelineSection',
+          link: '/timeline',
           ico: 'fa-solid fa-timeline',
           name: 'Timeline'
         },
         {
           enabled: true,
-          button: false,
-          link: '#projectsSection',
-          ico: 'fa-solid fa-boxes-stacked',
-          name: 'Projects'
-        },
-        {
-          enabled: true,
-          button: false,
-          link: '#contactSection',
-          ico: 'fa-solid fa-comments',
-          name: 'Contact'
-        },
-        {
-          enabled: true,
           button: true,
-          link: 'https://docs.google.com/document/d/1SQ6XWF39Ibd1BbfVPTALshtNB7liDILF/view',
-          ico: 'fa-solid fa-file-contract',
-          name: 'Resume'
+          link: '/about',
+          ico: 'fa-solid fa-address-card',
+          name: 'About'
         }
       ],
       features: {

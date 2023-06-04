@@ -7,7 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import(/* webpackChunkName : "Home"*/ "@/views/HomeView.vue"),
+      component: () => import(/* webpackChunkName : "Home"*/ "@/views/HomePage.vue")
     },
     {
       path: '/about',
@@ -15,7 +15,15 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName : "Home"*/ '../views/AboutView.vue')
+      component: () => import(/* webpackChunkName : "Home"*/ '@/views/AboutPage.vue')
+    },
+    {
+      path: '/timeline',
+      name: 'Timeline',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName : "Home"*/ '@/views/TimelinePage.vue')
     }
   ],
   linkActiveClass: "route-active",
