@@ -23,6 +23,12 @@
         class="button"
         ><i class="fa-solid fa-file-contract"></i> Resume</a
       >
+      <a
+        href="https://www.linkedin.com/in/robert-binkowski-9bb565195/"
+        target="_blank"
+        class="button"
+        ><i class="fa-brands fa-linkedin"></i> LinkedIn</a
+      >
     </div>
   </section>
 </template>
