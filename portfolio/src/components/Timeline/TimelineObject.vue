@@ -8,8 +8,8 @@
         <p>{{ article.date_started }} - {{ article.date_ended }}</p>
       </div>
     </div>
-    <div class="timelineDetails">
-      <div>
+    <div class="right">
+      <div class="timelineDetails">
         <p>
           <strong>{{ article.title }}</strong> <br />
           {{ article.content }}
@@ -41,27 +41,36 @@ export default {
 .timelineObject {
   display: flex;
   width: 100%;
+  .left {
+    display: flex;
+    text-align: left;
+    .timelineLogo {
+      overflow: hidden;
+      margin: 1em;
+      img {
+        filter: drop-shadow(0px 0px 5px $acc-1);
+        width: 100%;
+        height: 3em;
+        object-fit: cover;
+      }
+    }
+    .timelineDate {
+      display: flex;
+      align-items: center;
+      p {
+        font-size: 0.9em;
+        color: $acc-2-d;
+      }
+    }
+  }
   .timelineDetails {
     display: flex;
-    flex-direction: row;
-    background-color: $acc-1;
-    padding: 1em;
+    text-align: center;
+    min-width: 20em;
+    background-color: $acc-1-dd;
     border-radius: $rad-2;
-  }
-  .timelineLogo {
-    width: 3em;
-    height: 3em;
-    border-radius: $rad-1;
-    background-color: $acc-1-d;
-    overflow: hidden;
-    padding: 0.3em;
-    margin: 0 auto;
-    img {
-      border-radius: $rad-1;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    padding: 1em;
+    margin: 1em;
   }
 }
 </style>

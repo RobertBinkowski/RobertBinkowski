@@ -56,36 +56,36 @@
     display: flex;
     margin-top: 5em;
   }
-  #interactive {
-    position: relative;
-    display: flex;
-    justify-content: space-around;
-    .key {
-      position: absolute;
-      display: inline-block;
-      padding: 6px 12px;
-      border: 1px solid #ccc;
-      background-color: $acc-1;
-      border-radius: 3px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+#interactive {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  .key {
+    position: absolute;
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    background-color: $acc-1;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
-      &:hover {
-        background-color: $acc-1-d;
-        cursor: pointer;
-      }
+    &:hover {
+      background-color: $acc-1-d;
+      cursor: pointer;
     }
-    .key:first-child {
-      left: 100%;
-    }
+  }
+  .key:first-child {
+    left: 100%;
+  }
 
-    .key:nth-child(2) {
-      left: 50%;
-      transform: translateX(-50%);
-    }
+  .key:nth-child(2) {
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
-    .key:nth-child(3) {
-      right: 10%;
-    }
+  .key:nth-child(3) {
+    right: 10%;
   }
 }
 </style>

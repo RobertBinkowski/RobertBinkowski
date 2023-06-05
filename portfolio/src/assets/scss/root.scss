@@ -25,6 +25,7 @@ html {
     main {
       min-height: 100vh;
       padding-bottom: 1em;
+      padding-top: 5em;
     }
     h1,
     h2 {
@@ -112,11 +113,11 @@ section {
   padding: 1em;
   margin-right: 0;
   margin: auto;
-  margin-top: 1em;
   min-height: 60vh;
   border-radius: $rad-2;
   &:not(:first-of-type) {
     max-width: 1300px;
+    margin-top: 1em;
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
   }
 }

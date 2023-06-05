@@ -20,15 +20,15 @@
 </template>
 
 <style lang="scss" scoped>
-  @import "../../assets/scss/variables";
-  .svg {
-    fill-opacity: 0;
-    stroke-width: 4;
-    height: 7em;
-    stroke: $acc-1;
-    transition: $tr-s;
-    &:hover {
-      stroke: $acc-2;
-    }
+@import '../../assets/scss/variables';
+.svg {
+  fill-opacity: 0;
+  stroke-width: 4;
+  height: 7em;
+  stroke: $acc-1;
+  transition: $tr-s;
+  &:hover {
+    stroke: $acc-2;
   }
+}
 </style>

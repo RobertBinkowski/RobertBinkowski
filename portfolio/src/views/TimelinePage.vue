@@ -1,7 +1,7 @@
 <template>
   <main>
     <article>
-      <h1>Timeline Page</h1>
+      <!-- <h1>Timeline Page</h1> -->
       <TimelineObject />
     </article>
   </main>

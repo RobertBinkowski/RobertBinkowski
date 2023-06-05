@@ -102,11 +102,11 @@ header {
 
       .line {
         display: block;
-        height: 0.25rem;
+        height: 0.16rem;
         width: 2.1rem;
         margin: 0.4rem;
         border-radius: $rad-1;
-        background-color: $acc-1;
+        background-color: $acc-1-d;
         transition: $tr-s;
       }
 
@@ -129,7 +129,9 @@ header {
     }
     .progress-bar {
       height: 3px;
-      background-color: $acc-2;
+      background: $acc-2-d;
+      background: linear-gradient(90deg, $acc-2-d 0%, $acc-1-d 100%);
+      border-radius: $rad-1;
       position: absolute;
       bottom: 0;
       left: 0;
