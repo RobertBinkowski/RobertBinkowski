@@ -65,8 +65,8 @@ header {
 
   nav {
     width: 100vw;
-    padding-right: 1em;
-    max-width: 13000px;
+    padding: 0 1em 0 1em;
+    max-width: 1300px;
     display: flex;
     align-items: center;
     padding-bottom: 3px;
@@ -78,9 +78,6 @@ header {
 
     .left-corner {
       .svg {
-        position: absolute;
-        top: 1rem;
-        left: 1em;
         height: 2.2rem;
         stroke-width: 1.2;
         &:hover {
