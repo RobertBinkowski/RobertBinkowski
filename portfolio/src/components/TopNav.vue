@@ -59,12 +59,14 @@ header {
   right: 0;
   z-index: 1000;
   position: fixed;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
+  background-color: $nav-bg;
+  backdrop-filter: blur(15px);
 
   nav {
-    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
     width: 100vw;
     padding-right: 1em;
-    max-width: 1300px;
+    max-width: 13000px;
     display: flex;
     align-items: center;
     padding-bottom: 3px;

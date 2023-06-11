@@ -44,8 +44,6 @@ header {
   position: absolute;
   top: 0;
   nav {
-    background-color: $nav-bg;
-    backdrop-filter: blur(15px);
     overflow: hidden;
   }
 }
@@ -139,7 +137,7 @@ section {
   margin: 1em;
   cursor: pointer;
   background-color: $acc-2;
-  color: $txt-2;
+  color: $bg-1;
   border-radius: $rad-1;
   transition: $tr-s;
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
