@@ -96,7 +96,7 @@ header {
     #expand-notification {
       position: absolute;
       top: 1em;
-      right: 2.5em;
+      right: 2em;
       cursor: pointer;
 
       .line {
