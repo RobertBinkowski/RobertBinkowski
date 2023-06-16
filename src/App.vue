@@ -20,54 +20,24 @@ export default {
     FooterBar,
     TopNav
   },
-  data() {
-    return {
-      links: [
-        {
-          enabled: true,
-          button: false,
-          link: '/',
-          ico: 'fa-solid fa-house-chimney',
-          name: 'Home'
-        },
-        {
-          enabled: true,
-          button: false,
-          link: '/timeline',
-          ico: 'fa-solid fa-timeline',
-          name: 'Timeline'
-        },
-        {
-          enabled: true,
-          button: true,
-          link: '/about',
-          ico: 'fa-solid fa-address-card',
-          name: 'About'
-        }
-      ],
-      features: {
-        DarkMode: {
-          enabled: true,
-          button: true,
-          link: '',
-          ico: 'fa-solid fa-moon',
-          name: ''
-        }
-      }
-    }
-  },
   setup() {
     const contacts = ref([])
+    const links = ref([])
 
     onMounted(async () => {
       const querySnapshot = await getDocs(collection(firestore, 'contacts'))
       querySnapshot.forEach((doc) => {
         contacts.value.push(doc.data())
       })
+      const querySnapshot1 = await getDocs(collection(firestore, 'links'))
+      querySnapshot1.forEach((doc) => {
+        links.value.push(doc.data())
+      })
     })
 
     return {
-      contacts
+      contacts,
+      links
     }
   }
 }

@@ -22,7 +22,7 @@
             <li class="nav-li">
               <div :class="nav - item">
                 <p v-show="link.name">
-                  <i v-show="link.ico" :class="link.ico"></i>
+                  <i v-show="link.icon" :class="link.icon"></i>
                   {{ link.name }}
                 </p>
               </div>
