@@ -10,6 +10,10 @@
 import TopNav from './components/TopNav.vue'
 import FooterBar from './components/FooterBar.vue'
 
+import { ref, onMounted } from 'vue'
+import { collection, getDocs } from 'firebase/firestore'
+import { firestore } from '@/firebase'
+
 export default {
   name: 'app',
   components: {
@@ -18,36 +22,6 @@ export default {
   },
   data() {
     return {
-      contacts: {
-        email: {
-          enabled: true,
-          name: 'Email',
-          value: 'binkowski95@gmail.com',
-          icon: 'fa-solid fa-envelope-open',
-          link: 'mailto:binkowski95@gmail.com'
-        },
-        github: {
-          enabled: true,
-          name: 'GitHub',
-          value: 'RobertBinkowski',
-          icon: 'fa-brands fa-github',
-          link: 'https://github.com/RobertBinkowski'
-        },
-        linkedin: {
-          enabled: true,
-          name: 'LinkedIn',
-          value: 'RobertBinkowski',
-          icon: 'fa-brands fa-linkedin',
-          link: 'https://www.linkedin.com/in/robert-binkowski-9bb565195/'
-        },
-        instagram: {
-          enabled: false,
-          name: 'Instagram',
-          value: 'binkowski95',
-          icon: 'fa-brands fa-instagram',
-          link: 'https://www.instagram.com/binkowski95/'
-        }
-      },
       links: [
         {
           enabled: true,
@@ -80,6 +54,20 @@ export default {
           name: ''
         }
       }
+    }
+  },
+  setup() {
+    const contacts = ref([])
+
+    onMounted(async () => {
+      const querySnapshot = await getDocs(collection(firestore, 'contacts'))
+      querySnapshot.forEach((doc) => {
+        contacts.value.push(doc.data())
+      })
+    })
+
+    return {
+      contacts
     }
   }
 }
