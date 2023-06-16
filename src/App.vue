@@ -12,7 +12,7 @@ import FooterBar from './components/FooterBar.vue'
 
 import { ref, onMounted } from 'vue'
 import { collection, getDocs } from 'firebase/firestore'
-import { firestore } from '@/firebase'
+import { firestore } from '@/firebase/init'
 
 export default {
   name: 'app',
