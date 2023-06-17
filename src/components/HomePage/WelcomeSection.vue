@@ -14,20 +14,14 @@
       <strong>Web Development</strong>
     </p>
     <div class="links">
-      <a href="https://github.com/RobertBinkowski" target="_blank" class="button"
-        ><i class="fa-brands fa-github"></i> GitHub</a
-      >
       <a
-        href="https://docs.google.com/document/d/1SQ6XWF39Ibd1BbfVPTALshtNB7liDILF/view"
+        v-for="contact in contacts"
+        v-show="contact.name != 'Email'"
+        :key="contact.id"
+        :href="contact.url"
         target="_blank"
         class="button"
-        ><i class="fa-solid fa-file-contract"></i> Resume</a
-      >
-      <a
-        href="https://www.linkedin.com/in/robert-binkowski-9bb565195/"
-        target="_blank"
-        class="button"
-        ><i class="fa-brands fa-linkedin"></i> LinkedIn</a
+        ><i :class="contact.icon"></i> {{ contact.name }}</a
       >
     </div>
   </section>
@@ -103,6 +97,11 @@ export default {
   components: {
     LogoSVG
   },
-  props: {}
+  props: {
+    contacts: {
+      type: Array,
+      required: true
+    }
+  }
 }
 </script>
