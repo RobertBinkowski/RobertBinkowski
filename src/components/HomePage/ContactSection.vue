@@ -2,14 +2,15 @@
   <section id="contactSection">
     <h2>Get In Touch</h2>
     <p>
-      Although, I am currently not looking for a new opportunity, <br />
-      You are always welcome to say hi.
+      You are always welcome to see what I am working on next on my GitHub, <br />
+      see what I am up to on LinkedIn, <br />
+      or just contact me directly via my Email.
     </p>
     <br />
     <div>
       <a
         v-for="contact in contacts"
-        v-show="contact.name != 'Email'"
+        v-show="contact.name != 'Resume'"
         :key="contact.id"
         :href="contact.link"
         class="button"
