@@ -1,7 +1,7 @@
 <template>
   <div>
     <TopNav :links="links" :contacts="contacts" :features="features" />
-    <router-view></router-view>
+    <router-view :contacts="contacts"></router-view>
     <FooterBar :contacts="contacts" />
   </div>
 </template>
@@ -11,7 +11,7 @@ import TopNav from './components/TopNav.vue'
 import FooterBar from './components/FooterBar.vue'
 
 import { ref, onMounted } from 'vue'
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, query, orderBy } from 'firebase/firestore'
 import { firestore } from '@/firebase/init'
 
 export default {
@@ -29,8 +29,9 @@ export default {
       querySnapshot.forEach((doc) => {
         contacts.value.push(doc.data())
       })
-      const querySnapshot1 = await getDocs(collection(firestore, 'links'))
+      const querySnapshot1 = await getDocs(query(collection(firestore, 'links'), orderBy('order')))
       querySnapshot1.forEach((doc) => {
+        console.log(doc.data())
         links.value.push(doc.data())
       })
     })
