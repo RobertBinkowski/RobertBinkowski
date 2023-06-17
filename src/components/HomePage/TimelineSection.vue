@@ -41,11 +41,7 @@
       <div class="experience">
         <a href="https://www.setu.ie/" target="_blank">
           <p>
-            <img
-              src="../../assets/images/education/SETU/logo.png"
-              alt="College Logo"
-              class="img"
-            />
+            <img src="../../assets/images/education/SETU/logo.png" alt="College Logo" class="img" />
             <br /><br />
             <strong>Software Development</strong><br /><br />
             <em>South East Technological University - Carlow</em><br />
@@ -56,11 +52,7 @@
       <div class="experience">
         <a href="https://www.setu.ie/" target="_blank">
           <p>
-            <img
-              src="../../assets/images/education/SETU/logo.png"
-              alt="College Logo"
-              class="img"
-            />
+            <img src="../../assets/images/education/SETU/logo.png" alt="College Logo" class="img" />
             <br /><br />
             <strong>Class Representative</strong><br /><br />
             <em>South East Technological University - Carlow</em><br />
@@ -83,75 +75,75 @@
 </template>
 
 <style lang="scss">
-  @import "../../assets/scss/variables";
+@import '../../assets/scss/variables';
 
-  #timelineSection {
-    a {
-      .exp-logo {
-        height: 3em;
-      }
-    }
-
-    .fa-brands {
-      font-size: 2em;
+#timelineSection {
+  a {
+    .exp-logo {
+      height: 3em;
     }
   }
-  #educationSection {
-    .grid {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    }
-    .img {
-      size: 2em;
-      padding: 0.5em;
-    }
+
+  .fa-brands {
+    font-size: 2em;
   }
+}
+#educationSection {
+  .grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .img {
+    size: 2em;
+    padding: 0.5em;
+  }
+}
 </style>
 
 <script>
-  export default {
-    data() {
-      return {
-        timeline: [
-          {
-            enabled: true,
-            type: "Job",
-            name: "ID-Pal",
-            role: "Junior PHP Developer",
-            link: "https://www.id-pal.com/",
-            location: "Ireland",
-            logo: "",
-            period: "November 2022 - Current",
-            details:
-              "Responsive, Mobile First Website designed to help advertise customers apartments.",
-            img: "",
-            icons: [
-              { name: "HTML", icon: "fa-brands fa-html5" },
-              { name: "SCSS", icon: "fa-brands fa-css3-alt" },
-              { name: "PHP", icon: "fa-brands fa-php" },
-              { name: "JavaScript", icon: "fa-brands fa-js" },
-            ],
-          },
-          {
-            enabled: true,
-            name: "Sykowno Chata",
-            type: "Internship",
-            role: "Full Stack Developer",
-            link: "https://sykownochata.pl/",
-            location: "Poland",
-            logo: "../assets/logo/experience/logo_2.png",
-            period: "June 2022 - October 2022",
-            details:
-              "Responsive, Mobile First Website designed to help advertise customers apartments.",
-            img: "../assets/logo/experience/splashScreen.png",
-            icons: [
-              { name: "HTML", icon: "fa-brands fa-html5" },
-              { name: "SCSS", icon: "fa-brands fa-css3-alt" },
-              { name: "PHP", icon: "fa-brands fa-php" },
-              { name: "JavaScript", icon: "fa-brands fa-js" },
-            ],
-          },
-        ],
-      };
-    },
-  };
+export default {
+  data() {
+    return {
+      timeline: [
+        {
+          enabled: true,
+          type: 'Job',
+          name: 'ID-Pal',
+          role: 'Junior PHP Developer',
+          link: 'https://www.id-pal.com/',
+          location: 'Ireland',
+          logo: '',
+          period: 'November 2022 - Current',
+          details:
+            'Responsive, Mobile First Website designed to help advertise customers apartments.',
+          img: '',
+          icons: [
+            { name: 'HTML', icon: 'fa-brands fa-html5' },
+            { name: 'SCSS', icon: 'fa-brands fa-css3-alt' },
+            { name: 'PHP', icon: 'fa-brands fa-php' },
+            { name: 'JavaScript', icon: 'fa-brands fa-js' }
+          ]
+        },
+        {
+          enabled: true,
+          name: 'Sykowno Chata',
+          type: 'Internship',
+          role: 'Full Stack Developer',
+          link: 'https://sykownochata.pl/',
+          location: 'Poland',
+          logo: '../assets/logo/experience/logo.png',
+          period: 'June 2022 - October 2022',
+          details:
+            'Responsive, Mobile First Website designed to help advertise customers apartments.',
+          img: '../assets/logo/experience/splashScreen.png',
+          icons: [
+            { name: 'HTML', icon: 'fa-brands fa-html5' },
+            { name: 'SCSS', icon: 'fa-brands fa-css3-alt' },
+            { name: 'PHP', icon: 'fa-brands fa-php' },
+            { name: 'JavaScript', icon: 'fa-brands fa-js' }
+          ]
+        }
+      ]
+    }
+  }
+}
 </script>

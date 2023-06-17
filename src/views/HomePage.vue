@@ -1,10 +1,10 @@
 <template>
   <main>
-    <WelcomeSection />
+    <WelcomeSection :contacts="contacts" />
     <AboutSection />
     <TimelineSection />
     <ProjectsSection />
-    <ContactSection />
+    <ContactSection :contacts="contacts" />
   </main>
 </template>
 
@@ -24,6 +24,12 @@ export default {
     ContactSection,
     TimelineSection,
     ProjectsSection
+  },
+  props: {
+    contacts: {
+      type: Array,
+      required: true
+    }
   }
 }
 </script>

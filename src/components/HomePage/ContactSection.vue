@@ -8,27 +8,39 @@
     <br />
     <div>
       <a
-        href="https://www.linkedin.com/in/robert-binkowski-9bb565195/"
+        v-for="contact in contacts"
+        v-show="contact.name != 'Email'"
+        :key="contact.id"
+        :href="contact.link"
         class="button"
         target="_blank"
-        ><i class="fa-brands fa-linkedin"></i> LinkedIn</a
-      >
-      <a href="mailto:binkowski95@gmail.com" class="button" target="_blank"
-        ><i class="fa-solid fa-envelope-open"></i> Email</a
+        ><i :class="contact.icon"></i> {{ contact.name }}</a
       >
     </div>
   </section>
 </template>
 
 <style lang="scss">
-  @import "../../assets/scss/variables";
-  #contactSection {
-    div {
-      padding: 1em;
-    }
-    i {
-      font-size: 1.3em;
-      padding-right: 0.4em;
+@import '../../assets/scss/variables';
+#contactSection {
+  div {
+    padding: 1em;
+  }
+  i {
+    font-size: 1.3em;
+    padding-right: 0.4em;
+  }
+}
+</style>
+
+<script>
+export default {
+  name: 'ContactSection',
+  props: {
+    contacts: {
+      type: Array,
+      required: true
     }
   }
-</style>
+}
+</script>

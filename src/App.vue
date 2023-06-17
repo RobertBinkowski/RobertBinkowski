@@ -11,7 +11,7 @@ import TopNav from './components/TopNav.vue'
 import FooterBar from './components/FooterBar.vue'
 
 import { ref, onMounted } from 'vue'
-import { collection, getDocs, query, orderBy } from 'firebase/firestore'
+import { collection, getDocs, query, orderBy, where } from 'firebase/firestore'
 import { firestore } from '@/firebase/init'
 
 export default {
@@ -25,11 +25,15 @@ export default {
     const links = ref([])
 
     onMounted(async () => {
-      const querySnapshot = await getDocs(collection(firestore, 'contacts'))
+      const querySnapshot = await getDocs(
+        query(collection(firestore, 'contacts'), where('enabled', '==', true))
+      )
       querySnapshot.forEach((doc) => {
         contacts.value.push(doc.data())
       })
-      const querySnapshot1 = await getDocs(query(collection(firestore, 'links'), orderBy('order')))
+      const querySnapshot1 = await getDocs(
+        query(collection(firestore, 'links'), where('enabled', '==', true), orderBy('order'))
+      )
       querySnapshot1.forEach((doc) => {
         console.log(doc.data())
         links.value.push(doc.data())
