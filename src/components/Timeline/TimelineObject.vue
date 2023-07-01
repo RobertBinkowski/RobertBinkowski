@@ -1,13 +1,14 @@
 <template>
   <div class="timelineObject">
     <div class="left">
-      <img class="timelineLogo" :src="article.logo" :alt="article.name" />
-      <p class="timelineDate">{{ article.date_started }} - {{ article.date_ended }}</p>
+      <img v-show="article.logo" class="timelineLogo" :src="article.logo" :alt="article.name" />
+      <i v-show="!article.logo" :class="article.img"></i>
+      <p class="timelineDate">{{ article.date_ended }}</p>
     </div>
     <div class="right">
       <div class="timelineDetails">
         <p>
-          <strong>{{ article.title }}</strong> <br />
+          <strong class="title">{{ article.title }}</strong> <br />
           {{ article.content }}
         </p>
       </div>
@@ -46,8 +47,10 @@ export default {
       object-fit: cover;
     }
     .timelineDate {
-      font-size: 0.9em;
+      font-size: 1em;
+      padding: 1em;
       color: $acc-2-d;
+      transform: rotate(-90deg);
     }
   }
   .timelineDetails {
@@ -57,6 +60,9 @@ export default {
     border-radius: $rad-2;
     padding: 1em;
     margin: 1em;
+    .title {
+      left: 0;
+    }
   }
 }
 </style>

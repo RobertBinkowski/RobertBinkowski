@@ -102,21 +102,26 @@ header {
       .line {
         display: block;
         height: 0.16rem;
-        width: 2.1rem;
         margin: 0.4rem;
         border-radius: $rad-1;
         background-color: $acc-1-d;
         transition: $tr-s;
+        width: 2rem;
       }
-
+      .mid {
+        margin-left: 0.9rem;
+        width: 1.5rem;
+      }
+      .bot {
+        margin-left: 1.5rem;
+        width: 0.9rem;
+      }
       &:hover {
-        .mid {
-          margin-left: 0.8rem;
-          width: 1.5rem;
-        }
+        .top,
+        .mid,
         .bot {
-          margin-left: 1.05rem;
-          width: 1rem;
+          margin-left: 0rem;
+          width: 2rem;
         }
       }
     }

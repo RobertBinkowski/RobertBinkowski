@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import TimelineObject from '../components/Timeline/TimelineObject.vue'
+import TimelineObject from '@/components/Timeline/TimelineObject.vue'
 
 export default {
   components: {
@@ -20,18 +20,20 @@ export default {
         {
           logo: '../../../public/logo.png',
           title: 'My first article',
+          img: 'fa-solid fa-star',
           content:
             'This is my first article, lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, eget aliq',
-          date_started: '2019-01',
-          date_ended: '2019-01'
+          date_started: 'August 2022',
+          date_ended: 'August 2022'
         },
         {
-          logo: '../../../public/logo.png',
+          logo: '',
+          img: 'fa-solid fa-star',
           title: 'My first article',
           content:
             'This is my first article, lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, eget aliq',
-          date_started: '2019-01',
-          date_ended: '2019-01'
+          date_started: 'August 2022',
+          date_ended: 'August 2022'
         }
       ]
     }
