@@ -35,6 +35,9 @@ footer {
     border-radius: 0.3em;
     justify-content: space-between;
   }
+  nav .nav-content {
+    margin-right: 2em;
+  }
   nav #expand-notification {
     display: none;
   }
@@ -67,6 +70,11 @@ footer {
   }
   nav .nav-content .nav-li {
     padding: 2em;
+  }
+  nav .left-corner {
+    position: absolute;
+    top: 1rem;
+    left: 2em;
   }
   section {
     display: block;
@@ -233,18 +241,17 @@ section:not(:first-of-type) {
 
 /* ------------------------------------- BUTTON */
 .button {
+  margin: 0.2em;
   padding: 1em;
-  margin: 1em;
   cursor: pointer;
-  background-color: #58d68d;
-  color: #202020;
+  background-color: rgba(88, 214, 140, 0.1450980392);
+  color: #58d68d;
   border-radius: 3em;
+  border: #58d68d 2px solid;
   transition: 0.3s;
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
 }
 .button:hover {
   color: #58d68d;
   border-radius: 0.3em;
-  box-shadow: none;
-  background: radial-gradient(rgba(83, 158, 114, 0.1215686275) 0, rgba(0, 0, 0, 0) 75%);
 }/*# sourceMappingURL=root.css.map */

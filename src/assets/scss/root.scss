@@ -133,18 +133,19 @@ section {
 /* ------------------------------------- BUTTON */
 
 .button {
+  margin: .2em;
   padding: 1em;
-  margin: 1em;
   cursor: pointer;
-  background-color: $acc-2;
-  color: $bg-1;
+  background-color: $acc-2-t;
+  color: $acc-2;
   border-radius: $rad-1;
+  border: $acc-2 2px solid;
   transition: $tr-s;
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
   &:hover {
     color: $acc-2;
     border-radius: $rad-2;
-    box-shadow: none;
-    @include gradient();
+    // box-shadow: none;
+    // @include gradient();
   }
 }
