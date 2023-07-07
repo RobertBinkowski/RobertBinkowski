@@ -113,10 +113,16 @@ section {
   margin: auto;
   min-height: 60vh;
   border-radius: $rad-2;
+  position: relative;
   &:not(:first-of-type) {
     max-width: 1300px;
     margin-top: 1em;
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
+    h2{
+      position:absolute;
+      top: 1em;
+      left:1em;
+    }
   }
 }
 .grid {

@@ -2,8 +2,8 @@
   <main>
     <WelcomeSection :contacts="contacts" />
     <AboutSection />
-    <TimelineSection />
     <ProjectsSection :projects="projects" />
+    <ExperienceSection :experiences="experiences" />
     <ContactSection :contacts="contacts" />
   </main>
 </template>
@@ -14,7 +14,7 @@
 import WelcomeSection from '../components/HomePage/WelcomeSection.vue'
 import AboutSection from '../components/HomePage/AboutSection.vue'
 import ContactSection from '../components/HomePage/ContactSection.vue'
-import TimelineSection from '../components/HomePage/TimelineSection.vue'
+import ExperienceSection from '../components/HomePage/ExperienceSection.vue'
 import ProjectsSection from '../components/HomePage/ProjectsSection.vue'
 
 import { ref, onMounted } from 'vue'
@@ -26,7 +26,7 @@ export default {
     WelcomeSection,
     AboutSection,
     ContactSection,
-    TimelineSection,
+    ExperienceSection,
     ProjectsSection
   },
   props: {
