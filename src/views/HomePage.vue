@@ -37,19 +37,26 @@ export default {
   },
   setup() {
     const projects = ref([])
+    const experiences = ref([])
 
     onMounted(async () => {
       const querySnapshot = await getDocs(
         query(collection(firestore, 'projects'), where('enabled', '==', true))
       )
+      const querySnapshot2 = await getDocs(query(collection(firestore, 'experiences')))
       querySnapshot.forEach((doc) => {
-        console.log(doc.data())
+        // console.log(doc.data())
         projects.value.push(doc.data())
+      })
+      querySnapshot2.forEach((doc) => {
+        // console.log(doc.data())
+        experiences.value.push(doc.data())
       })
     })
 
     return {
-      projects
+      projects,
+      experiences
     }
   }
 }
