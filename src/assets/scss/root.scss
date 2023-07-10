@@ -117,7 +117,9 @@ section {
   &:not(:first-of-type) {
     max-width: 1300px;
     margin-top: 1em;
-    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
+    &:nth-child(n+2){
+      box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
+    }
     h2{
       position:absolute;
       top: 1em;

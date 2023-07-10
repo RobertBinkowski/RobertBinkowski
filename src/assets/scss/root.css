@@ -228,6 +228,8 @@ section {
 section:not(:first-of-type) {
   max-width: 1300px;
   margin-top: 1em;
+}
+section:not(:first-of-type):nth-child(n+2) {
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
 }
 section:not(:first-of-type) h2 {

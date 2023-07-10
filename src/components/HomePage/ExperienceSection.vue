@@ -1,7 +1,6 @@
 <template>
   <section>
     <h2>Experiences</h2>
-
     <div class="wrapper">
       <div v-for="experience in experiences" :key="experience.id">
         <a :href="experience.link">

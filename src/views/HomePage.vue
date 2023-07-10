@@ -2,6 +2,7 @@
   <main>
     <WelcomeSection :contacts="contacts" />
     <AboutSection />
+    <LanguagesSectionVue />
     <ProjectsSection :projects="projects" />
     <ExperienceSection :experiences="experiences" />
     <ContactSection :contacts="contacts" />
@@ -17,6 +18,8 @@ import ContactSection from '../components/HomePage/ContactSection.vue'
 import ExperienceSection from '../components/HomePage/ExperienceSection.vue'
 import ProjectsSection from '../components/HomePage/ProjectsSection.vue'
 
+import LanguagesSectionVue from '../components/HomePage/LanguagesSection.vue'
+
 import { ref, onMounted } from 'vue'
 import { collection, getDocs, query, orderBy, where } from 'firebase/firestore'
 import { firestore } from '@/firebase/init'
@@ -27,7 +30,8 @@ export default {
     AboutSection,
     ContactSection,
     ExperienceSection,
-    ProjectsSection
+    ProjectsSection,
+    LanguagesSectionVue
   },
   props: {
     contacts: {
