@@ -2,7 +2,7 @@
   <main>
     <WelcomeSection :contacts="contacts" />
     <AboutSection />
-    <LanguagesSectionVue />
+    <LanguagesSectionVue :languages="languages" />
     <ProjectsSection :projects="projects" />
     <ExperienceSection :experiences="experiences" />
     <ContactSection :contacts="contacts" />
@@ -57,10 +57,26 @@ export default {
         experiences.value.push(doc.data())
       })
     })
-
     return {
       projects,
       experiences
+    }
+  },
+  data() {
+    return {
+      languages: [
+        { name: 'CSS' },
+        { name: 'HTML' },
+        { name: 'PHP' },
+        { name: 'JAVA' },
+        { name: 'JavaScript' },
+        { name: 'Python' },
+        { name: 'Neural Networks' },
+        { name: 'MySQL' },
+        { name: 'Vue.js' },
+        { name: 'Laravel' },
+        { name: 'SASS' }
+      ]
     }
   }
 }
