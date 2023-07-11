@@ -6,7 +6,7 @@
       color: tag.color ? tag.color : 'white',
       backgroundColor: tag.color ? tag.color + '34' : 'darkgray',
       borderColor: tag.color ? tag.color : 'darkgray',
-      borderRadius: tag.color ? '1em' : '0.2em',
+      borderRadius: tag.color ? '3em' : '0.3em',
       cursor: tag.href ? 'pointer' : 'default'
     }"
   >
@@ -32,10 +32,7 @@ export default {
 @import '@/assets/scss/_variables';
 .tag {
   margin: 1em;
-  padding: 1em 1em 1em 1em;
-  background-color: $acc-2-t;
-  color: #ffffff31;
-  border-radius: $rad-1;
+  padding: 1em;
   border: $acc-2 2px solid;
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
 }

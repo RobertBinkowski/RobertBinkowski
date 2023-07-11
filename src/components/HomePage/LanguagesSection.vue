@@ -1,15 +1,6 @@
 <template>
-  <div class="container">
-    <div class="scroll-container">
-      <div class="tag-list">
-        <tagComponent
-          v-for="tag in languages"
-          :key="tag"
-          :tag="tag"
-          class="tag-item"
-        ></tagComponent>
-      </div>
-    </div>
+  <div>
+    <tagComponent v-for="tag in languages" :key="tag" :tag="tag"></tagComponent>
   </div>
 </template>
 
@@ -30,12 +21,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/_variables';
-@import '@/assets/scss/_mixins';
+@import '@/assets/scss/variables';
+@import '@/assets/scss/mixins';
 
-.container {
-  padding: 2em;
-  max-width: 1300px;
-  @include flexCenter();
+div {
+  margin: 5em 0 5em 0;
 }
 </style>
