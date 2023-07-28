@@ -65,17 +65,61 @@ export default {
   data() {
     return {
       languages: [
-        { name: 'CSS' },
-        { name: 'HTML' },
-        { name: 'PHP' },
-        { name: 'JAVA' },
-        { name: 'JavaScript' },
-        { name: 'Python' },
-        { name: 'Neural Networks' },
-        { name: 'MySQL' },
-        { name: 'Vue.js' },
-        { name: 'Laravel' },
-        { name: 'SASS' }
+        {
+          name: 'CSS',
+          color: '#264de4',
+          href: ''
+        },
+        {
+          name: 'HTML',
+          color: '#e34c26',
+          href: ''
+        },
+        {
+          name: 'PHP',
+          color: '#777bb3',
+          href: ''
+        },
+        {
+          name: 'JAVA',
+          color: '#f89820',
+          href: ''
+        },
+        {
+          name: 'JavaScript',
+          color: '#f0db4f',
+          href: ''
+        },
+        {
+          name: 'Python',
+          color: '#3776ab',
+          href: ''
+        },
+        {
+          name: 'Neural Networks',
+          color: '#ff6f00',
+          href: ''
+        },
+        {
+          name: 'MySQL',
+          color: '#4479a1',
+          href: ''
+        },
+        {
+          name: 'Vue.js',
+          color: '#41b883',
+          href: ''
+        },
+        {
+          name: 'Laravel',
+          color: '#ff2d20',
+          href: ''
+        },
+        {
+          name: 'SASS',
+          color: '#cc6699',
+          href: ''
+        }
       ]
     }
   }

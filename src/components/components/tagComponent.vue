@@ -1,20 +1,18 @@
 <template>
-  <a
-    :href="tag.href"
-    class="tag"
-    :style="{
+  <div>
+    <a :href="tag.href" class="tag" :style="{
       color: tag.color ? tag.color : 'white',
-      backgroundColor: tag.color ? tag.color + '34' : 'darkgray',
+      backgroundColor: tag.color ? tag.color + '34' : 'gray',
       borderColor: tag.color ? tag.color : 'darkgray',
       borderRadius: tag.color ? '3em' : '0.3em',
       cursor: tag.href ? 'pointer' : 'default'
-    }"
-  >
-    <span v-show="tag.href"># </span>
-    <string>
-      {{ tag.name }}
-    </string>
-  </a>
+    }">
+      <span class="hash" v-show="tag.href"># </span>
+      <string>
+        {{ tag.name }}
+      </string>
+    </a>
+  </div>
 </template>
 
 <script>
@@ -29,7 +27,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/_variables';
+@import '@/assets/scss/variables';
+
+.hash {
+  color: white;
+}
+
 .tag {
   margin: 1em;
   padding: 1em;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <tagComponent v-for="tag in languages" :key="tag" :tag="tag"></tagComponent>
+    <tagComponent class="languages" v-for="tag in languages" :key="tag" :tag="tag"></tagComponent>
   </div>
 </template>
 
@@ -25,6 +25,8 @@ export default {
 @import '@/assets/scss/mixins';
 
 div {
-  margin: 5em 0 5em 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 </style>

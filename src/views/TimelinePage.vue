@@ -18,7 +18,7 @@ export default {
     return {
       articles: [
         {
-          logo: '../../../public/logo.png',
+          logo: '../.././logo.png',
           title: 'My first article',
           img: 'fa-solid fa-star',
           content:
