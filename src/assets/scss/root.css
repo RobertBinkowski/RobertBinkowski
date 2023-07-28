@@ -232,11 +232,6 @@ section:not(:first-of-type) {
 section:not(:first-of-type):nth-child(n+2) {
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.7);
 }
-section:not(:first-of-type) h2 {
-  position: absolute;
-  top: 1em;
-  left: 1em;
-}
 
 .grid {
   display: grid;
