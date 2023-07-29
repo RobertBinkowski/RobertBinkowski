@@ -1,14 +1,9 @@
 <template>
   <section>
     <h2>Experience</h2>
-    <div class="wrapper">
-      <div v-for="experience in experiences" :key="experience.id">
-        <a :href="experience.link">
-          <img :src="experience.icon" :alt="experience.name" />
-          <h3>{{ experience.name }}</h3>
-          <p>{{ experience.info }}</p>
-        </a>
-      </div>
+    <div class="experiences">
+      <experienceComponent v-for="experience in experiences" :key="experience.id" :experience="experience">
+      </experienceComponent>
     </div>
   </section>
 </template>
@@ -17,22 +12,18 @@
 @import '@/assets/scss/variables';
 @import '@/assets/scss/mixins';
 
-.wrapper {
-  width: 100%;
+.experiences {
   @include responsiveItems();
-
-  div {
-    a {
-      img {
-        height: 5em;
-      }
-    }
-  }
 }
 </style>
 
 <script lang="js">
+import experienceComponent from '@/components/components/experienceComponent.vue';
+
 export default {
+  components: {
+    experienceComponent
+  },
   props: {
     experiences: {
       type: Array,
