@@ -1,4 +1,7 @@
 <template>
+  <div v-show="project.image" class="image-content">
+    <img :src="project.image" :alt="project.title">
+  </div>
   <a class="card-content" :href="project.id ? 'project/' + project.id : ''">
     <div class="icons">
       <p class="fa-solid fa-folder-open left"></p>
@@ -23,8 +26,13 @@
 @import '@/assets/scss/_variables.scss';
 @import '../../assets/scss/mixins';
 
+.image-content {
+  height: 10em;
+  width: 100%;
+}
+
 .card-content {
-  widows: 100%;
+  width: 100%;
   padding: 1em 0 1em 0;
 
   .icons {
