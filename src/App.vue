@@ -50,6 +50,7 @@ export default {
 
 <style lang="scss" scope>
 @import 'assets/scss/root';
+
 #app {
   left: 0;
   right: 0;

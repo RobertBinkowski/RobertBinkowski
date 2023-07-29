@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2>Experiences</h2>
+    <h2>Experience</h2>
     <div class="wrapper">
       <div v-for="experience in experiences" :key="experience.id">
         <a :href="experience.link">
@@ -16,6 +16,7 @@
 <style lang="scss" scoped>
 @import '@/assets/scss/variables';
 @import '@/assets/scss/mixins';
+
 .wrapper {
   width: 100%;
   @include responsiveItems();
@@ -32,11 +33,11 @@
 
 <script lang="js">
 export default {
-    props: {
-        experiences: {
-        type: Array,
-        required: true
-        }
+  props: {
+    experiences: {
+      type: Array,
+      required: true
     }
+  }
 }
 </script>
