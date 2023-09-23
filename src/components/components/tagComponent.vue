@@ -1,16 +1,20 @@
 <template>
   <div>
-    <a :href="tag.href" class="tag" :style="{
-      color: tag.color ? tag.color : 'white',
-      backgroundColor: tag.color ? tag.color + '34' : 'gray',
-      borderColor: tag.color ? tag.color : 'darkgray',
-      borderRadius: tag.color ? '3em' : '0.3em',
-      cursor: tag.href ? 'pointer' : 'default'
-    }">
-      <span class="hash" v-show="tag.href"># </span>
-      <string>
+    <a
+      :href="tag.href"
+      class="tag"
+      :style="{
+        color: tag.color ? tag.color : 'white',
+        backgroundColor: tag.color ? tag.color + '34' : 'gray',
+        borderColor: tag.color ? tag.color : 'darkgray',
+        borderRadius: tag.color ? '3em' : '0.3em',
+        cursor: tag.href ? 'pointer' : 'default'
+      }"
+    >
+      <p v-show="tag.href">#</p>
+      <span>
         {{ tag.name }}
-      </string>
+      </span>
     </a>
   </div>
 </template>
