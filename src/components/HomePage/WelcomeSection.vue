@@ -14,7 +14,7 @@
       <strong>Web Development</strong>
     </p>
     <div class="links">
-      <a
+      <!-- <a
         v-for="contact in contacts"
         v-show="contact.name != 'Email'"
         :key="contact.id"
@@ -22,7 +22,8 @@
         target="_blank"
         class="button"
         ><i :class="contact.icon"></i> {{ contact.name }}</a
-      >
+      > -->
+      <tagComponent v-for="tag in contacts" :key="tag" :tag="tag"></tagComponent>
     </div>
   </section>
 </template>
@@ -92,10 +93,12 @@
 
 <script>
 import LogoSVG from '../../assets/icons/LogoSVG.vue'
+import tagComponent from '../components/tagComponent.vue'
 
 export default {
   components: {
-    LogoSVG
+    LogoSVG,
+    tagComponent
   },
   props: {
     contacts: {
