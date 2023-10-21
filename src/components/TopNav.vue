@@ -41,9 +41,13 @@
         @click="openNavigation()"
         :class="[openNav ? 'nav-opened' : 'nav-closed']"
       >
-        <span class="line top"></span>
-        <span class="line mid"></span>
-        <span class="line bot"></span>
+        <svg viewBox="0 0 32 32">
+          <path
+            class="line line-top-bottom"
+            d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"
+          ></path>
+          <path class="line" d="M7 16 27 16"></path>
+        </svg>
       </div>
       <div class="progress-bar" :style="{ width: progressBarWidth }"></div>
     </nav>
@@ -95,34 +99,37 @@ header {
     }
     #expand-notification {
       position: absolute;
-      top: 1em;
-      right: 2em;
+      top: 0.6em;
+      right: 1em;
       cursor: pointer;
 
-      .line {
-        display: block;
-        height: 0.16rem;
-        margin: 0.4rem;
-        border-radius: $rad-1;
-        background-color: $acc-1-d;
-        transition: $tr-s;
-        width: 2rem;
-      }
-      .mid {
-        margin-left: 0.9rem;
-        width: 1.5rem;
-      }
-      .bot {
-        margin-left: 1.5rem;
-        width: 0.9rem;
-      }
-      &:hover {
-        .top,
-        .mid,
-        .bot {
-          margin-left: 0rem;
-          width: 2rem;
+      svg {
+        /* The size of the SVG defines the overall size */
+        height: 3em;
+        /* Define the transition for transforming the SVG */
+        transition: transform 750ms cubic-bezier(0.4, 0, 0.2, 1);
+        .line {
+          fill: none;
+          stroke: $acc-1;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          stroke-width: 3;
+          /* Define the transition for transforming the Stroke */
+          transition: stroke-dasharray 750ms cubic-bezier(0.4, 0, 0.2, 1),
+            stroke-dashoffset 750ms cubic-bezier(0.4, 0, 0.2, 1);
         }
+        .line-top-bottom {
+          stroke-dasharray: 12 63;
+        }
+      }
+
+      &.nav-opened svg {
+        transform: rotate(-45deg);
+      }
+
+      &.nav-opened .line-top-bottom {
+        stroke-dasharray: 20 300;
+        stroke-dashoffset: -32.42;
       }
     }
     &#nav-closed {
@@ -132,10 +139,10 @@ header {
       height: 100vh;
     }
     .progress-bar {
-      height: 3px;
+      height: 0.25em;
       background: $acc-2-d;
       background: linear-gradient(90deg, $acc-2-d 0%, $acc-1-d 100%);
-      border-radius: $rad-1;
+      border-radius: $rad-2;
       position: absolute;
       bottom: 0;
       left: 0;
