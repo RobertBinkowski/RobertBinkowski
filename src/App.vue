@@ -1,60 +1,11 @@
+<script setup></script>
+
 <template>
-  <div>
-    <TopNav :links="links" :contacts="contacts" :features="features" />
-    <router-view :contacts="contacts"></router-view>
-    <FooterBar :contacts="contacts" />
-  </div>
+  <h1>You did it!</h1>
+  <p>
+    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
+    documentation
+  </p>
 </template>
 
-<script>
-import TopNav from './components/TopNav.vue'
-import FooterBar from './components/FooterBar.vue'
-
-import { ref, onMounted } from 'vue'
-import { collection, getDocs, query, orderBy, where } from 'firebase/firestore'
-import { firestore } from '@/firebase/init'
-
-export default {
-  name: 'app',
-  components: {
-    FooterBar,
-    TopNav
-  },
-  setup() {
-    const contacts = ref([])
-    const links = ref([])
-
-    onMounted(async () => {
-      const querySnapshot = await getDocs(
-        query(collection(firestore, 'contacts'), where('enabled', '==', true))
-      )
-      querySnapshot.forEach((doc) => {
-        contacts.value.push(doc.data())
-      })
-      const querySnapshot1 = await getDocs(
-        query(collection(firestore, 'links'), where('enabled', '==', true), orderBy('order'))
-      )
-      querySnapshot1.forEach((doc) => {
-        console.log(doc.data())
-        links.value.push(doc.data())
-      })
-    })
-
-    return {
-      contacts,
-      links
-    }
-  }
-}
-</script>
-
-<style lang="scss" scope>
-@import 'assets/scss/root';
-
-#app {
-  left: 0;
-  right: 0;
-  width: 100vw;
-  margin-top: -1em;
-}
-</style>
+<style scoped></style>
