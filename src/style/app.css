@@ -85,13 +85,6 @@ html body {
   background: #ebebeb;
   color: #202938;
   text-shadow: 1px 1px 1px rgba(56, 53, 53, 0.2745098039);
-  /* white paper */
-  background: white;
-  /* dotted grid: adjust --gap and --dot for taste */
-  --gap: 2em; /* spacing */
-  --dot: 2px; /* radius-ish */
-  background-image: radial-gradient(#8280a6 var(--dot), transparent var(--dot));
-  background-size: var(--gap) var(--gap);
 }
 html body main {
   min-height: 100vh;

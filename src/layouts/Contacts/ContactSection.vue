@@ -4,7 +4,6 @@
     <div class="contacts">
       <a
         v-for="contact in contacts"
-        v-show="contact.name != 'Resume'"
         :key="contact.id"
         :href="contact.link"
         class="button"

@@ -1,4 +1,4 @@
-@import "mixins";
+@import 'mixins';
 
 $fot-back: #353533;
 $nav-bg: #ffffff2a;
@@ -7,6 +7,8 @@ $shadow: #38353546;
 
 $bg: #ebebeb;
 $bg-dark: #35435c;
+$max-width: 1300px;
+$content-width: 1000px;
 
 $acc-1: #009087;
 $acc-2: #005b90;
@@ -21,9 +23,13 @@ $blur: 15px;
 
 $button-hover: #00908740;
 
-$tr-f: 0.1s;
-$tr-s: .3s;
+// dots background
+$dots-size: 1.5px;
+$dots-gap: 2em;
+$dots-color: #8280a6;
 
+$tr-f: 0.1s;
+$tr-s: 0.3s;
 
 $rad-1: 3em;
 $rad-2: 0.3em;

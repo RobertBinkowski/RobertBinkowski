@@ -12,12 +12,6 @@
   <ContactSection v-if="portfolio.ContactSection" :contacts="contacts" />
 </template>
 
-<style lang="scss" scoped>
-div * {
-  padding: 2em 0;
-}
-</style>
-
 <script>
 import WelcomeSection from '@/layouts/01.WelcomeSection.vue'
 import AboutSection from '@/layouts/About/AboutSection.vue'
