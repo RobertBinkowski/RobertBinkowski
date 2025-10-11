@@ -10,7 +10,7 @@
 
       <!-- Navigation Links -->
       <div class="nav-content">
-        <router-link class="router-link" :to="{ name: 'portfolio' }"> PORTFOLIO </router-link>
+        <router-link class="router-link" :to="{ name: 'home' }"> PORTFOLIO </router-link>
         <!-- <router-link class="router-link" :to="{ name: 'articles.index' }"> ARTICLES </router-link>
         <router-link class="router-link" :to="{ name: 'projects.index' }"> PROJECTS </router-link> -->
         <!-- <router-link v-if="user" class="router-link" :to="{ name: 'dashboard' }">
@@ -210,6 +210,7 @@ export default {
       display: flex;
       flex-direction: row;
       text-align: centre;
+      gap: 0.5em;
       div {
         padding: 0.5em;
       }
@@ -268,7 +269,7 @@ export default {
   }
 }
 /*-------------------------------------------------------BIG*/
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: $phone-size) {
   #navigation-bar {
     nav {
       margin: 0 auto;
@@ -283,6 +284,21 @@ export default {
         @include backgroundBlur();
         overflow: hidden;
       }
+      .right-corner {
+        padding: 0 1em;
+
+        // @include boxShadow();
+        // @include backgroundBlur();
+        // border-radius: $rad-1;
+      }
+
+      // .left-corner {
+      //   padding: 0.5em 1em;
+
+      //   @include boxShadow();
+      //   @include backgroundBlur();
+      //   border-radius: $rad-1;
+      // }
 
       #expand-notification {
         display: none;
@@ -292,7 +308,7 @@ export default {
 }
 
 /*-----------------------------------------------------SMALL*/
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: #{$phone-size +1}) {
   #navigation-bar {
     nav {
       flex-direction: column;

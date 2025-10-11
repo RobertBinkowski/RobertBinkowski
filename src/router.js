@@ -5,7 +5,7 @@ const routes = [
   {
     path: '/',
     component: () => import('./views/index.vue'),
-    name: 'portfolio',
+    name: 'home',
     meta: {
       beta: true,
     },

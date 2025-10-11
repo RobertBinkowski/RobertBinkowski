@@ -67,6 +67,11 @@ export default {
           icon: 'fa-brands fa-linkedin',
           link: 'https://www.linkedin.com/in/robert-binkowski-9bb565195/',
         },
+        {
+          name: 'GitHub',
+          icon: 'fa-brands fa-github',
+          link: 'https://github.com/RobertBinkowski',
+        },
       ],
     }
   },
