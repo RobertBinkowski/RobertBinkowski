@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <!-- <logoSVG /> -->
+    <logoSVG />
     <div id="footer-links">
       <linkComponent v-for="link in links" :key="link.id" :link="link"></linkComponent>
     </div>
