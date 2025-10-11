@@ -23,8 +23,20 @@ main {
   background-image: radial-gradient($dots-color $dots-size, transparent $dots-size);
   background-size: $dots-gap $dots-gap;
 
-  -webkit-mask-image: linear-gradient(to right, #000000 $content-width, transparent $max-width);
-  mask-image: linear-gradient(to right, #000000 $content-width, transparent $max-width);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0px,
+    #000000 150px,
+    #000000 calc(100% - 150px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0px,
+    #000000 150px,
+    #000000 calc(100% - 150px),
+    transparent 100%
+  );
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
 }
