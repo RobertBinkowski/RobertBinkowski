@@ -20,9 +20,12 @@ main {
   max-width: $max-width;
   margin: auto;
   background: $bg;
+
+  // Dots Background
   background-image: radial-gradient($dots-color $dots-size, transparent $dots-size);
   background-size: $dots-gap $dots-gap;
 
+  // Fade background
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0px,
