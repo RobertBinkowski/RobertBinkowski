@@ -12,8 +12,8 @@
 </template>
 
 <style lang="scss">
-@import '@/style/variables';
-@import '@/style/mixins';
+@use '@/style/variables' as *;
+@use '@/style/mixins' as *;
 </style>
 
 <script lang="js">

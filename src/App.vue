@@ -14,7 +14,7 @@
 </template>
 
 <style lang="scss" scoped>
-@import '@/style/variables';
+@use '@/style/variables' as *;
 
 main {
   max-width: $max-width;

@@ -34,8 +34,8 @@
 </template>
 
 <style lang="scss" scope>
-@import '@/style/variables';
-@import '@/style/mixins';
+@use '@/style/variables' as *;
+@use '@/style/mixins' as *;
 
 #welcomeSection {
   text-align: center;
@@ -62,6 +62,8 @@
     background-color: $bg-dark;
     position: fixed;
     bottom: 1em;
+    left: 50%;
+    transform: translateX(-50%);
   }
   .icons {
     svg {

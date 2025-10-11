@@ -95,7 +95,7 @@
 </template>
 
 <style lang="scss">
-@import "@/style/variables";
+@use '@/style/variables' as *;
 
 #timelineSection {
     a {

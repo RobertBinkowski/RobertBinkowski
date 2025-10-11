@@ -26,7 +26,7 @@
 </template>
 
 <style lang="scss" scoped>
-@import "../style/variables";
+@use '../style/variables' as *;
 .svg {
     height: 3em;
     filter: drop-shadow(0 0 3px $shadow);

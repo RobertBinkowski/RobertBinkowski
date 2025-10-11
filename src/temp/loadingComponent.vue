@@ -7,7 +7,7 @@
 </template>
 
 <style lang="scss" scoped>
-@import "@/style/variables";
+@use '@/style/variables' as *;
 
 .loader {
     display: flex;

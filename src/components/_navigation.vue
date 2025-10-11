@@ -3,7 +3,7 @@
     <nav :class="[openNav ? 'nav-open' : 'nav-closed']">
       <!-- Logo -->
       <div class="left-corner">
-        <router-link :to="{ name: 'portfolio' }">
+        <router-link :to="{ name: 'home' }">
           <LogoSVG />
         </router-link>
       </div>
@@ -125,8 +125,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/style/variables';
-@import '@/style/mixins';
+@use '@/style/variables' as *;
+@use '@/style/mixins' as *;
 
 #navigation-bar {
   z-index: 1000;
@@ -155,9 +155,14 @@ export default {
           stroke: $txt;
           height: 2.2rem;
           stroke-width: 1.2;
+          padding: 0.4em;
+          border: 1px solid $txt;
+          border-radius: $rad-1;
+          background-color: rgba($bg, 0.6);
 
           &:hover {
             stroke-width: 1.7;
+            background-color: rgba($bg, 0.8);
           }
         }
       }
@@ -308,7 +313,7 @@ export default {
 }
 
 /*-----------------------------------------------------SMALL*/
-@media only screen and (max-width: #{$phone-size +1}) {
+@media only screen and (max-width: #{$phone-size + 1}) {
   #navigation-bar {
     nav {
       flex-direction: column;

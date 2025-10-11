@@ -7,8 +7,9 @@
 /**
 *  Imports
 */
-@import 'screens';
-@import 'variables';
+@use './screens';
+@use './variables' as *;
+@use './mixins' as *;
 
 /***********************************************
  *  Fonts

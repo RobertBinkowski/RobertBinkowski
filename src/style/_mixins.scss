@@ -1,3 +1,5 @@
+@use './variables' as *;
+
 /*
     Mixins
 */
@@ -13,31 +15,33 @@
 }
 
 @mixin boxShadow() {
-    box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px $txt-light;
+  box-shadow:
+    6px 6px 12px #c5c5c5,
+    -6px -6px 12px $txt-light;
 }
 
-@mixin backgroundBlur(){
-    // Background Blur
-    background-color: $nav-bg;
-    -webkit-backdrop-filter: blur($blur);
-    backdrop-filter: blur($blur);
+@mixin backgroundBlur() {
+  // Background Blur
+  background-color: $nav-bg;
+  -webkit-backdrop-filter: blur($blur);
+  backdrop-filter: blur($blur);
 }
 
-@mixin responsiveItems($var: 250px){
+@mixin responsiveItems($var: 250px) {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(#{$var}, 1fr));
   grid-gap: 1rem;
 }
 
-
 /**
     Key Frames
 */
 @keyframes pillMovement {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-0.5em);
-    }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.5em);
+  }
 }

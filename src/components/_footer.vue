@@ -17,7 +17,7 @@
 </template>
 
 <style lang="scss">
-@import '@/style/variables';
+@use '@/style/variables' as *;
 
 footer {
   background: $fot-back;

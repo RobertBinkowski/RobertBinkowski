@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/style/variables";
+@use '@/style/variables' as *;
 
 .pill {
     margin: 0.5em;

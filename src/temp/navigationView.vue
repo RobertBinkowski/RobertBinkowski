@@ -134,8 +134,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/style/variables';
-@import '@/style/mixins';
+@use '@/style/variables' as *;
+@use '@/style/mixins' as *;
 
 #navigation-bar {
   z-index: 1000;

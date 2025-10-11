@@ -8,7 +8,7 @@
 </template>
 
 <style lang="scss" scoped>
-@import '@/style/variables';
+@use '@/style/variables' as *;
 
 #aboutSection {
   .fa-brands,

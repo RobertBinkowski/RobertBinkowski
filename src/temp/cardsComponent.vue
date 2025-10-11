@@ -31,8 +31,8 @@
 </template>
 
 <style lang="scss">
-@import "@/style/variables";
-@import "@/style/mixins";
+@use '@/style/variables' as *;
+@use '@/style/mixins' as *;
 
 #cards {
     display: flex;

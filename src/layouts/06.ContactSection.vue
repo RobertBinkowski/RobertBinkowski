@@ -15,7 +15,7 @@
 </template>
 
 <style lang="scss">
-@import '@/style/variables';
+@use '@/style/variables' as *;
 #contactSection {
   .contacts {
     padding: 1em;

@@ -33,7 +33,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/style/root";
+@use '@/style/variables' as *;
 
 .timelineObject {
     display: flex;
@@ -61,7 +61,7 @@ export default {
     .timelineDetails {
         text-align: center;
         min-width: 20em;
-        background-color: $acc-1-dd;
+        background-color: rgba($acc-1, 0.2);
         border-radius: $rad-2;
         padding: 1em;
         margin: 1em;
