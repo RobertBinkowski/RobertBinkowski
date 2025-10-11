@@ -46,9 +46,9 @@
 
 <script>
 import LogoSVG from '@/icons/LogoSVG.vue'
-import linkComponent from './linkComponent.vue'
-import tagComponent from './tagComponent.vue'
-import userComponent from './userComponent.vue'
+import linkComponent from '../temp/linkComponent.vue'
+import tagComponent from '../temp/tagComponent.vue'
+import userComponent from '../temp/userComponent.vue'
 
 export default {
   name: 'navigationView',

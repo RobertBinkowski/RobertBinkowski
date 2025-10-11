@@ -1,17 +1,15 @@
 <template>
-  <div>
-    <WelcomeSection
-      v-if="portfolio.WelcomeSection"
-      :name="user.name"
-      :title="user.title"
-      :specialization="user.specialization"
-    />
-    <AboutSection v-if="portfolio.AboutSection" :bio="user.bio" />
-    <!-- <LanguagesSectionVue v-if="portfolio.LanguagesSection" /> -->
-    <ProjectsSection v-if="portfolio.ProjectsSection" />
-    <ExperienceSection v-if="portfolio.ExperienceSection" />
-    <ContactSection v-if="portfolio.ContactSection" :contacts="contacts" />
-  </div>
+  <WelcomeSection
+    v-if="portfolio.WelcomeSection"
+    :name="user.name"
+    :title="user.title"
+    :specialization="user.specialization"
+  />
+  <AboutSection v-if="portfolio.AboutSection" :bio="user.bio" />
+  <!-- <LanguagesSectionVue v-if="portfolio.LanguagesSection" /> -->
+  <ProjectsSection v-if="portfolio.ProjectsSection" />
+  <ExperienceSection v-if="portfolio.ExperienceSection" />
+  <ContactSection v-if="portfolio.ContactSection" :contacts="contacts" />
 </template>
 
 <style lang="scss" scoped>
@@ -21,13 +19,13 @@ div * {
 </style>
 
 <script>
-import WelcomeSection from './Welcome/WelcomeSection.vue'
-import AboutSection from './About/AboutSection.vue'
-import ContactSection from './Contacts/ContactSection.vue'
-import ExperienceSection from './Experiences/ExperienceSection.vue'
-import ProjectsSection from './Projects/ProjectsSection.vue'
+import WelcomeSection from '../components/01.WelcomeSection.vue'
+import AboutSection from '../components/About/AboutSection.vue'
+import ContactSection from '../components/Contacts/ContactSection.vue'
+import ExperienceSection from '../components/Experiences/ExperienceSection.vue'
+import ProjectsSection from '../components/Projects/ProjectsSection.vue'
 
-// import LanguagesSectionVue from './Languages/LanguagesSection.vue'
+// import LanguagesSectionVue from '../components/Languages/LanguagesSection.vue'
 
 export default {
   components: {
