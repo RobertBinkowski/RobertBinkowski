@@ -24,24 +24,27 @@ main {
   // Dots Background
   background-image: radial-gradient($dots-color $dots-size, transparent $dots-size);
   background-size: $dots-gap $dots-gap;
-
-  // Fade background
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0px,
-    #000000 150px,
-    #000000 calc(100% - 150px),
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent 0px,
-    #000000 150px,
-    #000000 calc(100% - 150px),
-    transparent 100%
-  );
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
+}
+@media only screen and (min-width: 1000px) {
+  main {
+    // Fade background
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0px,
+      #000000 150px,
+      #000000 calc($max-width - 150px),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0px,
+      #000000 150px,
+      #000000 calc($max-width - 150px),
+      transparent 100%
+    );
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
 }
 </style>
 

@@ -7,10 +7,24 @@
 /**
 *  Imports
 */
+/*
+    Mixins
+*/
+/**
+    Key Frames
+*/
+@keyframes pillMovement {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.5em);
+  }
+}
 /*-------------------------------------------------------------SCREEN SISES*/
 /*-------------------------------------------------------BIG*/
 /*-----------------------------------------------------SMALL*/
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px -1) {
   #projectsSection .grid {
     display: block;
   }

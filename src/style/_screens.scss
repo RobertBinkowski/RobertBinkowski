@@ -1,15 +1,16 @@
+@import 'variables';
 /*-------------------------------------------------------------SCREEN SISES*/
 /*-------------------------------------------------------BIG*/
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: $phone-size) {
 }
 /*-----------------------------------------------------SMALL*/
-@media only screen and (max-width: 767px) {
-    #projectsSection {
-        .grid {
-            display: block;
-            .project {
-                margin: 1em;
-            }
-        }
+@media only screen and (max-width: #{$phone-size -1}) {
+  #projectsSection {
+    .grid {
+      display: block;
+      .project {
+        margin: 1em;
+      }
     }
+  }
 }
