@@ -1,6 +1,9 @@
 <template>
   <footer>
     <logoSVG />
+    <div id="footer-links">
+      <linkComponent v-for="link in links" :key="link.id" :link="link"></linkComponent>
+    </div>
     <p>Designed and developed by <strong>Robert Binkowski</strong></p>
     <p id="license" xmlns:cc="http://creativecommons.org/ns#">
       This work is licensed under
@@ -61,11 +64,13 @@ footer {
 
 <script>
 import LogoSVG from '@/components/_logo.vue'
+import linkComponent from './linkComponent.vue'
 
 export default {
   name: 'footerView',
   components: {
     LogoSVG,
+    linkComponent,
   },
   props: {
     links: {

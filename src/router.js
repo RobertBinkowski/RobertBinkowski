@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    component: () => import('./layouts/index.vue'),
+    component: () => import('./views/index.vue'),
     name: 'portfolio',
     meta: {
       beta: true,

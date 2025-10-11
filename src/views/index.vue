@@ -19,11 +19,11 @@ div * {
 </style>
 
 <script>
-import WelcomeSection from '../components/01.WelcomeSection.vue'
-import AboutSection from '../components/About/AboutSection.vue'
-import ContactSection from '../components/Contacts/ContactSection.vue'
-import ExperienceSection from '../components/Experiences/ExperienceSection.vue'
-import ProjectsSection from '../components/Projects/ProjectsSection.vue'
+import WelcomeSection from '@/layouts/01.WelcomeSection.vue'
+import AboutSection from '@/layouts/About/AboutSection.vue'
+import ContactSection from '@/layouts/Contacts/ContactSection.vue'
+import ExperienceSection from '@/layouts/Experiences/ExperienceSection.vue'
+import ProjectsSection from '@/layouts/Projects/ProjectsSection.vue'
 
 // import LanguagesSectionVue from '../components/Languages/LanguagesSection.vue'
 

@@ -6,16 +6,23 @@
         <router-link :to="{ name: 'portfolio' }">
           <LogoSVG />
         </router-link>
+        <!-- Page Title -->
+        <div>
+          <div v-if="inBeta" id="beta">BETA</div>
+          <!-- <h2 v-if="currentPageTitle">
+                        {{ currentPageTitle }}
+                    </h2> -->
+        </div>
       </div>
 
       <!-- Navigation Links -->
       <div class="nav-content">
         <router-link class="router-link" :to="{ name: 'portfolio' }"> PORTFOLIO </router-link>
-        <!-- <router-link class="router-link" :to="{ name: 'articles.index' }"> ARTICLES </router-link>
-        <router-link class="router-link" :to="{ name: 'projects.index' }"> PROJECTS </router-link> -->
-        <!-- <router-link v-if="user" class="router-link" :to="{ name: 'dashboard' }">
+        <router-link class="router-link" :to="{ name: 'articles.index' }"> ARTICLES </router-link>
+        <router-link class="router-link" :to="{ name: 'projects.index' }"> PROJECTS </router-link>
+        <router-link v-if="user" class="router-link" :to="{ name: 'dashboard' }">
           DASHBOARD
-        </router-link> -->
+        </router-link>
         <!-- Progress Bar -->
         <div class="progress-bar" :style="{ width: progressBarWidth }"></div>
       </div>
@@ -46,9 +53,9 @@
 
 <script>
 import LogoSVG from '@/components/_logo.vue'
-import linkComponent from '../temp/linkComponent.vue'
-import tagComponent from '../temp/tagComponent.vue'
-import userComponent from '../temp/userComponent.vue'
+import linkComponent from './linkComponent.vue'
+import tagComponent from './tagComponent.vue'
+import userComponent from './userComponent.vue'
 
 export default {
   name: 'navigationView',
