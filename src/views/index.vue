@@ -15,7 +15,7 @@
 <script>
 import WelcomeSection from '@/layouts/01.WelcomeSection.vue'
 import AboutSection from '@/layouts/About/AboutSection.vue'
-import ContactSection from '@/layouts/Contacts/ContactSection.vue'
+import ContactSection from '@/layouts/06.ContactSection.vue'
 import ExperienceSection from '@/layouts/Experiences/ExperienceSection.vue'
 import ProjectsSection from '@/layouts/Projects/ProjectsSection.vue'
 

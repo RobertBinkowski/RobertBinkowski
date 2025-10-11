@@ -21,9 +21,11 @@
       </div>
 
       <div class="right-corner">
-        <linkComponent v-for="link in links" :key="link.id" :link="link"></linkComponent>
-        <!-- Authenticated User Component -->
-        <userComponent v-if="user" :user="user" @logout="logout"></userComponent>
+        <linkComponent
+          v-for="contact in contacts"
+          :key="contact.id"
+          :link="contact"
+        ></linkComponent>
       </div>
 
       <!-- Navigation Hamburger -->
@@ -47,19 +49,15 @@
 <script>
 import LogoSVG from '@/components/_logo.vue'
 import linkComponent from '../temp/linkComponent.vue'
-import tagComponent from '../temp/tagComponent.vue'
-import userComponent from '../temp/userComponent.vue'
 
 export default {
   name: 'navigationView',
   components: {
     LogoSVG,
     linkComponent,
-    tagComponent,
-    userComponent,
   },
   props: {
-    links: {
+    contacts: {
       type: Array,
       required: false,
     },

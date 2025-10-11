@@ -1,15 +1,15 @@
 <template>
   <div>
     <!-- Navigation -->
-    <Navigation></Navigation>
+    <Navigation :contacts="contacts"></Navigation>
 
     <main>
       <!-- Router Link -->
-      <router-view />
+      <router-view :contacts="contacts" />
     </main>
 
     <!-- Main Footer -->
-    <FooterFile></FooterFile>
+    <FooterFile :contacts="contacts"></FooterFile>
   </div>
 </template>
 
@@ -58,6 +58,17 @@ export default {
   components: {
     Navigation,
     FooterFile,
+  },
+  data() {
+    return {
+      contacts: [
+        {
+          name: 'LinkedIn',
+          icon: 'fa-brands fa-linkedin',
+          link: 'https://www.linkedin.com/in/robert-binkowski-9bb565195/',
+        },
+      ],
+    }
   },
 }
 </script>
