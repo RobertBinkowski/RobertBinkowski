@@ -18,7 +18,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use '@/style/variables' as *;
+
 .contact_link {
   font-size: 2em;
+  &:hover {
+    color: $acc-1;
+  }
 }
 </style>

@@ -18,7 +18,6 @@
 @use '@/style/variables' as *;
 #contactSection {
   .contacts {
-    padding: 1em;
     a {
       margin: 1em;
       i {

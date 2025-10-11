@@ -48,7 +48,7 @@
 
 <script>
 import LogoSVG from '@/components/_logo.vue'
-import linkComponent from '../temp/linkComponent.vue'
+import linkComponent from './linkComponent.vue'
 
 export default {
   name: 'navigationView',
@@ -70,18 +70,11 @@ export default {
     currentPageTitle() {
       return this.$route.meta.title || false
     },
-    inBeta() {
-      return this.$route.meta.beta || false
-    },
   },
   data() {
     return {
       progressBarWidth: '0%',
       openNav: false,
-      betaTag: {
-        name: 'BETA',
-        color: '#1792df',
-      },
     }
   },
   mounted() {
@@ -156,24 +149,7 @@ export default {
           height: 2.2rem;
           stroke-width: 1.2;
           padding: 0.4em;
-          border: 1px solid $txt;
-          border-radius: $rad-1;
-          background-color: rgba($bg, 0.6);
-
-          &:hover {
-            stroke-width: 1.7;
-            background-color: rgba($bg, 0.8);
-          }
         }
-      }
-      #beta {
-        rotate: -20deg;
-        margin: 1.3em 0 0 -1em;
-        margin-left: 0.01em;
-        padding: 0.1em 0.3em;
-        background-color: $acc-1;
-        border-radius: $rad-2;
-        color: $txt-light;
       }
     }
 
@@ -285,25 +261,16 @@ export default {
         flex-direction: row;
         align-items: center;
 
-        @include boxShadow();
         @include backgroundBlur();
         overflow: hidden;
       }
       .right-corner {
         padding: 0 1em;
 
-        // @include boxShadow();
-        // @include backgroundBlur();
-        // border-radius: $rad-1;
+        @include boxShadow();
+        @include backgroundBlur();
+        border-radius: $rad-1;
       }
-
-      // .left-corner {
-      //   padding: 0.5em 1em;
-
-      //   @include boxShadow();
-      //   @include backgroundBlur();
-      //   border-radius: $rad-1;
-      // }
 
       #expand-notification {
         display: none;
@@ -336,6 +303,12 @@ export default {
         a {
           text-align: center;
           padding: 1em;
+        }
+      }
+      .right-corner {
+        gap: 2em;
+        .contact_link {
+          font-size: 3em;
         }
       }
 

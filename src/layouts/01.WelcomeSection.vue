@@ -55,15 +55,13 @@
   }
   #swipe-pill {
     @include boxShadow();
-    animation: pillMovement 3s infinite ease-in-out;
-    width: 4em;
-    height: 0.5em;
+    animation: pillMovement 2s infinite ease-in-out;
+    width: 5em;
+    height: 0.4em;
     border-radius: $rad-1;
     background-color: $bg-dark;
     position: fixed;
     bottom: 1em;
-    left: 50%;
-    transform: translateX(-50%);
   }
   .icons {
     svg {
