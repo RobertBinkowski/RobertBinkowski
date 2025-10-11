@@ -1,11 +1,24 @@
-<script setup></script>
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <div>
+    <!-- Navigation -->
+    <Navigation></Navigation>
+
+    <!-- Router Link -->
+    <router-view />
+
+    <!-- Main Footer -->
+    <FooterFile></FooterFile>
+  </div>
 </template>
 
-<style scoped></style>
+<script>
+import Navigation from './components/_navigation.vue'
+import FooterFile from './components/_footer.vue'
+
+export default {
+  components: {
+    Navigation,
+    FooterFile,
+  },
+}
+</script>
