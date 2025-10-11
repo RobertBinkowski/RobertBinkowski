@@ -20,11 +20,13 @@ main {
   max-width: $max-width;
   margin: auto;
   background: $bg;
+  padding: 0;
 
   // Dots Background
   background-image: radial-gradient($dots-color $dots-size, transparent $dots-size);
   background-size: $dots-gap $dots-gap;
 }
+
 @media only screen and (min-width: 1000px) {
   main {
     // Fade background

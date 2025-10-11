@@ -41,9 +41,6 @@
   text-align: center;
   height: 100vh;
 
-  // Set top as top
-  margin-top: -10em;
-
   .square {
     @include backgroundBlur();
     @include boxShadow();
@@ -63,6 +60,8 @@
     height: 0.5em;
     border-radius: $rad-1;
     background-color: $bg-dark;
+    position: fixed;
+    bottom: 1em;
   }
   .icons {
     svg {
@@ -129,7 +128,7 @@ export default {
       const height = rect.height
       const scrolledOutPercentage = outOfView / height
 
-      scrollY.value = scrolledOutPercentage > 0.4 ? 0 : 1 - scrolledOutPercentage / 0.4
+      scrollY.value = scrolledOutPercentage > 0.2 ? 0 : 1 - scrolledOutPercentage / 0.2
     }
     onMounted(() => {
       window.addEventListener('scroll', handleScroll)
