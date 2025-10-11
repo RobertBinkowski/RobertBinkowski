@@ -6,13 +6,6 @@
         <router-link :to="{ name: 'portfolio' }">
           <LogoSVG />
         </router-link>
-        <!-- Page Title -->
-        <div>
-          <div v-if="inBeta" id="beta">BETA</div>
-          <!-- <h2 v-if="currentPageTitle">
-                        {{ currentPageTitle }}
-                    </h2> -->
-        </div>
       </div>
 
       <!-- Navigation Links -->
@@ -100,7 +93,7 @@ export default {
     this.checkScreenWidth()
     window.addEventListener('resize', this.checkScreenWidth)
   },
-  beforeDestroy() {
+  beforeUnmount() {
     // Listener for
     window.removeEventListener('scroll', this.updateProgressBar)
 

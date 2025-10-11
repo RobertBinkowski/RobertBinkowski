@@ -3,8 +3,10 @@
     <!-- Navigation -->
     <Navigation></Navigation>
 
-    <!-- Router Link -->
-    <router-view />
+    <main>
+      <!-- Router Link -->
+      <router-view />
+    </main>
 
     <!-- Main Footer -->
     <FooterFile></FooterFile>
