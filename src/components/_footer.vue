@@ -1,6 +1,9 @@
 <template>
   <footer>
     <logoSVG />
+    <div id="footer-links">
+      <linkComponent v-for="contact in contacts" :key="contact.id" :link="contact"></linkComponent>
+    </div>
     <p>Designed and developed by <strong>Robert Binkowski</strong></p>
     <p id="license" xmlns:cc="http://creativecommons.org/ns#">
       This work is licensed under
@@ -22,27 +25,23 @@
 footer {
   background: $fot-back;
   text-align: center;
-  padding-top: 4em;
+  padding-top: 2em;
   padding-bottom: 2em;
+  color: $bg;
 
   svg {
-    margin-bottom: 2em;
+    margin-bottom: 1em;
   }
 
-  p {
-    font-size: 1.2em;
-    color: $bg;
-    strong {
-      color: $acc-1;
-    }
+  strong {
+    color: $acc-1;
   }
   #footer-links {
     display: flex;
     justify-content: center;
-    margin-bottom: 2em;
+    padding-bottom: 1em;
+    gap: 1em;
     a {
-      margin: 0 1em;
-      font-size: 1.3em;
       color: $bg;
       &:hover {
         color: $acc-1;
@@ -50,7 +49,7 @@ footer {
     }
   }
   #license {
-    margin-top: 4em;
+    margin-top: 3em;
     font-size: 0.8em;
     a {
       color: $bg;
@@ -61,14 +60,16 @@ footer {
 
 <script>
 import LogoSVG from '@/components/_logo.vue'
+import linkComponent from '@/components/linkComponent.vue'
 
 export default {
   name: 'footerView',
   components: {
     LogoSVG,
+    linkComponent,
   },
   props: {
-    links: {
+    contacts: {
       type: Array,
       required: false,
     },
