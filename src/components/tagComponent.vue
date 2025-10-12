@@ -7,7 +7,7 @@
       borderColor: tag.color ? tag.color : 'darkgray',
       borderRadius: tag.color ? '1em' : '0.3em',
       cursor: tag.link ? 'pointer' : 'default',
-      // color: tag.color ? '#' + tag.color : 'white',
+      color: tag.color ? '#' + tag.color : 'white',
     }"
   >
     <span
