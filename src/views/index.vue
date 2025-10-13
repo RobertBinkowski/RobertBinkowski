@@ -6,7 +6,7 @@
     :specialization="user.specialization"
   />
   <AboutSection v-if="portfolio.AboutSection" :bio="user.bio" />
-  <LanguagesSectionVue v-if="portfolio.LanguagesSection" :languages="user.languages" />
+  <LanguagesSectionVue v-if="portfolio.LanguagesSection" :skills="user.skills" />
   <!-- <ProjectsSection v-if="portfolio.ProjectsSection" />
   <ExperienceSection v-if="portfolio.ExperienceSection" /> -->
   <ContactSection v-if="portfolio.ContactSection" :contacts="contacts" />
@@ -43,15 +43,15 @@ export default {
         title: 'Full Stack Developer | Software Developer',
         specialization: 'Back-End Development',
         bio: '',
-        languages: [
-          { name: 'CSS', color: '264DE4', link: '' },
-          { name: 'SCSS', color: 'CD6799', link: '' },
-          { name: 'Java', color: '007396', link: '' },
-          { name: 'PHP', color: '777BB4', link: '' },
-          { name: 'JavaScript', color: 'F7DF1E', link: '' },
-          { name: 'Laravel', color: 'FF2D20', link: '' },
-          { name: 'Git', color: 'F05033', link: '' },
-          { name: 'GitHub', color: '181717', link: '' },
+        skills: [
+          { name: 'CSS', color: '264DE4', exp: '3' },
+          { name: 'SCSS', color: 'CD6799', exp: '3' },
+          { name: 'Java', color: '007396', exp: '2' },
+          { name: 'PHP', color: '777BB4', exp: '5' },
+          { name: 'JavaScript', color: 'F7DF1E', exp: '1' },
+          { name: 'Laravel', color: 'FF2D20', exp: '4' },
+          { name: 'Git', color: 'F05033', exp: '4' },
+          { name: 'GitHub', color: '181717', exp: '4' },
         ],
       },
       portfolio: {

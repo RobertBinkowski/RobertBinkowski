@@ -1,23 +1,27 @@
 <template>
-  <div>
-    <tagComponent
-      class="tags"
-      v-for="language in languages"
-      :key="language"
-      :tag="language"
-    ></tagComponent>
+  <div id="skills-container">
+    <div
+      class="skill"
+      v-for="(skill, idx) in skills"
+      :key="skill.id || skill.name || idx"
+      :style="{
+        backgroundColor: skill && skill.color ? '#' + skill.color + '80' : 'gray',
+        borderColor: skill && skill.color ? skill.color : 'darkgray',
+        borderRadius: skill && skill.color ? '1em' : '0.3em',
+        color: skill && skill.color ? '#' + skill.color : 'white',
+      }"
+    >
+      <span class="tag-name">
+        {{ skill.name }}
+      </span>
+    </div>
   </div>
 </template>
 
 <script>
-import tagComponent from '@/components/tagComponent.vue'
-
 export default {
-  components: {
-    tagComponent,
-  },
   props: {
-    languages: {
+    skills: {
       type: Array,
       required: true,
     },
@@ -28,13 +32,21 @@ export default {
 <style lang="scss" scoped>
 @use '@/style/variables' as *;
 
-div {
+#skills-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 1em;
 
-  a {
+  .skill {
     font-size: 1.2em;
+    margin: 0.5em;
+    border: 1px solid currentColor;
+    cursor: default;
+
+    .tag-name {
+      margin: 0 1em;
+    }
   }
 }
 </style>
