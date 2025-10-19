@@ -6,7 +6,7 @@
     :specialization="user.specialization"
   />
   <AboutSection v-if="portfolio.AboutSection" :bio="user.bio" />
-  <LanguagesSectionVue v-if="portfolio.LanguagesSection" :skills="user.skills" />
+  <SkillsSection v-if="portfolio.SkillsSection" :skills="user.skills" />
   <!-- <ProjectsSection v-if="portfolio.ProjectsSection" />
   <ExperienceSection v-if="portfolio.ExperienceSection" /> -->
   <ContactSection v-if="portfolio.ContactSection" :contacts="contacts" />
@@ -19,12 +19,12 @@ import ContactSection from '@/layouts/06.ContactSection.vue'
 // import ExperienceSection from '@/layouts/Experiences/ExperienceSection.vue'
 // import ProjectsSection from '@/layouts/Projects/ProjectsSection.vue'
 
-import LanguagesSectionVue from '@/layouts/03.LanguagesSection.vue'
+import SkillsSection from '@/layouts/03.SkillsSection.vue'
 
 export default {
   components: {
     WelcomeSection,
-    LanguagesSectionVue,
+    SkillsSection,
     AboutSection,
     ContactSection,
     // ExperienceSection,
@@ -42,22 +42,66 @@ export default {
         name: 'Robert Binkowski',
         title: 'Full Stack Developer | Software Developer',
         specialization: 'Back-End Development',
+        // bio: [
+        //   `<p>I am a backend-leaning full stack developer with a passion for crafting reliable digital products. My day-to-day mixes modern PHP (Laravel), Vue/Vite front-ends, and the infrastructure glue that keeps deployments safe.</p>`,
+        //   `<p>I care about maintainable architecture, clear documentation, and helping teams move fastest when the work really matters.</p>`,
+        // ].join(''),
         bio: '',
         skills: [
-          { name: 'CSS', color: '264DE4', exp: '3' },
-          { name: 'SCSS', color: 'CD6799', exp: '3' },
-          { name: 'Java', color: '007396', exp: '2' },
-          { name: 'PHP', color: '777BB4', exp: '5' },
-          { name: 'JavaScript', color: 'F7DF1E', exp: '1' },
-          { name: 'Laravel', color: 'FF2D20', exp: '4' },
-          { name: 'Git', color: 'F05033', exp: '4' },
-          { name: 'GitHub', color: '181717', exp: '4' },
+          {
+            name: 'PHP',
+            color: '#777BB4',
+            years: 5,
+            level: 'Advanced',
+          },
+          {
+            name: 'Laravel',
+            color: '#FF2D20',
+            years: 4.5,
+            level: 'Advanced',
+          },
+          {
+            name: 'Vue & Vite',
+            color: '#42B883',
+            years: 3,
+            level: 'Proficient',
+          },
+          {
+            name: 'TypeScript',
+            color: '#3178C6',
+            years: 3,
+            level: 'Proficient',
+          },
+          {
+            name: 'PostgreSQL',
+            color: '#336791',
+            years: 4,
+            level: 'Advanced',
+          },
+          {
+            name: 'Docker',
+            color: '#2496ED',
+            years: 4,
+            level: 'Proficient',
+          },
+          {
+            name: 'AWS',
+            color: '#FF9900',
+            years: 3,
+            level: 'Proficient',
+          },
+          {
+            name: 'CI/CD & GitHub Actions',
+            color: '#181717',
+            years: 4,
+            level: 'Advanced',
+          },
         ],
       },
       portfolio: {
         WelcomeSection: true,
         AboutSection: true,
-        LanguagesSection: true,
+        SkillsSection: true,
         ExperienceSection: false,
         ProjectsSection: false,
         ContactSection: true,
