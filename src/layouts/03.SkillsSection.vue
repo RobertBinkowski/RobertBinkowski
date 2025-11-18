@@ -19,44 +19,8 @@
           <span v-if="skill.level">{{ skill.level }}</span>
         </div>
       </div>
-      <div
-        v-for="(skill, idx) in skills"
-        v-show="skill.name"
-        :key="`${skill.name}-${trackIndex}-${idx}`"
-        class="skill-pill"
-        :style="{
-          backgroundColor: skill && skill.color ? skill.color + '80' : 'gray',
-          borderColor: skill && skill.color ? skill.color : 'darkgray',
-          color: skill && skill.color ? '#' + skill.color : 'white',
-        }"
-      >
-        <span class="skill-pill-label">{{ skill.name }}</span>
-        <div class="skill-pill-details">
-          <span v-if="skill.years">{{ formatYears(skill.years) }}</span>
-          <span v-if="skill.years && skill.level" class="divider">•</span>
-          <span v-if="skill.level">{{ skill.level }}</span>
-        </div>
-      </div>
     </div>
     <div class="skills-wrapper backwards">
-      <div
-        v-for="(skill, idx) in skills"
-        v-show="skill.name"
-        :key="`${skill.name}-${trackIndex}-${idx}`"
-        class="skill-pill"
-        :style="{
-          backgroundColor: skill && skill.color ? skill.color + '80' : 'gray',
-          borderColor: skill && skill.color ? skill.color : 'darkgray',
-          color: skill && skill.color ? '#' + skill.color : 'white',
-        }"
-      >
-        <span class="skill-pill-label">{{ skill.name }}</span>
-        <div class="skill-pill-details">
-          <span v-if="skill.years">{{ formatYears(skill.years) }}</span>
-          <span v-if="skill.years && skill.level" class="divider">•</span>
-          <span v-if="skill.level">{{ skill.level }}</span>
-        </div>
-      </div>
       <div
         v-for="(skill, idx) in skills"
         v-show="skill.name"
@@ -81,24 +45,6 @@
         v-for="(skill, idx) in skills"
         v-show="skill.name"
         :key="`${skill.name}-${trackIndex}-${idx}`"
-        class="skill-pill"
-        :style="{
-          backgroundColor: skill && skill.color ? skill.color + '80' : 'gray',
-          borderColor: skill && skill.color ? skill.color : 'darkgray',
-          color: skill && skill.color ? '#' + skill.color : 'white',
-        }"
-      >
-        <span class="skill-pill-label">{{ skill.name }}</span>
-        <div class="skill-pill-details">
-          <span v-if="skill.years">{{ formatYears(skill.years) }}</span>
-          <span v-if="skill.years && skill.level" class="divider">•</span>
-          <span v-if="skill.level">{{ skill.level }}</span>
-        </div>
-      </div>
-      <div
-        v-for="(skill, idx) in scrambledSkills"
-        v-show="skill.name"
-        :key="`${skill.name}-${trackIndex}-scrambled-${idx}`"
         class="skill-pill"
         :style="{
           backgroundColor: skill && skill.color ? skill.color + '80' : 'gray',
