@@ -156,8 +156,9 @@ export default {
   display: flex;
   max-width: 1000px;
   gap: 1em;
+  min-height: auto;
+  max-height: auto;
   overflow: hidden;
-  position: relative;
 
   &::before,
   &::after {
@@ -188,7 +189,6 @@ export default {
     justify-items: start;
     animation: scroll 30s linear infinite;
     animation-play-state: running;
-
     &:hover {
       animation-play-state: paused;
     }
