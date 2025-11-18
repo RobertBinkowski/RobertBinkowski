@@ -117,7 +117,7 @@ export default {
           {
             name: 'GraphQL',
             color: '#E10098',
-            years: 2,
+            years: 1,
             level: 'Beginner',
           },
           {

@@ -4,7 +4,7 @@
       v-for="(track, wrapperIdx) in scrambledTracks"
       :key="`skills-track-${wrapperIdx}`"
       class="skills-wrapper"
-      :class="{ backwards: wrapperIdx === 1 }"
+      :class="{ backwards: wrapperIdx % 2 }"
     >
       <div
         v-for="(skill, idx) in track"
@@ -38,15 +38,25 @@ export default {
     },
   },
   computed: {
-    doubledSkills() {
+    chunkedSkills() {
+      const trackCount = 4
       if (!Array.isArray(this.skills)) {
-        return []
+        return Array.from({ length: trackCount }, () => [])
       }
-      return [...this.skills, ...this.skills]
+      const buckets = Array.from({ length: trackCount }, () => [])
+      this.skills.forEach((skill, index) => {
+        buckets[index % trackCount].push(skill)
+      })
+      return buckets
     },
     scrambledTracks() {
-      const trackCount = 3
-      return Array.from({ length: trackCount }, () => this.shuffleSkills(this.doubledSkills))
+      return this.chunkedSkills.map((chunk) => {
+        if (!chunk.length) {
+          return []
+        }
+        const doubledChunk = [...chunk, ...chunk]
+        return this.shuffleSkills(doubledChunk)
+      })
     },
   },
   methods: {
