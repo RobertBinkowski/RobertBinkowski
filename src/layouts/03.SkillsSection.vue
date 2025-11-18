@@ -1,21 +1,41 @@
 <template>
   <section id="skills-section">
-    <div
-      v-for="(skill, idx) in skills"
-      v-show="skill.name"
-      :key="`${skill.name}-${trackIndex}-${idx}`"
-      class="skill-pill"
-      :style="{
-        backgroundColor: skill && skill.color ? skill.color + '80' : 'gray',
-        borderColor: skill && skill.color ? skill.color : 'darkgray',
-        color: skill && skill.color ? '#' + skill.color : 'white',
-      }"
-    >
-      <span class="skill-pill-label">{{ skill.name }}</span>
-      <div class="skill-pill-details">
-        <span v-if="skill.years">{{ formatYears(skill.years) }}</span>
-        <span v-if="skill.years && skill.level" class="divider">•</span>
-        <span v-if="skill.level">{{ skill.level }}</span>
+    <div class="skills-wrapper">
+      <div
+        v-for="(skill, idx) in skills"
+        v-show="skill.name"
+        :key="`${skill.name}-${trackIndex}-${idx}`"
+        class="skill-pill"
+        :style="{
+          backgroundColor: skill && skill.color ? skill.color + '80' : 'gray',
+          borderColor: skill && skill.color ? skill.color : 'darkgray',
+          color: skill && skill.color ? '#' + skill.color : 'white',
+        }"
+      >
+        <span class="skill-pill-label">{{ skill.name }}</span>
+        <div class="skill-pill-details">
+          <span v-if="skill.years">{{ formatYears(skill.years) }}</span>
+          <span v-if="skill.years && skill.level" class="divider">•</span>
+          <span v-if="skill.level">{{ skill.level }}</span>
+        </div>
+      </div>
+      <div
+        v-for="(skill, idx) in skills"
+        v-show="skill.name"
+        :key="`${skill.name}-${trackIndex}-${idx}`"
+        class="skill-pill"
+        :style="{
+          backgroundColor: skill && skill.color ? skill.color + '80' : 'gray',
+          borderColor: skill && skill.color ? skill.color : 'darkgray',
+          color: skill && skill.color ? '#' + skill.color : 'white',
+        }"
+      >
+        <span class="skill-pill-label">{{ skill.name }}</span>
+        <div class="skill-pill-details">
+          <span v-if="skill.years">{{ formatYears(skill.years) }}</span>
+          <span v-if="skill.years && skill.level" class="divider">•</span>
+          <span v-if="skill.level">{{ skill.level }}</span>
+        </div>
       </div>
     </div>
   </section>
@@ -57,6 +77,16 @@ export default {
   // flex-direction: row;
   // flex-wrap: wrap;
   gap: 0.5em;
+  overflow: hidden;
+
+  .skills-wrapper {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    justify-items: start;
+    animation: scroll 10s linear infinite;
+    gap: 1em;
+  }
 
   .skill-pill {
     display: flex;

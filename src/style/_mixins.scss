@@ -45,3 +45,9 @@
     transform: translateY(-0.5em);
   }
 }
+
+@keyframes scroll {
+  to {
+    translate: calc(-4 * 15rem);
+  }
+}
