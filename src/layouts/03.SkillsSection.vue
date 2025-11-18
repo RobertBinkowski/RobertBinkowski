@@ -1,50 +1,15 @@
 <template>
   <section id="skills-section">
-    <div class="skills-wrapper">
+    <div
+      v-for="(track, wrapperIdx) in scrambledTracks"
+      :key="`skills-track-${wrapperIdx}`"
+      class="skills-wrapper"
+      :class="{ backwards: wrapperIdx === 1 }"
+    >
       <div
-        v-for="(skill, idx) in skills"
+        v-for="(skill, idx) in track"
         v-show="skill.name"
-        :key="`${skill.name}-${trackIndex}-${idx}`"
-        class="skill-pill"
-        :style="{
-          backgroundColor: skill && skill.color ? skill.color + '80' : 'gray',
-          borderColor: skill && skill.color ? skill.color : 'darkgray',
-          color: skill && skill.color ? '#' + skill.color : 'white',
-        }"
-      >
-        <span class="skill-pill-label">{{ skill.name }}</span>
-        <div class="skill-pill-details">
-          <span v-if="skill.years">{{ formatYears(skill.years) }}</span>
-          <span v-if="skill.years && skill.level" class="divider">•</span>
-          <span v-if="skill.level">{{ skill.level }}</span>
-        </div>
-      </div>
-    </div>
-    <div class="skills-wrapper backwards">
-      <div
-        v-for="(skill, idx) in skills"
-        v-show="skill.name"
-        :key="`${skill.name}-${trackIndex}-${idx}`"
-        class="skill-pill"
-        :style="{
-          backgroundColor: skill && skill.color ? skill.color + '80' : 'gray',
-          borderColor: skill && skill.color ? skill.color : 'darkgray',
-          color: skill && skill.color ? '#' + skill.color : 'white',
-        }"
-      >
-        <span class="skill-pill-label">{{ skill.name }}</span>
-        <div class="skill-pill-details">
-          <span v-if="skill.years">{{ formatYears(skill.years) }}</span>
-          <span v-if="skill.years && skill.level" class="divider">•</span>
-          <span v-if="skill.level">{{ skill.level }}</span>
-        </div>
-      </div>
-    </div>
-    <div class="skills-wrapper">
-      <div
-        v-for="(skill, idx) in skills"
-        v-show="skill.name"
-        :key="`${skill.name}-${trackIndex}-${idx}`"
+        :key="`${skill.name || 'skill'}-${wrapperIdx}-${idx}`"
         class="skill-pill"
         :style="{
           backgroundColor: skill && skill.color ? skill.color + '80' : 'gray',
@@ -73,15 +38,26 @@ export default {
     },
   },
   computed: {
-    scrambledSkills() {
+    doubledSkills() {
       if (!Array.isArray(this.skills)) {
         return []
       }
-      // Slice to clone so sort does not mutate incoming prop data.
-      return this.skills.slice().sort(() => Math.random() - 0.5)
+      return [...this.skills, ...this.skills]
+    },
+    scrambledTracks() {
+      const trackCount = 3
+      return Array.from({ length: trackCount }, () => this.shuffleSkills(this.doubledSkills))
     },
   },
   methods: {
+    shuffleSkills(skillsList) {
+      const clone = skillsList.slice()
+      for (let i = clone.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[clone[i], clone[j]] = [clone[j], clone[i]]
+      }
+      return clone
+    },
     formatYears(years) {
       if (typeof years !== 'number' || Number.isNaN(years)) {
         return 'Experience'
