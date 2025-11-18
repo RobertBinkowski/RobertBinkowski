@@ -157,6 +157,28 @@ export default {
   max-width: 1000px;
   gap: 1em;
   overflow: hidden;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 10rem;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(90deg, $bg 0%, rgba($bg, 0));
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(270deg, $bg 0%, rgba($bg, 0));
+  }
 
   .skills-wrapper {
     display: flex;
