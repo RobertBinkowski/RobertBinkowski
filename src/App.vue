@@ -27,7 +27,7 @@ main {
   background-size: $dots-gap $dots-gap;
 }
 
-@media only screen and (min-width: 1000px) {
+@media only screen and (min-width: $max-width) {
   main {
     // Fade background
     -webkit-mask-image: linear-gradient(
