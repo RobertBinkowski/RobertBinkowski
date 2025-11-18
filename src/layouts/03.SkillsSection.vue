@@ -155,7 +155,7 @@ export default {
     margin-right: 1em;
 
     .skill-pill-label {
-      color: white;
+      color: $txt-light;
       font-weight: 800;
       display: inline-block;
       transition: color 0.3s ease;
