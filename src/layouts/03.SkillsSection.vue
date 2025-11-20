@@ -12,9 +12,8 @@
         :key="`${skill.name || 'skill'}-${wrapperIdx}-${idx}`"
         class="skill-pill"
         :style="{
-          backgroundColor: skill && skill.color ? skill.color + '80' : 'gray',
-          borderColor: skill && skill.color ? skill.color : 'darkgray',
-          color: skill && skill.color ? '#' + skill.color : 'white',
+          backgroundColor: skill && skill.color ? skill.color + '33' : '#66666633',
+          borderColor: skill && skill.color ? skill.color : '#4a4a4a',
         }"
       >
         <span class="skill-pill-label">{{ skill.name }}</span>
@@ -141,7 +140,7 @@ export default {
     margin-right: 1em;
 
     .skill-pill-label {
-      color: $txt-light;
+      color: $txt;
       font-weight: 800;
       display: inline-block;
       transition: color 0.3s ease;
@@ -151,7 +150,8 @@ export default {
       display: flex;
       gap: 1em;
       white-space: nowrap;
-      background: linear-gradient(90deg, rgba($bg, 0.92), rgba($bg, 0.7));
+      color: $txt;
+      background: linear-gradient(90deg, rgba($bg, 0.98), rgba($bg, 0.8));
       border-radius: $rad-1;
       padding: 0.5em 1em;
       margin-left: 1em;

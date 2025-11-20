@@ -75,6 +75,7 @@ export default {
     return {
       progressBarWidth: '0%',
       openNav: false,
+      prevScreenWidth: window.innerWidth || 0,
     }
   },
   mounted() {
