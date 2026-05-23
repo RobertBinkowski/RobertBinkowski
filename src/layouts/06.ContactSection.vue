@@ -20,6 +20,7 @@
   .contacts {
     a {
       margin: 1em;
+      padding: auto;
       i {
         font-size: 1.3em;
         padding-right: 0.4em;

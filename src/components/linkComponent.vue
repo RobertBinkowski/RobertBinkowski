@@ -1,5 +1,5 @@
 <template>
-  <a :href="link.link" :name="link.name" class="contact_link">
+  <a :href="link.link" :name="link.name" class="contact_link" target="_blank">
     <i :class="link.icon"></i>
     <span v-if="name">{{ link.name }}</span>
   </a>
