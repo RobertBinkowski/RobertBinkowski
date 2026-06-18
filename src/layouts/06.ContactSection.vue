@@ -18,8 +18,11 @@
 @use '@/style/variables' as *;
 #contactSection {
   .contacts {
+    gap:1em;
+    display: flex;
+    flex-wrap: wrap;
     a {
-      margin: 1em;
+      margin: auto;
       i {
         font-size: 1.3em;
         padding-right: 0.4em;
