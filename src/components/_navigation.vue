@@ -142,6 +142,7 @@ export default {
     .left-corner {
       display: flex;
       flex-direction: row;
+      margin-top: -.5em;
       a {
         margin: 1em;
         .svg {
