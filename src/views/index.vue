@@ -1,10 +1,5 @@
 <template>
-  <WelcomeSection
-    v-if="portfolio.WelcomeSection"
-    :name="user.name"
-    :title="user.title"
-    :specialization="user.specialization"
-  />
+  <WelcomeSection v-if="portfolio.WelcomeSection" :name="user.name" :title="user.title" />
   <AboutSection v-if="portfolio.AboutSection" :bio="user.bio" />
   <SkillsSection v-if="portfolio.SkillsSection" :skills="user.skills" />
   <TimelineSection
@@ -26,7 +21,7 @@ import TimelineSection from '@/layouts/Timeline/TimelineSection.vue'
 // import ProjectsSection from '@/layouts/Projects/ProjectsSection.vue'
 
 import SkillsSection from '@/layouts/03.SkillsSection.vue'
-import { timelineBranches, timelineMain } from '@/data/timeline'
+import { timelineBranches, timelineMain, getCurrentRoleHeadline } from '@/data/timeline'
 
 export default {
   name: 'HomeView',
@@ -51,8 +46,7 @@ export default {
       timelineBranches,
       user: {
         name: 'Robert Binkowski',
-        title: 'Full Stack Developer | Software Developer',
-        specialization: 'Back-End Development',
+        title: getCurrentRoleHeadline() ?? 'Software Developer',
         // bio: [
         //   `<p>I am a backend-leaning full stack developer with a passion for crafting reliable digital products. My day-to-day mixes modern PHP (Laravel), Vue/Vite front-ends, and the infrastructure glue that keeps deployments safe.</p>`,
         //   `<p>I care about maintainable architecture, clear documentation, and helping teams move fastest when the work really matters.</p>`,

@@ -164,3 +164,35 @@ export const timelineBranches = [
     ],
   },
 ]
+
+const parseMonthValue = (value) => {
+  if (!value) {
+    return 0
+  }
+
+  const [year, month = '01'] = value.split('-')
+  return Number(year) * 12 + Number(month)
+}
+
+/** Current open role headline for the welcome section, e.g. "Software Engineer @ Learnosity". */
+export const getCurrentRoleHeadline = () => {
+  const workBranch = timelineBranches.find((branch) => branch.id === 'work')
+  if (!workBranch) {
+    return null
+  }
+
+  const openRoles = workBranch.entries.flatMap((entry) =>
+    (entry.roles || [])
+      .filter((role) => !role.end)
+      .map((role) => ({ role, organization: entry.organization })),
+  )
+
+  if (!openRoles.length) {
+    return null
+  }
+
+  openRoles.sort((left, right) => parseMonthValue(right.role.start) - parseMonthValue(left.role.start))
+
+  const { role, organization } = openRoles[0]
+  return `${role.title} @ ${organization}`
+}

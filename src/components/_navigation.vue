@@ -269,8 +269,9 @@ export default {
       .nav-content {
         flex-direction: row;
         align-items: center;
-        flex: 1 1 auto;
-        min-width: 0;
+        flex: 0 0 auto;
+        width: fit-content;
+        max-width: none;
 
         @include backgroundBlur();
         overflow: hidden;
