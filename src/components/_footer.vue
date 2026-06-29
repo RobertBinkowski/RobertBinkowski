@@ -28,6 +28,10 @@ footer {
   padding-top: 2em;
   padding-bottom: 2em;
   color: $bg;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: clip;
 
   svg {
     margin-bottom: 1em;

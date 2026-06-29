@@ -86,11 +86,13 @@ export default {
 
 #skills-section {
   display: flex;
-  max-width: 1000px;
+  width: 100%;
+  max-width: min(1000px, 100%);
   gap: 1em;
   min-height: auto;
-  max-height: auto;
+  max-height: none;
   overflow: hidden;
+  box-sizing: border-box;
 
   &::before,
   &::after {
@@ -98,7 +100,7 @@ export default {
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 10rem;
+    width: min(10rem, 18vw);
     pointer-events: none;
     z-index: 2;
   }
@@ -149,13 +151,34 @@ export default {
 
     .skill-pill-details {
       display: flex;
-      gap: 1em;
-      white-space: nowrap;
+      flex-wrap: wrap;
+      gap: 0.5em;
       background: linear-gradient(90deg, rgba($bg, 0.92), rgba($bg, 0.7));
       border-radius: $rad-1;
-      padding: 0.5em 1em;
-      margin-left: 1em;
-      margin-right: -1em;
+      padding: 0.5em 0.75em;
+      margin-left: 0.75em;
+      margin-right: -0.75em;
+    }
+  }
+}
+
+@media only screen and (max-width: $compact-size) {
+  #skills-section {
+    &::before,
+    &::after {
+      width: min(4rem, 10vw);
+    }
+
+    .skill-pill {
+      padding: 0 0.65em;
+      margin-right: 0.65em;
+
+      .skill-pill-details {
+        margin-left: 0.5em;
+        margin-right: -0.5em;
+        padding: 0.35em 0.6em;
+        font-size: 0.85rem;
+      }
     }
   }
 }

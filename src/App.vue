@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-shell">
     <!-- Navigation -->
     <Navigation :contacts="contacts"></Navigation>
 
@@ -16,11 +16,19 @@
 <style lang="scss" scoped>
 @use '@/style/variables' as *;
 
+.app-shell {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 main {
-  max-width: $max-width;
+  max-width: min($max-width, 100%);
+  width: 100%;
   margin: auto;
   background: $bg;
   padding: 0;
+  box-sizing: border-box;
 
   // Dots Background
   background-image: radial-gradient($dots-color $dots-size, transparent $dots-size);

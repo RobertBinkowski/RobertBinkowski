@@ -58,18 +58,24 @@
  ***********************************************/
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
+
   body {
     font-family: 'Nunito', sans-serif;
     padding: 0;
     margin: 0;
-    overflow-x: hidden;
+    overflow-x: clip;
+    max-width: 100%;
     background: $bg;
     color: $txt;
     text-shadow: 1px 1px 1px $shadow;
+
     main {
       min-height: 100vh;
       padding-bottom: 1em;
       padding-top: 5em;
+      max-width: 100%;
+      overflow-x: clip;
     }
     h1,
     h2 {
@@ -117,12 +123,37 @@ li {
 
 section {
   @include flexCenter();
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
   padding: 1em;
   margin-right: 0;
   margin: auto;
   min-height: 60vh;
   border-radius: $rad-2;
   position: relative;
+  overflow-x: clip;
+}
+
+// Portfolio content sections should size to their content, not 60vh flex boxes.
+#timelineSection,
+#skills-section,
+#contactSection,
+#aboutSection {
+  display: block;
+  min-height: auto;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+@media only screen and (max-width: $compact-size) {
+  section {
+    padding: 0.75em;
+  }
+
+  #welcomeSection {
+    padding: 0.5em;
+  }
 }
 
 form {

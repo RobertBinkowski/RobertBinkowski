@@ -17,6 +17,11 @@
 <style lang="scss">
 @use '@/style/variables' as *;
 #contactSection {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: clip;
+
   .contacts {
     gap:1em;
     display: flex;

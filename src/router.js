@@ -12,7 +12,20 @@ const routes = [
   },
 ]
 
+const navOffset = 72
+
 export default createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+  scrollBehavior(to) {
+    if (to.hash) {
+      return {
+        el: to.hash,
+        top: navOffset,
+        behavior: 'smooth',
+      }
+    }
+
+    return { top: 0 }
+  },
 })

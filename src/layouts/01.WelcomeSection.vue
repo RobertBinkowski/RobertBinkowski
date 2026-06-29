@@ -40,13 +40,18 @@
 #welcomeSection {
   text-align: center;
   height: 100vh;
+  max-width: 100%;
+  overflow-x: clip;
+  box-sizing: border-box;
 
   .square {
     @include backgroundBlur();
     @include boxShadow();
-    padding: 4em;
+    padding: clamp(1.25em, 5vw, 4em);
     border-radius: $rad-2;
     margin: auto;
+    max-width: calc(100% - 2em);
+    box-sizing: border-box;
     h1 {
       font-size: clamp(3rem, 1rem + 2vw, 5rem);
       margin: 0;

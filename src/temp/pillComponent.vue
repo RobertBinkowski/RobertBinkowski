@@ -24,5 +24,8 @@ export default {
     background-color: $acc-1;
     border-radius: $rad-1;
     color: $txt-light;
+    max-width: calc(100% - 1em);
+    overflow-wrap: anywhere;
+    text-align: center;
 }
 </style>

@@ -7,6 +7,11 @@
   />
   <AboutSection v-if="portfolio.AboutSection" :bio="user.bio" />
   <SkillsSection v-if="portfolio.SkillsSection" :skills="user.skills" />
+  <TimelineSection
+    v-if="portfolio.TimelineSection"
+    :main-branch="timelineMain"
+    :branches="timelineBranches"
+  />
   <!-- <ProjectsSection v-if="portfolio.ProjectsSection" />
   <ExperienceSection v-if="portfolio.ExperienceSection" /> -->
   <ContactSection v-if="portfolio.ContactSection" :contacts="contacts" />
@@ -16,16 +21,20 @@
 import WelcomeSection from '@/layouts/01.WelcomeSection.vue'
 import AboutSection from '@/layouts/About/AboutSection.vue'
 import ContactSection from '@/layouts/06.ContactSection.vue'
+import TimelineSection from '@/layouts/Timeline/TimelineSection.vue'
 // import ExperienceSection from '@/layouts/Experiences/ExperienceSection.vue'
 // import ProjectsSection from '@/layouts/Projects/ProjectsSection.vue'
 
 import SkillsSection from '@/layouts/03.SkillsSection.vue'
+import { timelineBranches, timelineMain } from '@/data/timeline'
 
 export default {
+  name: 'HomeView',
   components: {
     WelcomeSection,
     SkillsSection,
     AboutSection,
+    TimelineSection,
     ContactSection,
     // ExperienceSection,
     // ProjectsSection,
@@ -38,6 +47,8 @@ export default {
   },
   data() {
     return {
+      timelineMain,
+      timelineBranches,
       user: {
         name: 'Robert Binkowski',
         title: 'Full Stack Developer | Software Developer',
@@ -180,6 +191,7 @@ export default {
         WelcomeSection: true,
         AboutSection: true,
         SkillsSection: true,
+        TimelineSection: true,
         ExperienceSection: false,
         ProjectsSection: false,
         ContactSection: true,
