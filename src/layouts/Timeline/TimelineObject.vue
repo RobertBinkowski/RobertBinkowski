@@ -28,8 +28,13 @@
       </component>
     </header>
 
-    <div class="role-list" :class="{ 'role-list--linked': displayRoles.length > 1 }">
-      <div v-for="displayRole in displayRoles" :key="displayRole.id" class="role-card">
+    <div class="role-list">
+      <div
+        v-for="displayRole in displayRoles"
+        :key="displayRole.id"
+        class="role-card"
+        :data-role-id="displayRole.id"
+      >
         <div class="role-header">
           <h4 class="role-title">{{ displayRole.title }}</h4>
           <p v-if="roleDateLabel(displayRole)" class="role-period">
@@ -359,51 +364,6 @@ export default {
       padding-top: 1rem;
       border-top: none;
       box-shadow: inset 0 8px 8px -8px rgba($bg-dark, 0.08);
-    }
-  }
-
-  // When one job holds several roles, draw a small git-style lane connecting
-  // them. The lane lives in a gutter left of the cards (margin, not padding)
-  // so the separator border between roles never crosses it.
-  .role-list--linked {
-    .role-card {
-      position: relative;
-      margin-left: 1.35rem;
-
-      // Node marker aligned with the role title.
-      &::before {
-        content: '';
-        position: absolute;
-        left: -1.35rem;
-        top: 0.2rem;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: var(--branch-accent);
-        box-shadow: 0 0 0 2px $txt-light;
-        z-index: 1;
-      }
-
-      & + .role-card::before {
-        top: 1.05rem;
-      }
-
-      // Connector line running from this role's node to the next one.
-      &:not(:last-child)::after {
-        content: '';
-        position: absolute;
-        left: calc(-1.35rem + 3.5px);
-        top: calc(0.2rem + 5px);
-        bottom: calc(-1.9rem - 5px);
-        width: 3px;
-        border-radius: 999px;
-        background: var(--branch-accent);
-        opacity: 0.35;
-      }
-
-      & + .role-card:not(:last-child)::after {
-        top: calc(1.05rem + 5px);
-      }
     }
   }
 

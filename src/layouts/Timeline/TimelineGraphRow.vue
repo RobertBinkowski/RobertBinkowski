@@ -43,6 +43,19 @@
       class="git-graph__lane git-graph__branch"
     />
 
+    <!-- Role milestones along the branch (multi-role jobs) -->
+    <circle
+      v-for="marker in roleMarkers"
+      :key="marker.roleId"
+      :cx="laneX(item.lane)"
+      :cy="marker.y"
+      :r="highlighted ? 6 : 5"
+      :fill="branchColor"
+      stroke="#fff"
+      :stroke-width="highlighted ? 2.5 : 2"
+      class="git-graph__lane git-graph__branch"
+    />
+
     <!-- Fork junction on the trunk (job start) — solid main-colour dot -->
     <circle
       v-if="item.lane > 0 && forksHere"
@@ -77,7 +90,8 @@
 </template>
 
 <script>
-const LANE_WIDTH = 18
+import { graphWidth, laneX as graphLaneX } from './graphLayout.js'
+
 const CORNER = 10
 // ~2em of vertical run before a fork/merge curve begins (viewBox units ≈ px).
 const CURVE_LEAD = 32
@@ -109,6 +123,10 @@ export default {
       type: Number,
       default: 120,
     },
+    roleMarkers: {
+      type: Array,
+      default: () => [],
+    },
     highlighted: {
       type: Boolean,
       default: false,
@@ -116,7 +134,7 @@ export default {
   },
   computed: {
     width() {
-      return (this.maxLane + 1) * LANE_WIDTH + 4
+      return graphWidth(this.maxLane)
     },
     forksHere() {
       return this.item.lane > 0
@@ -186,7 +204,7 @@ export default {
   },
   methods: {
     laneX(lane) {
-      return lane * LANE_WIDTH + LANE_WIDTH / 2 + 2
+      return graphLaneX(lane)
     },
     strokeWidth(lane) {
       if (this.highlighted && lane === this.item.lane) {

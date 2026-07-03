@@ -19,7 +19,35 @@
           stroke-width="5"
           stroke-linecap="round"
         />
+        <line
+          v-for="marker in yearMarkers"
+          :key="`tick-${marker.year}`"
+          :x1="trunkX - 5"
+          :y1="marker.y"
+          :x2="trunkX + 5"
+          :y2="marker.y"
+          :stroke="mainBranch.color || '#005b90'"
+          stroke-width="2"
+          stroke-linecap="round"
+          opacity="0.55"
+        />
       </svg>
+
+      <div
+        v-if="yearMarkers.length"
+        class="trunk-years"
+        :style="{ height: `${trunkHeight}px` }"
+        aria-hidden="true"
+      >
+        <span
+          v-for="marker in yearMarkers"
+          :key="marker.year"
+          class="trunk-year"
+          :style="{ top: `${marker.y}px` }"
+        >
+          {{ marker.year }}
+        </span>
+      </div>
 
       <div
         v-for="item in timelineItems"
@@ -40,6 +68,7 @@
             :main-color="mainBranch.color || '#005b90'"
             :branch-color="item.branch.color || '#2b9b62'"
             :height="rowHeights[item.id] || 100"
+            :role-markers="roleLayouts[item.id] || []"
             :highlighted="hoveredId === item.id"
           />
         </div>
@@ -59,9 +88,7 @@
 <script>
 import TimelineGraphRow from './TimelineGraphRow.vue'
 import TimelineObject from './TimelineObject.vue'
-
-const LANE_WIDTH = 18
-const ROW_GAP = 8 // matches .timeline-graph gap (0.5rem)
+import { GRAPH_LABEL_GUTTER, LANE_WIDTH, ROW_GAP, graphWidth, laneX } from './graphLayout.js'
 
 const parseMonthValue = (value) => {
   if (!value) {
@@ -133,15 +160,17 @@ export default {
   data() {
     return {
       rowHeights: {},
+      roleLayouts: {},
       hoveredId: null,
+      resizeObserver: null,
     }
   },
   computed: {
     graphColumnStyle() {
-      const width = (this.maxLane + 1) * 18 + 4
-
       return {
-        '--graph-width': `${width}px`,
+        '--graph-width': `${graphWidth(this.maxLane)}px`,
+        '--graph-gutter': `${GRAPH_LABEL_GUTTER}px`,
+        '--main-color': this.mainBranch.color || '#005b90',
       }
     },
     rawItems() {
@@ -171,10 +200,10 @@ export default {
       return this.laneData.maxLane
     },
     trunkWidth() {
-      return (this.maxLane + 1) * LANE_WIDTH + 4
+      return graphWidth(this.maxLane)
     },
     trunkX() {
-      return LANE_WIDTH / 2 + 2
+      return laneX(0)
     },
     trunkHeight() {
       const rows = this.timelineItems
@@ -185,6 +214,56 @@ export default {
       const heights = rows.map((item) => this.rowHeights[item.id] || 0)
       const total = heights.reduce((sum, height) => sum + height, 0)
       return total + ROW_GAP * Math.max(rows.length - 1, 0)
+    },
+    timelineBounds() {
+      const items = this.rawItems
+
+      if (!items.length) {
+        return null
+      }
+
+      const nowMonth = this.currentMonthValue()
+      let oldest = Number.POSITIVE_INFINITY
+      let newest = Number.NEGATIVE_INFINITY
+
+      for (const item of items) {
+        oldest = Math.min(oldest, item.startMonth)
+        const end = Number.isFinite(item.endMonth) ? item.endMonth : nowMonth
+        newest = Math.max(newest, end)
+      }
+
+      if (!Number.isFinite(oldest) || !Number.isFinite(newest) || newest <= oldest) {
+        return null
+      }
+
+      return { oldest, newest }
+    },
+    yearMarkers() {
+      const bounds = this.timelineBounds
+      const height = this.trunkHeight
+
+      if (!bounds || height <= 0) {
+        return []
+      }
+
+      const { oldest, newest } = bounds
+      const span = newest - oldest
+      const minY = 14
+      const maxY = height - 14
+      const markers = []
+
+      for (let year = Math.ceil(newest / 12); year >= Math.floor(oldest / 12); year -= 1) {
+        const monthValue = year * 12 + 1
+        const y = ((newest - monthValue) / span) * height
+
+        if (y < minY || y > maxY) {
+          continue
+        }
+
+        markers.push({ year, y })
+      }
+
+      return markers
     },
     timelineItems() {
       const { lanes } = this.laneData
@@ -239,18 +318,28 @@ export default {
   watch: {
     timelineItems: {
       handler() {
-        this.$nextTick(this.measureRows)
+        this.$nextTick(() => {
+          this.measureRows()
+          this.observeRows()
+        })
       },
       immediate: true,
     },
   },
   mounted() {
     window.addEventListener('resize', this.measureRows)
+    this.resizeObserver = new ResizeObserver(() => this.measureRows())
+    this.$nextTick(this.observeRows)
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.measureRows)
+    this.resizeObserver?.disconnect()
   },
   methods: {
+    currentMonthValue() {
+      const now = new Date()
+      return now.getUTCFullYear() * 12 + (now.getUTCMonth() + 1)
+    },
     measureRows() {
       const rows = this.$refs.experienceRows
 
@@ -259,16 +348,62 @@ export default {
       }
 
       const nextHeights = {}
+      const nextRoleLayouts = {}
 
       ;(Array.isArray(rows) ? rows : [rows]).forEach((row, index) => {
         const item = this.timelineItems[index]
         if (item && row) {
           const content = row.querySelector('.experience-content')
           nextHeights[item.id] = Math.max(content?.offsetHeight || row.offsetHeight, 72)
+          nextRoleLayouts[item.id] = this.measureRoleMarkers(content)
         }
       })
 
       this.rowHeights = nextHeights
+      this.roleLayouts = nextRoleLayouts
+    },
+    measureRoleMarkers(content) {
+      if (!content) {
+        return []
+      }
+
+      const roleCards = content.querySelectorAll('.role-card')
+
+      if (roleCards.length < 2) {
+        return []
+      }
+
+      const contentTop = content.getBoundingClientRect().top
+
+      return Array.from(roleCards).map((card) => {
+        const header = card.querySelector('.role-header') || card
+        const headerRect = header.getBoundingClientRect()
+        const y = headerRect.top - contentTop + headerRect.height / 2
+
+        return {
+          roleId: card.dataset.roleId || '',
+          y,
+        }
+      })
+    },
+    observeRows() {
+      if (!this.resizeObserver) {
+        return
+      }
+
+      this.resizeObserver.disconnect()
+      const rows = this.$refs.experienceRows
+
+      if (!rows) {
+        return
+      }
+
+      ;(Array.isArray(rows) ? rows : [rows]).forEach((row) => {
+        const content = row.querySelector('.experience-content')
+        if (content) {
+          this.resizeObserver.observe(content)
+        }
+      })
     },
     branchStyle(branch) {
       const accent = branch.color || '#005b90'
@@ -335,6 +470,28 @@ export default {
     width: var(--graph-width);
     pointer-events: none;
     z-index: 0;
+  }
+
+  .trunk-years {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--graph-gutter);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .trunk-year {
+    position: absolute;
+    right: 0.2rem;
+    transform: translateY(-50%);
+    font-size: 0.62rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--main-color);
+    opacity: 0.72;
+    white-space: nowrap;
   }
 
   .experience-row {
