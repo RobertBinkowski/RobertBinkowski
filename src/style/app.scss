@@ -75,7 +75,8 @@ html {
       padding-bottom: 1em;
       padding-top: 5em;
       max-width: 100%;
-      overflow-x: clip;
+      // No overflow clipping here: the dots background layer intentionally
+      // extends past the content width and is clipped by .app-shell instead.
     }
     h1,
     h2 {

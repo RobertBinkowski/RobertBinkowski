@@ -23,7 +23,7 @@ $txt: #202938;
 $txt-grey: #797979;
 $txt-light: #ffffff;
 
-$blur: 15px;
+$blur: 30px;
 
 $button-hover: #00908740;
 
@@ -31,6 +31,7 @@ $button-hover: #00908740;
 $dots-size: 1.5px;
 $dots-gap: 2em;
 $dots-color: #8280a6;
+$dots-extend: 300px; // how far the dots reach past the content before fading out
 
 $tr-f: 0.1s;
 $tr-s: 0.3s;
