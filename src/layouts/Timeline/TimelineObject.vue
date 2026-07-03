@@ -7,18 +7,16 @@
             <img v-if="entry.logo" :src="entry.logo" :alt="`${entry.organization} logo`" />
             <span v-else class="brand-fallback">{{ initials }}</span>
           </div>
-          <p v-if="entryPeriod" class="entry-period">
-            <span class="entry-period-line"
-              >{{ formatMonthYear(entryPeriod.start) }} -
-              {{ entryPeriod.end ? formatMonthYear(entryPeriod.end) : 'Present' }}</span
-            >
-          </p>
         </div>
 
         <div class="entry-copy">
           <div class="entry-name-row">
             <p class="entry-name">{{ entry.organization }}</p>
             <span v-if="branchLabel" class="branch-badge">{{ branchLabel }}</span>
+            <p v-if="showEntryPeriod" class="entry-period">
+              {{ formatMonthYear(entryPeriod.start) }} -
+              {{ entryPeriod.end ? formatMonthYear(entryPeriod.end) : 'Present' }}
+            </p>
           </div>
           <p v-if="entry.tagline" class="entry-tagline">{{ entry.tagline }}</p>
           <div v-if="metaItems.length" class="entry-meta">
@@ -33,15 +31,12 @@
     <div class="role-list" :class="{ 'role-list--linked': displayRoles.length > 1 }">
       <div v-for="displayRole in displayRoles" :key="displayRole.id" class="role-card">
         <div class="role-header">
-          <div class="role-copy">
-            <h4 class="role-title">{{ displayRole.title }}</h4>
-            <p v-if="displayRole.subtitle" class="role-subtitle">{{ displayRole.subtitle }}</p>
-          </div>
-          <p class="role-period">
-            {{ formatMonthYear(displayRole.start) }} -
-            {{ displayRole.end ? formatMonthYear(displayRole.end) : 'Present' }}
+          <h4 class="role-title">{{ displayRole.title }}</h4>
+          <p v-if="roleDateLabel(displayRole)" class="role-period">
+            {{ roleDateLabel(displayRole) }}
           </p>
         </div>
+        <p v-if="displayRole.subtitle" class="role-subtitle">{{ displayRole.subtitle }}</p>
 
         <p v-if="displayRole.summary" class="role-summary">
           {{ displayRole.summary }}
@@ -54,7 +49,13 @@
         </ul>
 
         <div v-if="displayRole.stack && displayRole.stack.length" class="role-stack">
-          <span v-for="skill in displayRole.stack" :key="skill">{{ skill }}</span>
+          <skillPill
+            v-for="skill in stackSkills(displayRole)"
+            :key="skill.name"
+            :skill="skill"
+            variant="experience"
+            :compact="true"
+          ></skillPill>
         </div>
       </div>
     </div>
@@ -62,6 +63,9 @@
 </template>
 
 <script>
+import skillPill from '@/components/skillPill.vue'
+import { resolveSkill } from '@/data/skills'
+
 const monthFormatter = new Intl.DateTimeFormat('en', {
   month: 'short',
   year: 'numeric',
@@ -89,6 +93,9 @@ const compareRoles = (leftRole, rightRole) => {
 
 export default {
   name: 'TimelineObject',
+  components: {
+    skillPill,
+  },
   props: {
     branch: {
       type: Object,
@@ -127,6 +134,9 @@ export default {
     displayRoles() {
       return [...(this.entry.roles || [])].sort(compareRoles)
     },
+    showEntryPeriod() {
+      return this.displayRoles.length > 1 && this.entryPeriod
+    },
     brandAttributes() {
       if (!this.entry.website) {
         return {}
@@ -162,6 +172,41 @@ export default {
       const [year, month = '01'] = value.split('-').map(Number)
       return monthFormatter.format(new Date(Date.UTC(year, month - 1, 1)))
     },
+    stackSkills(role) {
+      return (role.stack || []).map((name) => resolveSkill(name) || { name })
+    },
+    roleDateLabel(role) {
+      if (this.displayRoles.length > 1) {
+        return this.formatRoleDuration(role.start, role.end)
+      }
+
+      return `${this.formatMonthYear(role.start)} - ${
+        role.end ? this.formatMonthYear(role.end) : 'Present'
+      }`
+    },
+    formatRoleDuration(start, end) {
+      const startMonths = parseMonthValue(start)
+      const endMonths = end ? parseMonthValue(end) : parseMonthValue(this.currentMonth())
+      const totalMonths = Math.max(endMonths - startMonths, 1)
+
+      if (totalMonths < 12) {
+        return `${totalMonths} mos`
+      }
+
+      const years = Math.floor(totalMonths / 12)
+      const months = totalMonths % 12
+
+      if (!months) {
+        return `${years} yr${years === 1 ? '' : 's'}`
+      }
+
+      return `${years} yr${years === 1 ? '' : 's'} ${months} mo${months === 1 ? '' : 's'}`
+    },
+    currentMonth() {
+      const now = new Date()
+      const month = String(now.getUTCMonth() + 1).padStart(2, '0')
+      return `${now.getUTCFullYear()}-${month}`
+    },
   },
 }
 </script>
@@ -174,7 +219,9 @@ export default {
   min-width: 0;
 
   .entry-header {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--branch-accent-soft);
   }
 
   .entry-brand {
@@ -229,26 +276,17 @@ export default {
   }
 
   .entry-period {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.1rem;
     margin: 0;
-    width: auto;
-    max-width: 100%;
-    color: $txt-grey;
+    padding: 0.12rem 0.45rem;
+    border: 1px solid var(--branch-accent-soft);
+    border-radius: 999px;
+    background: var(--branch-accent-faint);
+    color: var(--branch-accent);
     font-size: 0.72rem;
     font-weight: 700;
-    line-height: 1.25;
-    text-align: center;
-  }
-
-  .entry-period-line {
-    display: block;
-    font-size: 0.75rem;
-    line-height: 1.3;
-    text-align: left;
-    overflow-wrap: anywhere;
+    line-height: 1.2;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .entry-copy {
@@ -323,17 +361,19 @@ export default {
     }
   }
 
-  // When one job holds several roles, draw a small git-style lane connecting them.
+  // When one job holds several roles, draw a small git-style lane connecting
+  // them. The lane lives in a gutter left of the cards (margin, not padding)
+  // so the separator border between roles never crosses it.
   .role-list--linked {
     .role-card {
       position: relative;
-      padding-left: 1.35rem;
+      margin-left: 1.35rem;
 
       // Node marker aligned with the role title.
       &::before {
         content: '';
         position: absolute;
-        left: 0;
+        left: -1.35rem;
         top: 0.2rem;
         width: 10px;
         height: 10px;
@@ -351,7 +391,7 @@ export default {
       &:not(:last-child)::after {
         content: '';
         position: absolute;
-        left: 3.5px;
+        left: calc(-1.35rem + 3.5px);
         top: calc(0.2rem + 5px);
         bottom: calc(-1.9rem - 5px);
         width: 3px;
@@ -366,16 +406,13 @@ export default {
     }
   }
 
+  // Title and dates sit side by side and wrap together on narrow screens.
   .role-header {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem 0.6rem;
     margin-bottom: 0.25rem;
-  }
-
-  .role-copy {
-    min-width: 0;
   }
 
   .role-period {
@@ -395,7 +432,8 @@ export default {
   .role-title {
     margin: 0;
     color: var(--branch-accent);
-    font-size: 0.92rem;
+    font-size: 1rem;
+    font-weight: 800;
   }
 
   .role-subtitle {
@@ -427,21 +465,10 @@ export default {
   .role-stack {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
+    gap: 0.45rem;
     margin-top: 0.85rem;
     padding-top: 0.65rem;
     border-top: 1px solid rgba($txt-grey, 0.15);
-
-    span {
-      padding: 0.3rem 0.65rem;
-      border: 1px solid var(--branch-accent-soft);
-      border-radius: 999px;
-      background: var(--branch-accent-faint);
-      color: $txt;
-      font-size: 0.82rem;
-      font-weight: 700;
-      line-height: 1.2;
-    }
   }
 }
 
@@ -449,14 +476,6 @@ export default {
   .timelineObject {
     .entry-brand {
       align-items: flex-start;
-    }
-
-    .entry-period {
-      font-size: 0.68rem;
-    }
-
-    .role-stack span {
-      font-size: 0.78rem;
     }
   }
 }
@@ -489,22 +508,7 @@ export default {
       min-height: 2.5rem;
     }
 
-    .entry-period {
-      flex: 1;
-      align-items: flex-start;
-      text-align: left;
-    }
-
-    .entry-period-line {
-      text-align: left;
-    }
-
-    .role-header {
-      flex-direction: column;
-    }
-
     .role-period {
-      align-self: flex-start;
       white-space: normal;
     }
   }

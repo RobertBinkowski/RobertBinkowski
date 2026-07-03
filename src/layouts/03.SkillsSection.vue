@@ -1,36 +1,33 @@
 <template>
   <section id="skills-section">
     <div
-      v-for="(track, wrapperIdx) in scrambledTracks"
-      :key="`skills-track-${wrapperIdx}`"
+      v-for="(track, trackIdx) in tracks"
+      :key="`skills-track-${trackIdx}`"
       class="skills-wrapper"
-      :class="{ backwards: wrapperIdx % 2 }"
+      :class="{ backwards: trackIdx % 2 }"
     >
-      <div
+      <skillPill
         v-for="(skill, idx) in track"
-        v-show="skill.name"
-        :key="`${skill.name || 'skill'}-${wrapperIdx}-${idx}`"
-        class="skill-pill"
-        :style="{
-          backgroundColor: skill && skill.color ? skill.color + '80' : 'gray',
-          borderColor: skill && skill.color ? skill.color : 'darkgray',
-          color: skill && skill.color ? '#' + skill.color : 'white',
-        }"
-      >
-        <span class="skill-pill-label">{{ skill.name }}</span>
-        <div class="skill-pill-details">
-          <span v-if="skill.years">{{ formatYears(skill.years) }}</span>
-          <span v-if="skill.years && skill.level" class="divider">•</span>
-          <span v-if="skill.level">{{ skill.level }}</span>
-        </div>
-      </div>
+        :key="`${skill.name}-${idx}`"
+        :skill="skill"
+      ></skillPill>
     </div>
   </section>
 </template>
 
 <script>
+import skillPill from '@/components/skillPill.vue'
+
+const TRACK_COUNT = 4
+// The marquee animation translates by -50%, so the content must be an even
+// number of identical copies for the loop point to be invisible.
+const TRACK_COPIES = 4
+
 export default {
   name: 'SkillsSection',
+  components: {
+    skillPill,
+  },
   props: {
     skills: {
       type: Array,
@@ -38,44 +35,19 @@ export default {
     },
   },
   computed: {
-    chunkedSkills() {
-      const trackCount = 4
-      if (!Array.isArray(this.skills)) {
-        return Array.from({ length: trackCount }, () => [])
+    tracks() {
+      if (!Array.isArray(this.skills) || !this.skills.length) {
+        return []
       }
-      const buckets = Array.from({ length: trackCount }, () => [])
+
+      const buckets = Array.from({ length: TRACK_COUNT }, () => [])
       this.skills.forEach((skill, index) => {
-        buckets[index % trackCount].push(skill)
+        buckets[index % TRACK_COUNT].push(skill)
       })
+
       return buckets
-    },
-    scrambledTracks() {
-      return this.chunkedSkills.map((chunk) => {
-        if (!chunk.length) {
-          return []
-        }
-        const doubledChunk = [...chunk, ...chunk]
-        return this.shuffleSkills(doubledChunk)
-      })
-    },
-  },
-  methods: {
-    shuffleSkills(skillsList) {
-      const clone = skillsList.slice()
-      for (let i = clone.length - 1; i > 0; i -= 1) {
-        const j = Math.floor(Math.random() * (i + 1))
-        ;[clone[i], clone[j]] = [clone[j], clone[i]]
-      }
-      return clone
-    },
-    formatYears(years) {
-      if (typeof years !== 'number' || Number.isNaN(years)) {
-        return 'Experience'
-      }
-      if (years < 1) {
-        return `${Math.round(years * 12)} mos`
-      }
-      return `${Number.isInteger(years) ? years : years.toFixed(1)} yrs`
+        .filter((bucket) => bucket.length)
+        .map((bucket) => Array.from({ length: TRACK_COPIES }, () => bucket).flat())
     },
   },
 }
@@ -86,6 +58,7 @@ export default {
 
 #skills-section {
   display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: min(1000px, 100%);
   gap: 1em;
@@ -118,47 +91,22 @@ export default {
   .skills-wrapper {
     display: flex;
     width: max-content;
-    grid-auto-flow: column;
-    grid-auto-columns: max-content;
-    justify-items: start;
-    animation: scroll 30s linear infinite;
+    animation: scroll 60s linear infinite;
     animation-play-state: running;
+
     &:hover {
       animation-play-state: paused;
     }
+
+    // Spacing lives on the pills (not flex gap) so one full copy of the
+    // track is exactly half the total width and the loop stays seamless.
+    .skill-pill {
+      margin-right: 1em;
+    }
   }
+
   .backwards {
-    animation: scrollBackwards 30s linear infinite;
-  }
-
-  .skill-pill {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    padding: 0 1em;
-    border: 2px solid;
-    border-radius: 2em;
-    overflow: hidden;
-    margin-right: 1em;
-
-    .skill-pill-label {
-      color: $txt-light;
-      font-weight: 800;
-      display: inline-block;
-      transition: color 0.3s ease;
-    }
-
-    .skill-pill-details {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5em;
-      background: linear-gradient(90deg, rgba($bg, 0.92), rgba($bg, 0.7));
-      border-radius: $rad-1;
-      padding: 0.5em 0.75em;
-      margin-left: 0.75em;
-      margin-right: -0.75em;
-    }
+    animation-name: scrollBackwards;
   }
 }
 
@@ -169,16 +117,9 @@ export default {
       width: min(4rem, 10vw);
     }
 
-    .skill-pill {
-      padding: 0 0.65em;
+    .skills-wrapper .skill-pill {
       margin-right: 0.65em;
-
-      .skill-pill-details {
-        margin-left: 0.5em;
-        margin-right: -0.5em;
-        padding: 0.35em 0.6em;
-        font-size: 0.85rem;
-      }
+      font-size: 0.85rem;
     }
   }
 }

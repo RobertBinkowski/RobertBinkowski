@@ -1,7 +1,5 @@
 <template>
   <section id="timelineSection">
-    <h2 class="timeline-title">Timeline</h2>
-
     <div class="timeline-graph" :style="graphColumnStyle">
       <div
         v-for="item in timelineItems"
@@ -277,13 +275,6 @@ export default {
   overflow-x: clip;
   scroll-margin-top: 5rem;
 
-  .timeline-title {
-    margin: 0 0 0.75rem calc(var(--graph-width) + 0.35rem);
-    color: $txt;
-    font-size: clamp(1rem, 2.5vw, 1.25rem);
-    font-weight: 900;
-  }
-
   .timeline-graph {
     display: flex;
     flex-direction: column;
@@ -307,7 +298,7 @@ export default {
     position: relative;
     align-self: stretch;
     min-width: 0;
-    overflow: hidden;
+    overflow: visible;
 
     :deep(.git-graph) {
       position: absolute;
@@ -318,23 +309,26 @@ export default {
   .experience-content {
     min-width: 0;
     max-width: 100%;
-    padding: 1em;
-    border-radius: 0.6rem;
+    padding: 1.15em 1.25em;
+    border: 1px solid var(--branch-accent-soft);
+    border-radius: 0.9rem;
     background: $txt-light;
-    box-shadow: 0 2px 8px rgba($bg-dark, 0.06);
+    box-shadow: 0 6px 18px rgba($bg-dark, 0.07);
     align-self: start;
     overflow-wrap: anywhere;
     word-break: break-word;
+    transition: box-shadow $tr-s ease, border-color $tr-s ease;
+
+    &:hover {
+      border-color: var(--branch-accent);
+      box-shadow: 0 8px 24px rgba($bg-dark, 0.12);
+    }
   }
 }
 
 @media only screen and (max-width: $compact-size) {
   #timelineSection {
     padding: 0.35rem;
-
-    .timeline-title {
-      margin-left: calc(var(--graph-width) + 0.25rem);
-    }
 
     .experience-row {
       gap: 0.35rem;
@@ -348,10 +342,6 @@ export default {
 
 @media only screen and (max-width: $phone-size) {
   #timelineSection {
-    .timeline-title {
-      margin-left: 0.25rem;
-    }
-
     .experience-row {
       grid-template-columns: minmax(0, 1fr);
       gap: 0.25rem;

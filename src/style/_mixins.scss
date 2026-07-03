@@ -63,10 +63,12 @@
   }
 }
 @keyframes scrollBackwards {
+  // Start mid-content and slide right so the track is always full and the
+  // loop point is invisible (content is an even number of identical copies).
   from {
-    transform: translateX(0%);
+    transform: translateX(-50%);
   }
   to {
-    transform: translateX(50%);
+    transform: translateX(0);
   }
 }
