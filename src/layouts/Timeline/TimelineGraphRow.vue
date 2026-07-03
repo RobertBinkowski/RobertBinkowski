@@ -20,7 +20,7 @@
       :opacity="segmentOpacity(segment.lane)"
     />
 
-    <!-- Fork: trunk → branch lane (smooth git-style curve) -->
+    <!-- Fork at bottom: smooth curve from trunk onto the branch lane -->
     <path
       v-if="item.lane > 0 && forksHere"
       :d="forkPath"
@@ -31,7 +31,7 @@
       :opacity="branchOpacity"
     />
 
-    <!-- Merge: branch lane → trunk -->
+    <!-- Merge at top: smooth curve from branch lane back onto the trunk -->
     <path
       v-if="item.lane > 0 && mergesHere"
       :d="mergePath"
@@ -42,36 +42,30 @@
       :opacity="branchOpacity"
     />
 
-    <!-- Junction rings on the trunk where branches fork / merge -->
-    <g v-if="item.lane > 0 && forksHere" class="junction">
-      <circle
-        :cx="laneX(0)"
-        :cy="forkY"
-        :r="9"
-        fill="none"
-        :stroke="mainColor"
-        :stroke-width="highlighted ? 3 : 2.5"
-      />
-      <circle :cx="laneX(0)" :cy="forkY" :r="5" :fill="mainColor" />
-    </g>
-
-    <g v-if="item.lane > 0 && mergesHere" class="junction">
-      <circle
-        :cx="laneX(0)"
-        :cy="mergeY"
-        :r="9"
-        fill="none"
-        :stroke="mainColor"
-        :stroke-width="highlighted ? 3 : 2.5"
-      />
-      <circle :cx="laneX(0)" :cy="mergeY" :r="5" :fill="mainColor" />
-    </g>
-
-    <!-- Commit dot on the branch lane (job start, bottom of row) -->
+    <!-- Fork junction on the trunk (job start) — solid main-colour dot -->
     <circle
-      v-if="item.lane > 0"
+      v-if="item.lane > 0 && forksHere"
+      :cx="laneX(0)"
+      :cy="forkY"
+      :r="highlighted ? 7 : 6"
+      :fill="mainColor"
+    />
+
+    <!-- Merge junction on the trunk (job end) — branch colour where it rejoins -->
+    <circle
+      v-if="item.lane > 0 && mergesHere"
+      :cx="laneX(0)"
+      :cy="mergeY"
+      :r="highlighted ? 7 : 6"
+      :fill="branchColor"
+      :opacity="branchOpacity"
+    />
+
+    <!-- Current role: HEAD dot at the top of the branch lane -->
+    <circle
+      v-if="isCurrentRole"
       :cx="laneX(item.lane)"
-      :cy="commitY"
+      :cy="headY"
       :r="highlighted ? 8 : 7"
       :fill="branchColor"
       stroke="#fff"
@@ -84,6 +78,8 @@
 <script>
 const LANE_WIDTH = 18
 const CORNER = 10
+// ~2em of vertical run before a fork/merge curve begins (viewBox units ≈ px).
+const CURVE_LEAD = 32
 
 export default {
   name: 'TimelineGraphRow',
@@ -125,40 +121,48 @@ export default {
       return this.item.lane > 0
     },
     mergesHere() {
-      // Each finished job merges back into the trunk; open roles stay on the branch.
       return this.item.lane > 0 && Number.isFinite(this.item.endMonth)
     },
-    forkY() {
-      return CORNER * 2
+    isCurrentRole() {
+      return this.item.lane > 0 && !Number.isFinite(this.item.endMonth)
     },
-    mergeY() {
+    forkY() {
       return this.height - CORNER * 2
     },
-    commitY() {
-      return this.mergesHere ? this.mergeY - CORNER : this.height - 14
+    mergeY() {
+      return CORNER * 2
+    },
+    headY() {
+      return 10
+    },
+    curveLead() {
+      const room = Math.max(0, this.forkY - this.mergeY - 16)
+      return Math.min(CURVE_LEAD, Math.max(20, this.height * 0.12), room / 2)
     },
     branchOpacity() {
       return this.highlighted ? 1 : 0.85
     },
     laneSegments() {
-      const forkPad = CORNER * 2
-      const mergePad = CORNER * 2
+      const lead = this.curveLead
 
       return this.activeLanes.map((lane) => {
         const isOwnLane = lane === this.item.lane
         let y1 = 0
         let y2 = this.height
 
+        // Main trunk always runs the full row height.
         if (lane === 0) {
           return { lane, y1, y2 }
         }
 
-        if (isOwnLane && this.forksHere) {
-          y1 = forkPad
+        if (isOwnLane && this.mergesHere) {
+          y1 = this.mergeY + lead
+        } else if (isOwnLane && this.isCurrentRole) {
+          y1 = this.headY
         }
 
-        if (isOwnLane && this.mergesHere) {
-          y2 = this.height - mergePad
+        if (isOwnLane && this.forksHere) {
+          y2 = this.forkY - lead
         }
 
         return { lane, y1, y2 }
@@ -167,27 +171,22 @@ export default {
     forkPath() {
       const mainX = this.laneX(0)
       const branchX = this.laneX(this.item.lane)
-      const r = CORNER
+      const j = this.forkY
+      const lead = this.curveLead
+      const dx = Math.max(branchX - mainX, 1)
 
-      // Classic git fork: down the trunk, curve out onto the branch lane.
-      if (branchX > mainX) {
-        return `M ${mainX} 0 V ${r} Q ${mainX} ${r * 2} ${mainX + r} ${r * 2} H ${branchX}`
-      }
-
-      return `M ${mainX} 0 V ${r} Q ${mainX} ${r * 2} ${mainX - r} ${r * 2} H ${branchX}`
+      // Curve begins on the branch ~2em above the junction, easing onto the trunk.
+      return `M ${branchX} ${j - lead} C ${branchX} ${j - lead * 0.35} ${branchX - dx * 0.25} ${j - 6} ${mainX} ${j}`
     },
     mergePath() {
       const mainX = this.laneX(0)
       const branchX = this.laneX(this.item.lane)
-      const r = CORNER
-      const y = this.height
+      const j = this.mergeY
+      const lead = this.curveLead
+      const dx = Math.max(branchX - mainX, 1)
 
-      // Classic git merge: along the branch lane, curve back onto the trunk.
-      if (branchX > mainX) {
-        return `M ${branchX} ${y - r * 2} V ${y - r} Q ${branchX} ${y} ${branchX - r} ${y} H ${mainX}`
-      }
-
-      return `M ${branchX} ${y - r * 2} V ${y - r} Q ${branchX} ${y} ${branchX + r} ${y} H ${mainX}`
+      // Curve begins on the branch ~2em below the junction, easing onto the trunk.
+      return `M ${branchX} ${j + lead} C ${branchX} ${j + lead * 0.35} ${branchX - dx * 0.25} ${j + 6} ${mainX} ${j}`
     },
   },
   methods: {
