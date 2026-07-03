@@ -6,18 +6,28 @@
     target="_blank"
     rel="noopener noreferrer"
   >
-    <i :class="link.icon" aria-hidden="true"></i>
-    <span class="sr-only">{{ link.name }}</span>
+    <socialIcon :icon="link.icon" />
+    <span v-if="name" class="contact_label">{{ link.name }}</span>
+    <span v-else class="sr-only">{{ link.name }}</span>
   </a>
 </template>
 
 <script>
+import socialIcon from './socialIcon.vue'
+
 export default {
   name: 'linkComponent',
+  components: {
+    socialIcon,
+  },
   props: {
     link: {
       type: Object,
       required: true,
+    },
+    name: {
+      type: Boolean,
+      default: false,
     },
   },
 }
@@ -35,6 +45,12 @@ export default {
   &:hover,
   &:focus {
     color: $acc-1;
+  }
+
+  .contact_label {
+    margin-left: 0.4em;
+    font-size: 0.5em;
+    vertical-align: middle;
   }
 }
 

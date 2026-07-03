@@ -1,21 +1,50 @@
 <template>
   <footer>
-    <logoSVG />
-    <div id="footer-links">
-      <linkComponent v-for="contact in contacts" :key="contact.id" :link="contact"></linkComponent>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <logoSVG />
+        <p class="brand-name">Robert Binkowski</p>
+        <p class="brand-tagline">
+          Software engineer building reliable web products — from PHP APIs to Vue front-ends.
+        </p>
+      </div>
+
+      <nav class="footer-column" aria-label="Site sections">
+        <p class="column-title">Explore</p>
+        <ul>
+          <li><a href="#welcomeSection">Home</a></li>
+          <li><a href="#skills-section">Skills</a></li>
+          <li><a href="#workSection">Experience</a></li>
+          <li><a href="#educationSection">Education</a></li>
+          <li><a href="#contactSection">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-column">
+        <p class="column-title">Connect</p>
+        <div class="footer-links">
+          <linkComponent
+            v-for="contact in contacts"
+            :key="contact.name"
+            :link="contact"
+            :name="true"
+          ></linkComponent>
+        </div>
+      </div>
     </div>
-    <p>Designed and developed by <strong>Robert Binkowski</strong></p>
-    <p id="license" xmlns:cc="http://creativecommons.org/ns#">
-      This work is licensed under
-      <br />
-      <a
-        href="http://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1"
-        target="_blank"
-        rel="license noopener noreferrer"
-        style="display: inline-block"
-        >CC BY-NC-ND 4.0</a
-      >
-    </p>
+
+    <div class="footer-bottom">
+      <p>© {{ currentYear }} <strong>Robert Binkowski</strong>. Designed and developed by me.</p>
+      <p class="license" xmlns:cc="http://creativecommons.org/ns#">
+        This work is licensed under
+        <a
+          href="http://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1"
+          target="_blank"
+          rel="license noopener noreferrer"
+          >CC BY-NC-ND 4.0</a
+        >
+      </p>
+    </div>
   </footer>
 </template>
 
@@ -23,36 +52,154 @@
 @use '@/style/variables' as *;
 
 footer {
+  position: relative;
   background: $fot-back;
-  text-align: center;
-  padding-top: 2em;
-  padding-bottom: 2em;
-  color: $bg;
+  color: rgba($bg, 0.85);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: clip;
 
-  svg {
-    margin-bottom: 1em;
+  // Accent line along the top edge.
+  &::before {
+    content: '';
+    display: block;
+    height: 3px;
+    background: linear-gradient(to right, $acc-1, $acc-2);
   }
 
-  strong {
-    color: $acc-1;
+  .footer-content {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 2.5em;
+    max-width: $content-width;
+    margin: 0 auto;
+    padding: 3em 1.5em 2.5em;
+    text-align: left;
   }
-  #footer-links {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 1em;
-    gap: 1em;
+
+  .footer-brand {
+    svg {
+      margin-bottom: 0.75em;
+    }
+
+    .brand-name {
+      margin: 0 0 0.35em;
+      font-size: 1.1em;
+      font-weight: 900;
+      color: $txt-light;
+    }
+
+    .brand-tagline {
+      margin: 0;
+      font-size: 0.9em;
+      line-height: 1.5;
+      color: rgba($bg, 0.65);
+      max-width: 28ch;
+    }
+  }
+
+  .footer-column {
+    .column-title {
+      margin: 0 0 0.9em;
+      font-size: 0.8em;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: $acc-1;
+    }
+
+    ul {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15em;
+    }
+
+    li {
+      padding: 0;
+
+      &:hover {
+        background: none;
+      }
+
+      a {
+        font-size: 0.95em;
+        font-weight: 600;
+      }
+    }
+
     a {
-      color: $bg;
+      color: rgba($bg, 0.75);
+      transition: $tr-f;
+
       &:hover {
         color: $acc-1;
       }
     }
   }
-  #license {
-    margin-top: 3em;
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+    .contact_link {
+      font-size: 1.5em;
+      color: rgba($bg, 0.75);
+    }
+  }
+
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5em 2em;
+    max-width: $content-width;
+    margin: 0 auto;
+    padding: 1.25em 1.5em;
+    border-top: 1px solid rgba($bg, 0.12);
     font-size: 0.8em;
+    color: rgba($bg, 0.55);
+
+    p {
+      margin: 0;
+    }
+
+    strong {
+      color: $acc-1;
+    }
+
     a {
-      color: $bg;
+      color: rgba($bg, 0.75);
+
+      &:hover {
+        color: $acc-1;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: $phone-size) {
+  footer {
+    .footer-content {
+      grid-template-columns: 1fr;
+      gap: 2em;
+      text-align: center;
+    }
+
+    .footer-brand .brand-tagline {
+      margin: 0 auto;
+    }
+
+    .footer-links {
+      align-items: center;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      text-align: center;
     }
   }
 }
@@ -72,6 +219,11 @@ export default {
     contacts: {
       type: Array,
       required: false,
+    },
+  },
+  computed: {
+    currentYear() {
+      return new Date().getFullYear()
     },
   },
 }

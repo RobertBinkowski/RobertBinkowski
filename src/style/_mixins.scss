@@ -21,10 +21,18 @@
 }
 
 @mixin backgroundBlur() {
-  // Background Blur
+  // Liquid-glass style blur: heavy blur + boosted saturation behind the
+  // surface, a soft diagonal sheen on top, and a thin translucent edge.
   background-color: $nav-bg;
-  -webkit-backdrop-filter: blur($blur);
-  backdrop-filter: blur($blur);
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.05) 45%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
+  -webkit-backdrop-filter: blur($blur) saturate(180%);
+  backdrop-filter: blur($blur) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
 @mixin responsiveItems($var: 250px) {
@@ -55,10 +63,12 @@
   }
 }
 @keyframes scrollBackwards {
+  // Start mid-content and slide right so the track is always full and the
+  // loop point is invisible (content is an even number of identical copies).
   from {
-    transform: translateX(0%);
+    transform: translateX(-50%);
   }
   to {
-    transform: translateX(50%);
+    transform: translateX(0);
   }
 }

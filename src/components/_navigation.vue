@@ -3,22 +3,25 @@
     <nav :class="[openNav ? 'nav-open' : 'nav-closed']">
       <!-- Logo -->
       <div class="left-corner">
-        <router-link :to="{ name: 'home' }">
+        <router-link :to="{ name: 'home' }" aria-label="Home">
           <LogoSVG />
         </router-link>
       </div>
 
-      <!-- Navigation Links -->
-      <div class="nav-content">
-        <router-link class="router-link" :to="{ name: 'home' }"> PORTFOLIO </router-link>
-        <!-- <router-link class="router-link" :to="{ name: 'articles.index' }"> ARTICLES </router-link>
-        <router-link class="router-link" :to="{ name: 'projects.index' }"> PROJECTS </router-link> -->
-        <!-- <router-link v-if="user" class="router-link" :to="{ name: 'dashboard' }">
-          DASHBOARD
-        </router-link> -->
-        <!-- Progress Bar -->
-        <div class="progress-bar" :style="{ width: progressBarWidth }"></div>
+      <!-- Navigation Links (hidden when there is only one destination) -->
+      <div v-if="showNavLinks" class="nav-content">
+        <router-link
+          v-for="item in navLinks"
+          :key="item.label"
+          class="router-link"
+          :to="item.to"
+        >
+          {{ item.label }}
+        </router-link>
       </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-bar" :style="{ width: progressBarWidth }"></div>
 
       <div class="right-corner">
         <linkComponent
@@ -70,12 +73,20 @@ export default {
     currentPageTitle() {
       return this.$route.meta.title || false
     },
+    showNavLinks() {
+      return this.navLinks.length > 1
+    },
   },
   data() {
     return {
       progressBarWidth: '0%',
       openNav: false,
       prevScreenWidth: window.innerWidth || 0,
+      navLinks: [
+        { label: 'PORTFOLIO', to: { name: 'home' } },
+        // { label: 'ARTICLES', to: { name: 'articles.index' } },
+        // { label: 'PROJECTS', to: { name: 'projects.index' } },
+      ],
     }
   },
   mounted() {
@@ -134,9 +145,10 @@ export default {
 
   nav {
     width: 100%;
-    max-width: 1300px;
+    max-width: min(1300px, 100%);
     display: flex;
     align-items: center;
+    box-sizing: border-box;
 
     transition: $tr-s;
 
@@ -158,12 +170,16 @@ export default {
     .nav-content {
       display: flex;
       border-radius: 2em;
+      min-width: 0;
+      flex-wrap: wrap;
+      justify-content: center;
 
       .router-link {
         margin: 0.5em;
         padding: 0.5em 1em;
         border-radius: 2em;
         transition: $tr-s ease-in-out;
+        white-space: nowrap;
 
         &.router-link-active {
           background-color: $acc-1;
@@ -180,14 +196,15 @@ export default {
           box-shadow: none;
         }
       }
-      .progress-bar {
-        height: 0.25em;
-        border-radius: $rad-1;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        background: $txt;
-      }
+    }
+
+    .progress-bar {
+      height: 0.25em;
+      border-radius: $rad-1;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      background: $txt;
     }
     .right-corner {
       display: flex;
@@ -252,19 +269,32 @@ export default {
   }
 }
 /*-------------------------------------------------------BIG*/
-@media only screen and (min-width: $phone-size) {
+@media only screen and (min-width: $compact-size) {
   #navigation-bar {
     nav {
       margin: 0 auto;
       border-radius: $rad-2;
-      justify-content: space-around;
+      // Keeps the logo and the social links pinned to opposite sides even
+      // when the nav links in the middle are hidden.
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      padding: 0 0.5rem;
 
       .nav-content {
         flex-direction: row;
         align-items: center;
+        flex: 0 0 auto;
+        width: fit-content;
+        max-width: none;
 
         @include backgroundBlur();
         overflow: hidden;
+
+        .router-link {
+          padding: 0.45em 0.75em;
+          font-size: 0.85rem;
+        }
       }
       .right-corner {
         padding: 0 1em;
@@ -282,7 +312,7 @@ export default {
 }
 
 /*-----------------------------------------------------SMALL*/
-@media only screen and (max-width: #{$phone-size + 1}) {
+@media only screen and (max-width: #{$compact-size - 1}) {
   #navigation-bar {
     nav {
       flex-direction: column;
@@ -300,11 +330,13 @@ export default {
       .nav-content {
         flex-direction: column;
         width: 100%;
+        max-width: 100%;
         margin: 1.5em 0 3em 0;
 
         a {
           text-align: center;
-          padding: 1em;
+          padding: 0.85em 1em;
+          font-size: 0.95rem;
         }
       }
       .right-corner {
