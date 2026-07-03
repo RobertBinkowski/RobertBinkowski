@@ -6,7 +6,7 @@
     preserveAspectRatio="none"
     aria-hidden="true"
   >
-    <!-- Main trunk and parallel branch lanes -->
+    <!-- Parallel branch lanes (main trunk is drawn once in TimelineSection) -->
     <line
       v-for="segment in laneSegments"
       :key="`lane-${segment.lane}-${segment.y1}`"
@@ -14,10 +14,11 @@
       :y1="segment.y1"
       :x2="laneX(segment.lane)"
       :y2="segment.y2"
-      :stroke="segment.lane === 0 ? mainColor : branchColor"
+      :stroke="branchColor"
       :stroke-width="strokeWidth(segment.lane)"
       stroke-linecap="round"
-      :opacity="segmentOpacity(segment.lane)"
+      class="git-graph__lane"
+      :class="{ 'git-graph__branch': segment.lane === item.lane }"
     />
 
     <!-- Fork at bottom: smooth curve from trunk onto the branch lane -->
@@ -28,7 +29,7 @@
       :stroke="branchColor"
       :stroke-width="strokeWidth(item.lane)"
       stroke-linecap="round"
-      :opacity="branchOpacity"
+      class="git-graph__lane git-graph__branch"
     />
 
     <!-- Merge at top: smooth curve from branch lane back onto the trunk -->
@@ -39,7 +40,7 @@
       :stroke="branchColor"
       :stroke-width="strokeWidth(item.lane)"
       stroke-linecap="round"
-      :opacity="branchOpacity"
+      class="git-graph__lane git-graph__branch"
     />
 
     <!-- Fork junction on the trunk (job start) — solid main-colour dot -->
@@ -47,7 +48,7 @@
       v-if="item.lane > 0 && forksHere"
       :cx="laneX(0)"
       :cy="forkY"
-      :r="highlighted ? 7 : 6"
+      r="6"
       :fill="mainColor"
     />
 
@@ -56,9 +57,9 @@
       v-if="item.lane > 0 && mergesHere"
       :cx="laneX(0)"
       :cy="mergeY"
-      :r="highlighted ? 7 : 6"
+      r="6"
       :fill="branchColor"
-      :opacity="branchOpacity"
+      class="git-graph__lane git-graph__branch"
     />
 
     <!-- Current role: HEAD dot at the top of the branch lane -->
@@ -70,7 +71,7 @@
       :fill="branchColor"
       stroke="#fff"
       :stroke-width="highlighted ? 3 : 2.5"
-      :opacity="branchOpacity"
+      class="git-graph__lane git-graph__branch"
     />
   </svg>
 </template>
@@ -139,34 +140,28 @@ export default {
       const room = Math.max(0, this.forkY - this.mergeY - 16)
       return Math.min(CURVE_LEAD, Math.max(20, this.height * 0.12), room / 2)
     },
-    branchOpacity() {
-      return this.highlighted ? 1 : 0.85
-    },
     laneSegments() {
       const lead = this.curveLead
 
-      return this.activeLanes.map((lane) => {
-        const isOwnLane = lane === this.item.lane
-        let y1 = 0
-        let y2 = this.height
+      return this.activeLanes
+        .filter((lane) => lane > 0)
+        .map((lane) => {
+          const isOwnLane = lane === this.item.lane
+          let y1 = 0
+          let y2 = this.height
 
-        // Main trunk always runs the full row height.
-        if (lane === 0) {
+          if (isOwnLane && this.mergesHere) {
+            y1 = this.mergeY + lead
+          } else if (isOwnLane && this.isCurrentRole) {
+            y1 = this.headY
+          }
+
+          if (isOwnLane && this.forksHere) {
+            y2 = this.forkY - lead
+          }
+
           return { lane, y1, y2 }
-        }
-
-        if (isOwnLane && this.mergesHere) {
-          y1 = this.mergeY + lead
-        } else if (isOwnLane && this.isCurrentRole) {
-          y1 = this.headY
-        }
-
-        if (isOwnLane && this.forksHere) {
-          y2 = this.forkY - lead
-        }
-
-        return { lane, y1, y2 }
-      })
+        })
     },
     forkPath() {
       const mainX = this.laneX(0)
@@ -194,19 +189,10 @@ export default {
       return lane * LANE_WIDTH + LANE_WIDTH / 2 + 2
     },
     strokeWidth(lane) {
-      if (!this.highlighted) {
-        return lane === 0 ? 5 : 4
-      }
-      return lane === 0 ? 6 : 5
-    },
-    segmentOpacity(lane) {
       if (this.highlighted && lane === this.item.lane) {
-        return 1
+        return 5
       }
-      if (this.highlighted && lane === 0) {
-        return 0.9
-      }
-      return lane === 0 ? 1 : 0.85
+      return 4
     },
   },
 }
@@ -218,13 +204,14 @@ export default {
   width: 100%;
   height: 100%;
   overflow: visible;
-  transition: opacity 0.2s ease;
 
-  &:not(.git-graph--highlighted) {
+  &__lane {
     opacity: 0.75;
+    transition: opacity 0.2s ease, filter 0.2s ease;
   }
 
-  &.git-graph--highlighted {
+  &.git-graph--highlighted .git-graph__branch {
+    opacity: 1;
     filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.15));
   }
 }

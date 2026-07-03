@@ -1,6 +1,26 @@
 <template>
   <section id="timelineSection">
     <div class="timeline-graph" :style="graphColumnStyle">
+      <!-- Single continuous main trunk behind all rows -->
+      <svg
+        v-if="trunkHeight > 0"
+        class="main-trunk"
+        :style="{ height: `${trunkHeight}px` }"
+        :viewBox="`0 0 ${trunkWidth} ${trunkHeight}`"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <line
+          :x1="trunkX"
+          :y1="0"
+          :x2="trunkX"
+          :y2="trunkHeight"
+          :stroke="mainBranch.color || '#005b90'"
+          stroke-width="5"
+          stroke-linecap="round"
+        />
+      </svg>
+
       <div
         v-for="item in timelineItems"
         :id="item.sectionId"
@@ -39,6 +59,9 @@
 <script>
 import TimelineGraphRow from './TimelineGraphRow.vue'
 import TimelineObject from './TimelineObject.vue'
+
+const LANE_WIDTH = 18
+const ROW_GAP = 8 // matches .timeline-graph gap (0.5rem)
 
 const parseMonthValue = (value) => {
   if (!value) {
@@ -146,6 +169,22 @@ export default {
     },
     maxLane() {
       return this.laneData.maxLane
+    },
+    trunkWidth() {
+      return (this.maxLane + 1) * LANE_WIDTH + 4
+    },
+    trunkX() {
+      return LANE_WIDTH / 2 + 2
+    },
+    trunkHeight() {
+      const rows = this.timelineItems
+      if (!rows.length) {
+        return 0
+      }
+
+      const heights = rows.map((item) => this.rowHeights[item.id] || 0)
+      const total = heights.reduce((sum, height) => sum + height, 0)
+      return total + ROW_GAP * Math.max(rows.length - 1, 0)
     },
     timelineItems() {
       const { lanes } = this.laneData
@@ -281,6 +320,7 @@ export default {
   scroll-margin-top: 5rem;
 
   .timeline-graph {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -288,7 +328,18 @@ export default {
     max-width: 100%;
   }
 
+  .main-trunk {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--graph-width);
+    pointer-events: none;
+    z-index: 0;
+  }
+
   .experience-row {
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: var(--graph-width) minmax(0, 1fr);
     gap: 0.5rem;
