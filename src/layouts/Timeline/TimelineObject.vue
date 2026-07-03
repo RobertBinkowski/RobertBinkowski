@@ -30,7 +30,7 @@
       </component>
     </header>
 
-    <div class="role-list">
+    <div class="role-list" :class="{ 'role-list--linked': displayRoles.length > 1 }">
       <div v-for="displayRole in displayRoles" :key="displayRole.id" class="role-card">
         <div class="role-header">
           <div class="role-copy">
@@ -320,6 +320,49 @@ export default {
       margin-top: 0.85rem;
       padding-top: 0.85rem;
       border-top: 1px solid rgba($txt-grey, 0.15);
+    }
+  }
+
+  // When one job holds several roles, draw a small git-style lane connecting them.
+  .role-list--linked {
+    .role-card {
+      position: relative;
+      padding-left: 1.35rem;
+
+      // Node marker aligned with the role title.
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.2rem;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--branch-accent);
+        box-shadow: 0 0 0 2px $txt-light;
+        z-index: 1;
+      }
+
+      & + .role-card::before {
+        top: 1.05rem;
+      }
+
+      // Connector line running from this role's node to the next one.
+      &:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        left: 3.5px;
+        top: calc(0.2rem + 5px);
+        bottom: calc(-1.9rem - 5px);
+        width: 3px;
+        border-radius: 999px;
+        background: var(--branch-accent);
+        opacity: 0.35;
+      }
+
+      & + .role-card:not(:last-child)::after {
+        top: calc(1.05rem + 5px);
+      }
     }
   }
 

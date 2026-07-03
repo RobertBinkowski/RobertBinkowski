@@ -1,7 +1,7 @@
 <template>
   <a :href="link.link" :name="link.name" class="contact_link" target="_blank">
     <i :class="link.icon"></i>
-    <span v-if="name">{{ link.name }}</span>
+    <span v-if="name" class="contact_label">{{ link.name }}</span>
   </a>
 </template>
 
@@ -12,6 +12,10 @@ export default {
     link: {
       type: Object,
       required: true,
+    },
+    name: {
+      type: Boolean,
+      default: false,
     },
   },
 }
@@ -24,6 +28,12 @@ export default {
   font-size: 2em;
   &:hover {
     color: $acc-1;
+  }
+
+  .contact_label {
+    margin-left: 0.4em;
+    font-size: 0.5em;
+    vertical-align: middle;
   }
 }
 </style>
