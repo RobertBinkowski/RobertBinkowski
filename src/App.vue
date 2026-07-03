@@ -26,30 +26,39 @@ main {
   max-width: min($max-width, 100%);
   width: 100%;
   margin: auto;
-  background: $bg;
   padding: 0;
   box-sizing: border-box;
+  position: relative;
 
-  // Dots Background
-  background-image: radial-gradient($dots-color $dots-size, transparent $dots-size);
-  background-size: $dots-gap $dots-gap;
-}
+  // Dots background lives on its own layer so the edge fade never touches the
+  // content. It extends $dots-extend past the content on each side and only
+  // the dots fade out.
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: calc(100% + #{$dots-extend * 2});
+    transform: translateX(-50%);
+    z-index: -1;
+    pointer-events: none;
 
-@media only screen and (min-width: $max-width) {
-  main {
-    // Fade background
+    background-image: radial-gradient($dots-color $dots-size, transparent $dots-size);
+    background-size: $dots-gap $dots-gap;
+
     -webkit-mask-image: linear-gradient(
       to right,
       transparent 0px,
-      #000000 150px,
-      #000000 calc($max-width - 150px),
+      #000000 $dots-extend,
+      #000000 calc(100% - #{$dots-extend}),
       transparent 100%
     );
     mask-image: linear-gradient(
       to right,
       transparent 0px,
-      #000000 150px,
-      #000000 calc($max-width - 150px),
+      #000000 $dots-extend,
+      #000000 calc(100% - #{$dots-extend}),
       transparent 100%
     );
     -webkit-mask-repeat: no-repeat;
