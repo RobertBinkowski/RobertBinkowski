@@ -6,8 +6,11 @@
         :id="item.sectionId"
         :key="item.id"
         class="experience-row"
+        :class="{ 'experience-row--active': hoveredId === item.id }"
         :style="branchStyle(item.branch)"
         ref="experienceRows"
+        @mouseenter="hoveredId = item.id"
+        @mouseleave="hoveredId = null"
       >
         <div class="graph-column">
           <TimelineGraphRow
@@ -17,6 +20,7 @@
             :main-color="mainBranch.color || '#005b90'"
             :branch-color="item.branch.color || '#2b9b62'"
             :height="rowHeights[item.id] || 100"
+            :highlighted="hoveredId === item.id"
           />
         </div>
 
@@ -106,6 +110,7 @@ export default {
   data() {
     return {
       rowHeights: {},
+      hoveredId: null,
     }
   },
   computed: {
@@ -310,18 +315,26 @@ export default {
     min-width: 0;
     max-width: 100%;
     padding: 1.15em 1.25em;
-    border: 1px solid var(--branch-accent-soft);
+    border: none;
     border-radius: 0.9rem;
     background: $txt-light;
-    box-shadow: 0 6px 18px rgba($bg-dark, 0.07);
+    box-shadow:
+      0 1px 2px rgba($bg-dark, 0.04),
+      0 4px 12px rgba($bg-dark, 0.06),
+      0 12px 28px rgba($bg-dark, 0.04);
     align-self: start;
     overflow-wrap: anywhere;
     word-break: break-word;
-    transition: box-shadow $tr-s ease, border-color $tr-s ease;
+    transition: box-shadow $tr-s ease, transform $tr-s ease;
+  }
 
-    &:hover {
-      border-color: var(--branch-accent);
-      box-shadow: 0 8px 24px rgba($bg-dark, 0.12);
+  .experience-row--active {
+    .experience-content {
+      box-shadow:
+        0 2px 4px rgba($bg-dark, 0.06),
+        0 8px 20px rgba($bg-dark, 0.1),
+        0 16px 36px rgba($bg-dark, 0.08);
+      transform: translateY(-1px);
     }
   }
 }

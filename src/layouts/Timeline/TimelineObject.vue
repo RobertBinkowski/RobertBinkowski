@@ -219,9 +219,9 @@ export default {
   min-width: 0;
 
   .entry-header {
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--branch-accent-soft);
+    margin-bottom: 0.85rem;
+    padding-bottom: 0;
+    border-bottom: none;
   }
 
   .entry-brand {
@@ -355,9 +355,10 @@ export default {
     padding: 0;
 
     & + .role-card {
-      margin-top: 0.85rem;
-      padding-top: 0.85rem;
-      border-top: 1px solid rgba($txt-grey, 0.15);
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: none;
+      box-shadow: inset 0 8px 8px -8px rgba($bg-dark, 0.08);
     }
   }
 
@@ -457,8 +458,18 @@ export default {
     font-size: 0.85rem;
     line-height: 1.4;
 
-    li::marker {
-      color: var(--branch-accent);
+    li {
+      padding: 0;
+      border-radius: 0;
+      transition: none;
+
+      &:hover {
+        background: none;
+      }
+
+      &::marker {
+        color: var(--branch-accent);
+      }
     }
   }
 
@@ -467,8 +478,9 @@ export default {
     flex-wrap: wrap;
     gap: 0.45rem;
     margin-top: 0.85rem;
-    padding-top: 0.65rem;
-    border-top: 1px solid rgba($txt-grey, 0.15);
+    padding-top: 0.75rem;
+    border-top: none;
+    box-shadow: inset 0 6px 6px -6px rgba($bg-dark, 0.06);
   }
 }
 
