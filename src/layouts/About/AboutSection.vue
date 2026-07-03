@@ -11,10 +11,6 @@
 @use '@/style/variables' as *;
 
 #aboutSection {
-  .fa-brands,
-  .fa-solid {
-    font-size: 2em;
-  }
   div {
     max-width: 900px;
     margin: auto 2em;

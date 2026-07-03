@@ -4,7 +4,13 @@
       <component :is="brandTag" class="entry-brand" v-bind="brandAttributes">
         <div class="brand-column">
           <div class="brand-logo">
-            <img v-if="entry.logo" :src="entry.logo" :alt="`${entry.organization} logo`" />
+            <img
+              v-if="entry.logo"
+              :src="entry.logo"
+              :alt="`${entry.organization} logo`"
+              width="80"
+              height="80"
+            />
             <span v-else class="brand-fallback">{{ initials }}</span>
           </div>
         </div>
@@ -36,7 +42,7 @@
         :data-role-id="displayRole.id"
       >
         <div class="role-header">
-          <h4 class="role-title">{{ displayRole.title }}</h4>
+          <h3 class="role-title">{{ displayRole.title }}</h3>
           <p v-if="roleDateLabel(displayRole)" class="role-period">
             {{ roleDateLabel(displayRole) }}
           </p>

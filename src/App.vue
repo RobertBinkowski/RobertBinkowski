@@ -81,12 +81,12 @@ export default {
       contacts: [
         {
           name: 'LinkedIn',
-          icon: 'fa-brands fa-linkedin',
+          icon: 'linkedin',
           link: 'https://www.linkedin.com/in/robert-binkowski-9bb565195/',
         },
         {
           name: 'GitHub',
-          icon: 'fa-brands fa-github',
+          icon: 'github',
           link: 'https://github.com/RobertBinkowski',
         },
       ],

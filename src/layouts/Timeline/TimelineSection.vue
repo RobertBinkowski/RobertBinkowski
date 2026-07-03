@@ -1,5 +1,6 @@
 <template>
   <section id="timelineSection">
+    <h2 class="timeline-heading">Experience</h2>
     <div class="timeline-graph" :style="graphColumnStyle">
       <!-- Single continuous main trunk behind all rows -->
       <svg
@@ -88,7 +89,7 @@
 <script>
 import TimelineGraphRow from './TimelineGraphRow.vue'
 import TimelineObject from './TimelineObject.vue'
-import { GRAPH_LABEL_GUTTER, LANE_WIDTH, ROW_GAP, graphWidth, laneX } from './graphLayout.js'
+import { GRAPH_LABEL_GUTTER, ROW_GAP, graphWidth, laneX } from './graphLayout.js'
 
 const parseMonthValue = (value) => {
   if (!value) {
@@ -453,6 +454,18 @@ export default {
   box-sizing: border-box;
   overflow-x: clip;
   scroll-margin-top: 5rem;
+
+  .timeline-heading {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
 
   .timeline-graph {
     position: relative;
