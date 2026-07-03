@@ -8,17 +8,20 @@
         </router-link>
       </div>
 
-      <!-- Navigation Links -->
-      <div class="nav-content">
-        <router-link class="router-link" :to="{ name: 'home' }"> PORTFOLIO </router-link>
-        <!-- <router-link class="router-link" :to="{ name: 'articles.index' }"> ARTICLES </router-link>
-        <router-link class="router-link" :to="{ name: 'projects.index' }"> PROJECTS </router-link> -->
-        <!-- <router-link v-if="user" class="router-link" :to="{ name: 'dashboard' }">
-          DASHBOARD
-        </router-link> -->
-        <!-- Progress Bar -->
-        <div class="progress-bar" :style="{ width: progressBarWidth }"></div>
+      <!-- Navigation Links (hidden when there is only one destination) -->
+      <div v-if="showNavLinks" class="nav-content">
+        <router-link
+          v-for="item in navLinks"
+          :key="item.label"
+          class="router-link"
+          :to="item.to"
+        >
+          {{ item.label }}
+        </router-link>
       </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-bar" :style="{ width: progressBarWidth }"></div>
 
       <div class="right-corner">
         <linkComponent
@@ -70,11 +73,19 @@ export default {
     currentPageTitle() {
       return this.$route.meta.title || false
     },
+    showNavLinks() {
+      return this.navLinks.length > 1
+    },
   },
   data() {
     return {
       progressBarWidth: '0%',
       openNav: false,
+      navLinks: [
+        { label: 'PORTFOLIO', to: { name: 'home' } },
+        // { label: 'ARTICLES', to: { name: 'articles.index' } },
+        // { label: 'PROJECTS', to: { name: 'projects.index' } },
+      ],
     }
   },
   mounted() {
@@ -184,14 +195,15 @@ export default {
           box-shadow: none;
         }
       }
-      .progress-bar {
-        height: 0.25em;
-        border-radius: $rad-1;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        background: $txt;
-      }
+    }
+
+    .progress-bar {
+      height: 0.25em;
+      border-radius: $rad-1;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      background: $txt;
     }
     .right-corner {
       display: flex;
@@ -261,7 +273,9 @@ export default {
     nav {
       margin: 0 auto;
       border-radius: $rad-2;
-      justify-content: space-around;
+      // Keeps the logo and the social links pinned to opposite sides even
+      // when the nav links in the middle are hidden.
+      justify-content: space-between;
       flex-wrap: wrap;
       gap: 0.35rem;
       padding: 0 0.5rem;
