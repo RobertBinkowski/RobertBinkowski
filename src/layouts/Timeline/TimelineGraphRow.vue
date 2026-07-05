@@ -49,10 +49,10 @@
       :key="marker.roleId"
       :cx="laneX(item.lane)"
       :cy="marker.y"
-      :r="highlighted ? 6 : 5"
+      :r="roleRadius"
       :fill="branchColor"
       stroke="#fff"
-      :stroke-width="highlighted ? 2.5 : 2"
+      :stroke-width="roleStrokeWidth"
       class="git-graph__lane git-graph__branch"
     />
 
@@ -61,7 +61,7 @@
       v-if="item.lane > 0 && forksHere"
       :cx="laneX(0)"
       :cy="forkY"
-      r="6"
+      :r="forkRadius"
       :fill="mainColor"
     />
 
@@ -70,7 +70,7 @@
       v-if="item.lane > 0 && mergesHere"
       :cx="laneX(0)"
       :cy="mergeY"
-      r="6"
+      :r="forkRadius"
       :fill="branchColor"
       class="git-graph__lane git-graph__branch"
     />
@@ -80,17 +80,17 @@
       v-if="isCurrentRole"
       :cx="laneX(item.lane)"
       :cy="headY"
-      :r="highlighted ? 8 : 7"
+      :r="headRadius"
       :fill="branchColor"
       stroke="#fff"
-      :stroke-width="highlighted ? 3 : 2.5"
+      :stroke-width="headStrokeWidth"
       class="git-graph__lane git-graph__branch"
     />
   </svg>
 </template>
 
 <script>
-import { graphWidth, laneX as graphLaneX } from './graphLayout.js'
+import { graphWidth, laneX as graphLaneX, mobileGraphWidth, mobileLaneX } from './graphLayout.js'
 
 const CORNER = 10
 // ~2em of vertical run before a fork/merge curve begins (viewBox units ≈ px).
@@ -131,10 +131,45 @@ export default {
       type: Boolean,
       default: false,
     },
+    compact: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     width() {
-      return graphWidth(this.maxLane)
+      return this.compact ? mobileGraphWidth(this.maxLane) : graphWidth(this.maxLane)
+    },
+    roleRadius() {
+      if (this.compact) {
+        return this.highlighted ? 4 : 3.5
+      }
+
+      return this.highlighted ? 6 : 5
+    },
+    roleStrokeWidth() {
+      if (this.compact) {
+        return this.highlighted ? 2 : 1.5
+      }
+
+      return this.highlighted ? 2.5 : 2
+    },
+    forkRadius() {
+      return this.compact ? 4 : 6
+    },
+    headRadius() {
+      if (this.compact) {
+        return this.highlighted ? 5 : 4.5
+      }
+
+      return this.highlighted ? 8 : 7
+    },
+    headStrokeWidth() {
+      if (this.compact) {
+        return this.highlighted ? 2 : 1.75
+      }
+
+      return this.highlighted ? 3 : 2.5
     },
     forksHere() {
       return this.item.lane > 0
@@ -204,9 +239,13 @@ export default {
   },
   methods: {
     laneX(lane) {
-      return graphLaneX(lane)
+      return this.compact ? mobileLaneX(lane) : graphLaneX(lane)
     },
     strokeWidth(lane) {
+      if (this.compact) {
+        return this.highlighted && lane === this.item.lane ? 3 : 2.5
+      }
+
       if (this.highlighted && lane === this.item.lane) {
         return 5
       }

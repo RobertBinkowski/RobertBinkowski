@@ -17,36 +17,32 @@
           :x2="trunkX"
           :y2="trunkHeight"
           :stroke="mainBranch.color || '#005b90'"
-          stroke-width="5"
+          :stroke-width="compactGraph ? 3 : 5"
           stroke-linecap="round"
         />
-        <line
-          v-for="marker in yearMarkers"
-          :key="`tick-${marker.year}`"
-          :x1="trunkX - 5"
-          :y1="marker.y"
-          :x2="trunkX + 5"
-          :y2="marker.y"
-          :stroke="mainBranch.color || '#005b90'"
-          stroke-width="2"
-          stroke-linecap="round"
-          opacity="0.55"
+        <circle
+          :cx="trunkX"
+          cy="10"
+          :r="compactGraph ? 5 : 7"
+          :fill="mainBranch.color || '#005b90'"
+          stroke="#fff"
+          :stroke-width="compactGraph ? 2 : 2.5"
         />
       </svg>
 
       <div
-        v-if="yearMarkers.length"
+        v-if="yearMarkers.length && !compactGraph"
         class="trunk-years"
-        :style="{ height: `${trunkHeight}px` }"
+        :style="{ height: `${trunkHeight}px`, width: `${trunkWidth}px` }"
         aria-hidden="true"
       >
         <span
           v-for="marker in yearMarkers"
           :key="marker.year"
           class="trunk-year"
-          :style="{ top: `${marker.y}px` }"
+          :style="{ top: `${marker.y}px`, left: `${trunkX}px` }"
         >
-          {{ marker.year }}
+          <span class="trunk-year__pill">{{ marker.year }}</span>
         </span>
       </div>
 
@@ -71,6 +67,7 @@
             :height="rowHeights[item.id] || 100"
             :role-markers="roleLayouts[item.id] || []"
             :highlighted="hoveredId === item.id"
+            :compact="compactGraph"
           />
         </div>
 
@@ -89,7 +86,14 @@
 <script>
 import TimelineGraphRow from './TimelineGraphRow.vue'
 import TimelineObject from './TimelineObject.vue'
-import { GRAPH_LABEL_GUTTER, ROW_GAP, graphWidth, laneX } from './graphLayout.js'
+import {
+  GRAPH_LABEL_GUTTER,
+  PHONE_BREAKPOINT,
+  graphWidth,
+  laneX,
+  mobileGraphWidth,
+  mobileLaneX,
+} from './graphLayout.js'
 
 const parseMonthValue = (value) => {
   if (!value) {
@@ -164,12 +168,16 @@ export default {
       roleLayouts: {},
       hoveredId: null,
       resizeObserver: null,
+      compactGraph: false,
+      compactMedia: null,
     }
   },
   computed: {
     graphColumnStyle() {
+      const width = this.compactGraph ? mobileGraphWidth(this.maxLane) : graphWidth(this.maxLane)
+
       return {
-        '--graph-width': `${graphWidth(this.maxLane)}px`,
+        '--graph-width': `${width}px`,
         '--graph-gutter': `${GRAPH_LABEL_GUTTER}px`,
         '--main-color': this.mainBranch.color || '#005b90',
       }
@@ -201,10 +209,10 @@ export default {
       return this.laneData.maxLane
     },
     trunkWidth() {
-      return graphWidth(this.maxLane)
+      return this.compactGraph ? mobileGraphWidth(this.maxLane) : graphWidth(this.maxLane)
     },
     trunkX() {
-      return laneX(0)
+      return this.compactGraph ? mobileLaneX(0) : laneX(0)
     },
     trunkHeight() {
       const rows = this.timelineItems
@@ -213,8 +221,7 @@ export default {
       }
 
       const heights = rows.map((item) => this.rowHeights[item.id] || 0)
-      const total = heights.reduce((sum, height) => sum + height, 0)
-      return total + ROW_GAP * Math.max(rows.length - 1, 0)
+      return heights.reduce((sum, height) => sum + height, 0)
     },
     timelineBounds() {
       const items = this.rawItems
@@ -328,15 +335,23 @@ export default {
     },
   },
   mounted() {
+    this.compactMedia = window.matchMedia(`(max-width: ${PHONE_BREAKPOINT}px)`)
+    this.syncCompactGraph()
+    this.compactMedia.addEventListener('change', this.syncCompactGraph)
     window.addEventListener('resize', this.measureRows)
     this.resizeObserver = new ResizeObserver(() => this.measureRows())
     this.$nextTick(this.observeRows)
   },
   beforeUnmount() {
+    this.compactMedia?.removeEventListener('change', this.syncCompactGraph)
     window.removeEventListener('resize', this.measureRows)
     this.resizeObserver?.disconnect()
   },
   methods: {
+    syncCompactGraph() {
+      this.compactGraph = this.compactMedia?.matches ?? false
+      this.$nextTick(this.measureRows)
+    },
     currentMonthValue() {
       const now = new Date()
       return now.getUTCFullYear() * 12 + (now.getUTCMonth() + 1)
@@ -471,7 +486,7 @@ export default {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.5em;
     width: 100%;
     max-width: 100%;
   }
@@ -489,22 +504,31 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-    width: var(--graph-gutter);
     pointer-events: none;
-    z-index: 0;
+    z-index: 2;
   }
 
   .trunk-year {
     position: absolute;
-    right: 0.2rem;
-    transform: translateY(-50%);
-    font-size: 0.62rem;
-    font-weight: 700;
+    transform: translate(-50%, -50%);
+  }
+
+  .trunk-year__pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.22em 0.55em;
+    border-radius: 2em;
+    background: var(--main-color);
+    color: #fff;
+    font-size: 0.8em;
+    font-weight: 800;
     line-height: 1;
-    letter-spacing: 0.02em;
-    color: var(--main-color);
-    opacity: 0.72;
+    letter-spacing: 0;
+    font-variant-numeric: tabular-nums;
     white-space: nowrap;
+    transform: rotate(-90deg);
+    transform-origin: center center;
   }
 
   .experience-row {
@@ -546,7 +570,9 @@ export default {
     align-self: start;
     overflow-wrap: anywhere;
     word-break: break-word;
-    transition: box-shadow $tr-s ease, transform $tr-s ease;
+    transition:
+      box-shadow $tr-s ease,
+      transform $tr-s ease;
   }
 
   .experience-row--active {
@@ -577,12 +603,12 @@ export default {
 @media only screen and (max-width: $phone-size) {
   #timelineSection {
     .experience-row {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 0.25rem;
+      grid-template-columns: var(--graph-width) minmax(0, 1fr);
+      gap: 0.35rem;
     }
 
-    .graph-column {
-      display: none;
+    .experience-content {
+      padding: 0.75em 0.85em;
     }
   }
 }
