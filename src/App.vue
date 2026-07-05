@@ -44,7 +44,7 @@ main {
     z-index: -1;
     pointer-events: none;
 
-    background-image: radial-gradient($dots-color $dots-size, transparent $dots-size);
+    background-image: radial-gradient(var(--color-dots) $dots-size, transparent $dots-size);
     background-size: $dots-gap $dots-gap;
 
     -webkit-mask-image: linear-gradient(

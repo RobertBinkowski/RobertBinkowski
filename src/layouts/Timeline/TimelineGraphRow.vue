@@ -14,7 +14,7 @@
       :y1="segment.y1"
       :x2="laneX(segment.lane)"
       :y2="segment.y2"
-      :stroke="branchColor"
+      :style="{ stroke: branchColor }"
       :stroke-width="strokeWidth(segment.lane)"
       stroke-linecap="round"
       class="git-graph__lane"
@@ -26,7 +26,7 @@
       v-if="item.lane > 0 && forksHere"
       :d="forkPath"
       fill="none"
-      :stroke="branchColor"
+      :style="{ stroke: branchColor }"
       :stroke-width="strokeWidth(item.lane)"
       stroke-linecap="round"
       class="git-graph__lane git-graph__branch"
@@ -37,7 +37,7 @@
       v-if="item.lane > 0 && mergesHere"
       :d="mergePath"
       fill="none"
-      :stroke="branchColor"
+      :style="{ stroke: branchColor }"
       :stroke-width="strokeWidth(item.lane)"
       stroke-linecap="round"
       class="git-graph__lane git-graph__branch"
@@ -50,8 +50,7 @@
       :cx="laneX(item.lane)"
       :cy="marker.y"
       :r="roleRadius"
-      :fill="branchColor"
-      stroke="#fff"
+      :style="{ fill: branchColor, stroke: 'var(--color-surface)' }"
       :stroke-width="roleStrokeWidth"
       class="git-graph__lane git-graph__branch"
     />
@@ -62,7 +61,7 @@
       :cx="laneX(0)"
       :cy="forkY"
       :r="forkRadius"
-      :fill="mainColor"
+      :style="{ fill: mainColor }"
     />
 
     <!-- Merge junction on the trunk (job end) — branch colour where it rejoins -->
@@ -71,7 +70,7 @@
       :cx="laneX(0)"
       :cy="mergeY"
       :r="forkRadius"
-      :fill="branchColor"
+      :style="{ fill: branchColor }"
       class="git-graph__lane git-graph__branch"
     />
 
@@ -81,8 +80,7 @@
       :cx="laneX(item.lane)"
       :cy="branchHeadY"
       :r="headRadius"
-      :fill="branchColor"
-      stroke="#fff"
+      :style="{ fill: branchColor, stroke: 'var(--color-surface)' }"
       :stroke-width="headStrokeWidth"
       class="git-graph__lane git-graph__branch"
     />
@@ -113,11 +111,11 @@ export default {
     },
     mainColor: {
       type: String,
-      default: '#005b90',
+      default: 'var(--color-trunk)',
     },
     branchColor: {
       type: String,
-      default: '#2b9b62',
+      default: 'var(--color-branch-work)',
     },
     height: {
       type: Number,
@@ -272,6 +270,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@/style/variables' as *;
+
 .git-graph {
   display: block;
   width: 100%;
@@ -285,7 +285,7 @@ export default {
 
   &.git-graph--highlighted .git-graph__branch {
     opacity: 1;
-    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.15));
+    filter: drop-shadow(0 0 4px fade(var(--color-shadow), 0.15));
   }
 }
 </style>

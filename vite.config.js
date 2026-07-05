@@ -19,6 +19,8 @@ export default defineConfig(({ mode }) => ({
         /^sr-only/,
         /^contact_link/,
         /^backwards/,
+        // Theme switcher: [data-theme='dark'] is toggled at runtime.
+        /data-theme/,
       ],
     }),
   ].filter(Boolean),

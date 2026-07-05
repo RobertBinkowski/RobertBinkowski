@@ -35,7 +35,7 @@ const parseHex = (hex) => {
 const darkenHex = (hex, amount = 0.25) => {
   const rgb = parseHex(hex)
   if (!rgb) {
-    return hex || '#555'
+    return hex || 'var(--color-text-muted)'
   }
 
   const mix = (value) => Math.round(value * (1 - amount))
@@ -78,9 +78,13 @@ export default {
 
       if (!color) {
         return {
-          backgroundColor: isExperience ? 'rgba(0, 0, 0, 0.06)' : 'gray',
-          borderColor: isExperience ? 'rgba(0, 0, 0, 0.12)' : 'darkgray',
-          '--pill-label-color': isExperience ? '#333' : '#fff',
+          backgroundColor: isExperience
+            ? 'color-mix(in srgb, var(--color-text) 6%, transparent)'
+            : 'var(--color-text-muted)',
+          borderColor: isExperience
+            ? 'color-mix(in srgb, var(--color-text) 12%, transparent)'
+            : 'var(--color-text-muted)',
+          '--pill-label-color': isExperience ? 'var(--color-text)' : 'var(--color-text-inverse)',
         }
       }
 
@@ -96,7 +100,7 @@ export default {
       return {
         backgroundColor: `${color}80`,
         borderColor: color,
-        '--pill-label-color': '#ffffff',
+        '--pill-label-color': 'var(--color-text-inverse)',
       }
     },
     formattedYears() {
@@ -124,10 +128,10 @@ export default {
   border-radius: 2em;
   overflow: hidden;
   box-sizing: border-box;
-  box-shadow: 0 1px 4px rgba($bg-dark, 0.12);
+  box-shadow: 0 1px 4px fade(var(--color-shadow), 0.12);
 
   .skill-pill-label {
-    color: var(--pill-label-color, #{$txt-light});
+    color: var(--pill-label-color, var(--color-text-inverse));
     font-weight: 800;
     white-space: nowrap;
   }
@@ -137,12 +141,12 @@ export default {
     align-items: center;
     flex-wrap: wrap;
     gap: 0.5em;
-    background: linear-gradient(90deg, rgba($bg, 0.92), rgba($bg, 0.7));
+    background: linear-gradient(90deg, fade(var(--color-bg), 0.92), fade(var(--color-bg), 0.7));
     border-radius: $rad-1;
     padding: 0.5em 0.75em;
     margin-left: 0.75em;
     margin-right: -0.75em;
-    color: $txt;
+    color: var(--color-text);
     white-space: nowrap;
   }
 

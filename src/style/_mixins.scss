@@ -11,28 +11,28 @@
 }
 
 @mixin gradient() {
-  background: radial-gradient($button-hover 0, rgba(0, 0, 0, 0) 75%);
+  background: radial-gradient(#{fade(var(--color-primary), 0.25)} 0, transparent 75%);
 }
 
 @mixin boxShadow() {
   box-shadow:
-    6px 6px 12px #c5c5c5,
-    -6px -6px 12px $txt-light;
+    6px 6px 12px var(--color-shadow-neu-dark),
+    -6px -6px 12px var(--color-shadow-neu-light);
 }
 
 @mixin backgroundBlur() {
   // Liquid-glass style blur: heavy blur + boosted saturation behind the
   // surface, a soft diagonal sheen on top, and a thin translucent edge.
-  background-color: $nav-bg;
+  background-color: var(--color-glass);
   background-image: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0.05) 45%,
-    rgba(255, 255, 255, 0.15) 100%
+    #{fade(var(--color-glass-sheen), 0.3)} 0%,
+    #{fade(var(--color-glass-sheen), 0.05)} 45%,
+    #{fade(var(--color-glass-sheen), 0.15)} 100%
   );
   -webkit-backdrop-filter: blur($blur) saturate(180%);
   backdrop-filter: blur($blur) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid #{fade(var(--color-glass-sheen), 0.35)};
 }
 
 @mixin responsiveItems($var: 250px) {

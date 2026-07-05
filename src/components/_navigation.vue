@@ -154,7 +154,7 @@ export default {
       a {
         margin: 1em;
         .svg {
-          stroke: $txt;
+          stroke: var(--color-text);
           height: 2.2rem;
           stroke-width: 1.2;
           padding: 0.4em;
@@ -177,15 +177,15 @@ export default {
         white-space: nowrap;
 
         &.router-link-active {
-          background-color: $acc-1;
-          color: $txt-light;
+          background-color: var(--color-primary);
+          color: var(--color-text-inverse);
           box-shadow:
-            -4px -2px 16px 0px #ffffff,
-            4px 2px 16px 0px $acc-1;
+            -4px -2px 16px 0px var(--color-shadow-neu-light),
+            4px 2px 16px 0px var(--color-primary);
           border-radius: 2em;
         }
         &:hover {
-          color: $txt-light;
+          color: var(--color-text-inverse);
         }
         &:active {
           box-shadow: none;
@@ -199,7 +199,7 @@ export default {
       position: fixed;
       bottom: 0;
       left: 0;
-      background: $txt;
+      background: var(--color-text);
     }
     .right-corner {
       display: flex;
@@ -224,7 +224,7 @@ export default {
 
         .line {
           fill: none;
-          stroke: $txt;
+          stroke: var(--color-text);
           stroke-linecap: round;
           stroke-linejoin: round;
           stroke-width: 2;

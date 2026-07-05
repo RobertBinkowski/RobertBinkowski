@@ -357,7 +357,7 @@ export default {
 
   .entry-name {
     margin: 0;
-    color: $txt;
+    color: var(--color-text);
     font-size: clamp(1rem, 3.5vw, 1.3rem);
     font-weight: 900;
     overflow-wrap: anywhere;
@@ -377,7 +377,7 @@ export default {
 
   .entry-tagline {
     margin: 0.1rem 0 0;
-    color: $txt-grey;
+    color: var(--color-text-muted);
     font-size: 0.88rem;
     line-height: 1.3;
   }
@@ -387,7 +387,7 @@ export default {
     flex-wrap: wrap;
     gap: 0.25rem;
     margin-top: 0.2rem;
-    color: $txt-grey;
+    color: var(--color-text-muted);
     font-size: 0.8rem;
     overflow-wrap: anywhere;
   }
@@ -412,7 +412,7 @@ export default {
       margin-top: 1rem;
       padding-top: 1rem;
       border-top: none;
-      box-shadow: inset 0 8px 8px -8px rgba($bg-dark, 0.08);
+      box-shadow: inset 0 8px 8px -8px fade(var(--color-shadow), 0.08);
     }
   }
 
@@ -448,7 +448,7 @@ export default {
 
   .role-subtitle {
     margin: 0.15rem 0 0;
-    color: $txt-grey;
+    color: var(--color-text-muted);
     font-size: 0.82rem;
   }
 
@@ -489,7 +489,7 @@ export default {
     margin-top: 0.85rem;
     padding-top: 0.75rem;
     border-top: none;
-    box-shadow: inset 0 6px 6px -6px rgba($bg-dark, 0.06);
+    box-shadow: inset 0 6px 6px -6px fade(var(--color-shadow), 0.06);
   }
 }
 

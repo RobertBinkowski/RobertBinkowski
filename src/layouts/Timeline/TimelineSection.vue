@@ -16,7 +16,7 @@
           :y1="trunkLineStart"
           :x2="trunkX"
           :y2="trunkHeight"
-          :stroke="mainBranch.color || '#005b90'"
+          :style="{ stroke: trunkColor }"
           :stroke-width="compactGraph ? 3 : 5"
           stroke-linecap="round"
         />
@@ -24,8 +24,7 @@
           :cx="trunkX"
           :cy="trunkHeadCy"
           :r="trunkHeadRadius"
-          :fill="mainBranch.color || '#005b90'"
-          stroke="#fff"
+          :style="{ fill: trunkColor, stroke: 'var(--color-surface)' }"
           :stroke-width="compactGraph ? 2 : 2.5"
         />
       </svg>
@@ -62,8 +61,8 @@
             :item="item"
             :active-lanes="item.activeLanes"
             :max-lane="maxLane"
-            :main-color="mainBranch.color || '#005b90'"
-            :branch-color="item.branch.color || '#2b9b62'"
+            :main-color="trunkColor"
+            :branch-color="item.branch.color || 'var(--color-branch-work)'"
             :height="rowHeights[item.id] || 100"
             :role-markers="roleLayouts[item.id] || []"
             :highlighted="hoveredId === item.id"
@@ -183,13 +182,16 @@ export default {
     }
   },
   computed: {
+    trunkColor() {
+      return this.mainBranch.color || 'var(--color-trunk)'
+    },
     graphColumnStyle() {
       const width = this.compactGraph ? mobileGraphWidth(this.maxLane) : graphWidth(this.maxLane)
 
       return {
         '--graph-width': `${width}px`,
         '--graph-gutter': `${GRAPH_LABEL_GUTTER}px`,
-        '--main-color': this.mainBranch.color || '#005b90',
+        '--main-color': this.trunkColor,
       }
     },
     rawItems() {
@@ -467,35 +469,13 @@ export default {
       })
     },
     branchStyle(branch) {
-      const accent = branch.color || '#005b90'
+      const accent = branch.color || 'var(--color-trunk)'
 
       return {
         '--branch-accent': accent,
-        '--branch-accent-soft': this.hexToRgba(accent, 0.18),
-        '--branch-accent-faint': this.hexToRgba(accent, 0.08),
+        '--branch-accent-soft': `color-mix(in srgb, ${accent} 18%, transparent)`,
+        '--branch-accent-faint': `color-mix(in srgb, ${accent} 8%, transparent)`,
       }
-    },
-    hexToRgba(hex, alpha) {
-      const normalized = hex.replace('#', '')
-      const expanded =
-        normalized.length === 3
-          ? normalized
-              .split('')
-              .map((value) => value + value)
-              .join('')
-          : normalized
-
-      const parsed = Number.parseInt(expanded, 16)
-
-      if (Number.isNaN(parsed)) {
-        return `rgba(0, 91, 144, ${alpha})`
-      }
-
-      const red = (parsed >> 16) & 255
-      const green = (parsed >> 8) & 255
-      const blue = parsed & 255
-
-      return `rgba(${red}, ${green}, ${blue}, ${alpha})`
     },
   },
 }
@@ -564,7 +544,7 @@ export default {
     padding: 0.22em 0.55em;
     border-radius: 2em;
     background: var(--main-color);
-    color: #fff;
+    color: var(--color-text-inverse);
     font-size: 0.8em;
     font-weight: 800;
     line-height: 1;
@@ -607,11 +587,11 @@ export default {
     padding: 1.15em 1.25em;
     border: none;
     border-radius: 0.9rem;
-    background: $txt-light;
+    background: var(--color-surface);
     box-shadow:
-      0 1px 2px rgba($bg-dark, 0.04),
-      0 4px 12px rgba($bg-dark, 0.06),
-      0 12px 28px rgba($bg-dark, 0.04);
+      0 1px 2px fade(var(--color-shadow), 0.04),
+      0 4px 12px fade(var(--color-shadow), 0.06),
+      0 12px 28px fade(var(--color-shadow), 0.04);
     align-self: start;
     overflow-wrap: anywhere;
     word-break: break-word;
@@ -623,9 +603,9 @@ export default {
   .experience-row--active {
     .experience-content {
       box-shadow:
-        0 2px 4px rgba($bg-dark, 0.06),
-        0 8px 20px rgba($bg-dark, 0.1),
-        0 16px 36px rgba($bg-dark, 0.08);
+        0 2px 4px fade(var(--color-shadow), 0.06),
+        0 8px 20px fade(var(--color-shadow), 0.1),
+        0 16px 36px fade(var(--color-shadow), 0.08);
       transform: translateY(-1px);
     }
   }

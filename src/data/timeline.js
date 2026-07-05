@@ -15,7 +15,8 @@ export const timelineBranches = [
     ref: 'Work',
     sectionId: 'workSection',
     lane: 'left',
-    color: '#2b9b62',
+    // Theme token defined in src/style/_theme.scss.
+    color: 'var(--color-branch-work)',
     description: 'Production engineering and freelance delivery.',
     entries: [
       {
@@ -132,7 +133,7 @@ export const timelineBranches = [
     ref: 'Education',
     sectionId: 'educationSection',
     lane: 'right',
-    color: '#e8892f',
+    color: 'var(--color-branch-education)',
     description: 'Formal software education with a practical delivery focus.',
     entries: [
       {
