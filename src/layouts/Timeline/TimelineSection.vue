@@ -69,6 +69,8 @@
             :highlighted="hoveredId === item.id"
             :compact="compactGraph"
             :branch-head-y="branchHeadY"
+            :handoff-fork="item.handoffFork"
+            :handoff-merge="item.handoffMerge"
           />
         </div>
 
@@ -126,6 +128,8 @@ const getEntrySpan = (roles) => {
 
   return { startMonth, endMonth }
 }
+
+const sameMonthHandoff = (newerItem, olderItem) => newerItem?.startMonth === olderItem?.endMonth
 
 const assignLanes = (items) => {
   const sorted = [...items].sort((left, right) => left.startMonth - right.startMonth)
@@ -322,7 +326,7 @@ export default {
       const reversed = [...sorted].reverse()
       const sectionAnchors = new Set()
 
-      return reversed.map((item) => {
+      return reversed.map((item, index) => {
         const sectionId =
           item.branch.sectionId && !sectionAnchors.has(item.branch.sectionId)
             ? item.branch.sectionId
@@ -332,9 +336,14 @@ export default {
           sectionAnchors.add(item.branch.sectionId)
         }
 
+        const older = reversed[index + 1]
+        const newer = reversed[index - 1]
+
         return {
           ...item,
           sectionId,
+          handoffFork: Boolean(older && sameMonthHandoff(item, older)),
+          handoffMerge: Boolean(newer && sameMonthHandoff(newer, item)),
         }
       })
     },
@@ -508,7 +517,6 @@ export default {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
     width: 100%;
     max-width: 100%;
   }
@@ -581,6 +589,7 @@ export default {
   .experience-content {
     min-width: 0;
     max-width: 100%;
+    margin: 0.5em 0;
     padding: 1.15em 1.25em;
     border: none;
     border-radius: 0.9rem;

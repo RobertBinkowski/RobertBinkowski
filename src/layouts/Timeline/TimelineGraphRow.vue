@@ -139,6 +139,14 @@ export default {
       type: Number,
       required: true,
     },
+    handoffFork: {
+      type: Boolean,
+      default: false,
+    },
+    handoffMerge: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     width() {
@@ -185,10 +193,10 @@ export default {
       return this.item.lane > 0 && !Number.isFinite(this.item.endMonth)
     },
     forkY() {
-      return this.height - CORNER * 2
+      return this.handoffFork ? this.height : this.height - CORNER * 2
     },
     mergeY() {
-      return CORNER * 2
+      return this.handoffMerge ? 0 : CORNER * 2
     },
     curveLead() {
       const room = Math.max(0, this.forkY - this.mergeY - 16)
