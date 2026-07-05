@@ -34,6 +34,7 @@ $orange: #e8892f; // timeline education branch
 // ------------------------------------------------------- light theme
 :root {
   color-scheme: light;
+  --site-rev: 2; // bump when asset cache needs invalidation
 
   // Surfaces
   --color-bg: #{$grey-100}; // page background

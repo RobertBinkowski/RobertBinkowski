@@ -585,6 +585,7 @@ export default {
 @use '@/style/variables' as *;
 
 #timelineSection {
+  --site-rev: 2;
   display: block;
   width: 100%;
   max-width: 100%;

@@ -67,6 +67,7 @@ export default {
 @use '@/style/variables' as *;
 
 #skills-section {
+  --site-rev: 2;
   display: flex;
   flex-direction: column;
   width: 100%;

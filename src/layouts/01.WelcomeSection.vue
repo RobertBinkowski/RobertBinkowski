@@ -34,6 +34,7 @@
 @use '@/style/mixins' as *;
 
 #welcomeSection {
+  --site-rev: 2;
   position: relative;
   text-align: center;
   height: 100vh;
