@@ -48,7 +48,7 @@
   }
 
   .card {
-    background-color: $bg;
+    background-color: var(--color-bg);
     border-radius: 0.5em;
     display: flex;
     flex-direction: column;
@@ -58,7 +58,7 @@
 
     svg {
       height: 3em;
-      fill: $txt;
+      fill: var(--color-text);
       margin: auto;
     }
 
@@ -97,7 +97,7 @@
     }
 
     & > .card-content {
-      background-color: $bg;
+      background-color: var(--color-bg);
       border-radius: inherit;
       display: flex;
       flex-direction: column;

@@ -91,12 +91,12 @@ export default {
 
   &::before {
     left: 0;
-    background: linear-gradient(90deg, $bg 0%, rgba($bg, 0));
+    background: linear-gradient(90deg, var(--color-bg) 0%, fade(var(--color-bg), 0));
   }
 
   &::after {
     right: 0;
-    background: linear-gradient(270deg, $bg 0%, rgba($bg, 0));
+    background: linear-gradient(270deg, var(--color-bg) 0%, fade(var(--color-bg), 0));
   }
 
   .skills-wrapper {

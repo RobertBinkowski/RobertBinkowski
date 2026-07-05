@@ -17,7 +17,7 @@
         height: 0.5rem;
         border-radius: 50%;
 
-        background-color: $txt-grey;
+        background-color: var(--color-text-muted);
 
         animation: 0.5s bounce infinite alternate;
         &:nth-child(2) {

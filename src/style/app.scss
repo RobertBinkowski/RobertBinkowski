@@ -8,6 +8,7 @@
 *  Imports
 */
 @use './screens';
+@use './theme';
 @use './variables' as *;
 @use './mixins' as *;
 
@@ -41,18 +42,18 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: $bg;
+  background: var(--color-bg);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: $acc-2;
+  background: var(--color-secondary);
   border-radius: $rad-1;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: $acc-2;
+  background: var(--color-secondary);
 }
 
 /***********************************************
@@ -68,9 +69,9 @@ html {
     margin: 0;
     overflow-x: clip;
     max-width: 100%;
-    background: $bg;
-    color: $txt;
-    text-shadow: 1px 1px 1px $shadow;
+    background: var(--color-bg);
+    color: var(--color-text);
+    text-shadow: 1px 1px 1px var(--color-shadow-text);
 
     main {
       min-height: 100vh;
@@ -82,23 +83,23 @@ html {
     }
     h1,
     h2 {
-      text-shadow: 2px 2px 2px $shadow;
+      text-shadow: 2px 2px 2px var(--color-shadow-text);
     }
   }
 }
 
 a {
   text-decoration: none;
-  color: $txt;
+  color: var(--color-text);
   font-weight: bold;
   transition: $tr-f;
   &:hover {
-    color: $acc-2;
+    color: var(--color-secondary);
   }
 }
 em {
   font-weight: bold;
-  color: $acc-1;
+  color: var(--color-primary);
 }
 ul {
   list-style: none;
@@ -108,7 +109,7 @@ p {
   // text-wrap: ballance;
   margin: 0;
   strong {
-    color: $acc-2;
+    color: var(--color-secondary);
   }
 }
 li {
@@ -215,21 +216,21 @@ form {
   position: relative;
   overflow: hidden;
   z-index: 1;
-  color: #090909;
+  color: var(--color-text);
   padding: 0.7em 1.7em;
   cursor: pointer;
   font-size: 18px;
   border-radius: 0.5em;
-  background: #e8e8e8;
-  border: 1px solid #e8e8e8;
+  background: var(--color-bg);
+  border: 1px solid var(--color-bg);
   @include boxShadow();
 }
 
 .button:active {
-  color: #666;
+  color: var(--color-text-muted);
   box-shadow:
-    inset 4px 4px 12px #c5c5c5,
-    inset -4px -4px 12px #ffffff;
+    inset 4px 4px 12px var(--color-shadow-neu-dark),
+    inset -4px -4px 12px var(--color-shadow-neu-light);
 }
 
 .button:before {
@@ -240,7 +241,7 @@ form {
   top: 100%;
   width: 140%;
   height: 180%;
-  background-color: $shadow;
+  background-color: var(--color-shadow-text);
   border-radius: 50%;
   display: block;
   transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
@@ -255,7 +256,7 @@ form {
   top: 180%;
   width: 160%;
   height: 190%;
-  background-color: $acc-1;
+  background-color: var(--color-primary);
   border-radius: 50%;
   display: block;
   transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
@@ -263,19 +264,19 @@ form {
 }
 
 .button:hover {
-  color: #ffffff;
-  border: 1px solid $acc-1;
+  color: var(--color-text-inverse);
+  border: 1px solid var(--color-primary);
 }
 
 .button:hover:before {
   top: -35%;
-  background-color: $acc-1;
+  background-color: var(--color-primary);
   transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
 }
 
 .button:hover:after {
   top: -45%;
-  background-color: $acc-1;
+  background-color: var(--color-primary);
   transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
 }
 
@@ -286,7 +287,7 @@ form {
     display: inline-block;
     width: 0.5em;
     height: 1em;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: fade(var(--color-surface), 0.5);
     border-radius: 10px;
     animation: scale-up4 1s linear infinite;
   }
@@ -304,7 +305,7 @@ form {
 
 @keyframes scale-up4 {
   20% {
-    background-color: #ffff;
+    background-color: var(--color-surface);
     transform: scaleY(1.5);
   }
 

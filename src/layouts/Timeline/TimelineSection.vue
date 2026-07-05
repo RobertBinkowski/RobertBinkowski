@@ -1,7 +1,7 @@
 <template>
   <section id="timelineSection">
     <h2 class="timeline-heading">Experience</h2>
-    <div class="timeline-graph" :style="graphColumnStyle">
+    <div class="timeline-graph" :style="graphColumnStyle" ref="timelineGraph">
       <!-- Single continuous main trunk behind all rows -->
       <svg
         v-if="trunkHeight > 0"
@@ -13,45 +13,83 @@
       >
         <line
           :x1="trunkX"
-          :y1="0"
+          :y1="trunkLineStart"
           :x2="trunkX"
           :y2="trunkHeight"
-          :stroke="mainBranch.color || '#005b90'"
-          stroke-width="5"
+          :style="{ stroke: trunkColor }"
+          :stroke-width="compactGraph ? 3 : 5"
           stroke-linecap="round"
         />
-        <line
-          v-for="marker in yearMarkers"
-          :key="`tick-${marker.year}`"
-          :x1="trunkX - 5"
-          :y1="marker.y"
-          :x2="trunkX + 5"
-          :y2="marker.y"
-          :stroke="mainBranch.color || '#005b90'"
-          stroke-width="2"
-          stroke-linecap="round"
-          opacity="0.55"
+        <circle
+          :cx="trunkX"
+          :cy="trunkHeadCy"
+          :r="trunkHeadRadius"
+          :style="{ fill: trunkColor, stroke: 'var(--color-surface)' }"
+          :stroke-width="compactGraph ? 2 : 2.5"
         />
+
+        <!-- Continuous education branch (spans every overlapping row) -->
+        <g v-if="educationBranchOverlay" class="global-branch global-branch--education">
+          <line
+            :x1="educationBranchOverlay.branchX"
+            :y1="educationBranchOverlay.lineY1"
+            :x2="educationBranchOverlay.branchX"
+            :y2="educationBranchOverlay.lineY2"
+            :style="{ stroke: educationBranchOverlay.color }"
+            :stroke-width="educationBranchOverlay.strokeWidth"
+            stroke-linecap="round"
+          />
+          <path
+            v-if="educationBranchOverlay.showMerge"
+            :d="educationBranchOverlay.mergePath"
+            fill="none"
+            :style="{ stroke: educationBranchOverlay.color }"
+            :stroke-width="educationBranchOverlay.strokeWidth"
+            stroke-linecap="round"
+          />
+          <path
+            v-if="educationBranchOverlay.showFork"
+            :d="educationBranchOverlay.forkPath"
+            fill="none"
+            :style="{ stroke: educationBranchOverlay.color }"
+            :stroke-width="educationBranchOverlay.strokeWidth"
+            stroke-linecap="round"
+          />
+          <circle
+            v-if="educationBranchOverlay.showMerge"
+            :cx="trunkX"
+            :cy="educationBranchOverlay.mergeY"
+            :r="educationBranchOverlay.junctionRadius"
+            :style="{ fill: educationBranchOverlay.color }"
+          />
+          <circle
+            v-if="educationBranchOverlay.showFork"
+            :cx="trunkX"
+            :cy="educationBranchOverlay.forkY"
+            :r="educationBranchOverlay.junctionRadius"
+            :style="{ fill: trunkColor }"
+          />
+        </g>
       </svg>
 
       <div
-        v-if="yearMarkers.length"
+        v-if="yearMarkers.length && !compactGraph"
         class="trunk-years"
-        :style="{ height: `${trunkHeight}px` }"
+        :style="{ height: `${trunkHeight}px`, width: `${trunkWidth}px` }"
         aria-hidden="true"
       >
         <span
           v-for="marker in yearMarkers"
           :key="marker.year"
           class="trunk-year"
-          :style="{ top: `${marker.y}px` }"
+          :style="{ top: `${marker.y}px`, left: `${trunkX}px` }"
         >
-          {{ marker.year }}
+          <span class="trunk-year__pill">{{ marker.year }}</span>
         </span>
       </div>
 
       <div
-        v-for="item in timelineItems"
+        v-for="(item, rowIndex) in timelineItems"
         :id="item.sectionId"
         :key="item.id"
         class="experience-row"
@@ -64,13 +102,19 @@
         <div class="graph-column">
           <TimelineGraphRow
             :item="item"
-            :active-lanes="item.activeLanes"
+            :active-lane-details="item.activeLaneDetails"
             :max-lane="maxLane"
-            :main-color="mainBranch.color || '#005b90'"
-            :branch-color="item.branch.color || '#2b9b62'"
+            :main-color="trunkColor"
+            :branch-color="item.branch.color || 'var(--color-branch-work)'"
             :height="rowHeights[item.id] || 100"
             :role-markers="roleLayouts[item.id] || []"
             :highlighted="hoveredId === item.id"
+            :compact="compactGraph"
+            :branch-head-y="branchHeadY"
+            :handoff-fork="item.handoffFork"
+            :handoff-merge="item.handoffMerge"
+            :is-last-row="rowIndex === timelineItems.length - 1"
+            :externally-drawn-branch="item.branch.id === 'education'"
           />
         </div>
 
@@ -89,7 +133,20 @@
 <script>
 import TimelineGraphRow from './TimelineGraphRow.vue'
 import TimelineObject from './TimelineObject.vue'
-import { GRAPH_LABEL_GUTTER, ROW_GAP, graphWidth, laneX } from './graphLayout.js'
+import {
+  GRAPH_CURVE_LEAD,
+  GRAPH_LABEL_GUTTER,
+  PHONE_BREAKPOINT,
+  branchHeadY as computeBranchHeadY,
+  forkCurvePath,
+  graphWidth,
+  laneX,
+  mergeCurvePath,
+  mobileGraphWidth,
+  mobileLaneX,
+  monthToTrunkY,
+  trunkHeadMetrics,
+} from './graphLayout.js'
 
 const parseMonthValue = (value) => {
   if (!value) {
@@ -120,26 +177,25 @@ const getEntrySpan = (roles) => {
   return { startMonth, endMonth }
 }
 
+const sameMonthHandoff = (newerItem, olderItem) => newerItem?.startMonth === olderItem?.endMonth
+
+// Work and education run on fixed parallel lanes so overlapping periods show
+// three lines: master trunk, work branch (lane 1), education branch (lane 2).
+const BRANCH_LANE = {
+  work: 1,
+  education: 2,
+}
+
 const assignLanes = (items) => {
-  const sorted = [...items].sort((left, right) => left.startMonth - right.startMonth)
-  const laneEnds = []
   const lanes = new Map()
 
-  for (const item of sorted) {
-    let lane = 1
-
-    while (lane < laneEnds.length && laneEnds[lane] > item.startMonth) {
-      lane += 1
-    }
-
-    laneEnds[lane] = item.endMonth
-    lanes.set(item.id, lane)
+  for (const item of items) {
+    lanes.set(item.id, BRANCH_LANE[item.branch.id] ?? 1)
   }
 
-  return {
-    lanes,
-    maxLane: Math.max(1, laneEnds.length - 1),
-  }
+  const maxLane = Math.max(1, ...lanes.values())
+
+  return { lanes, maxLane }
 }
 
 export default {
@@ -164,14 +220,23 @@ export default {
       roleLayouts: {},
       hoveredId: null,
       resizeObserver: null,
+      compactGraph: false,
+      compactMedia: null,
+      emPx: 16,
+      measuredTrunkHeight: 0,
     }
   },
   computed: {
+    trunkColor() {
+      return this.mainBranch.color || 'var(--color-trunk)'
+    },
     graphColumnStyle() {
+      const width = this.compactGraph ? mobileGraphWidth(this.maxLane) : graphWidth(this.maxLane)
+
       return {
-        '--graph-width': `${graphWidth(this.maxLane)}px`,
+        '--graph-width': `${width}px`,
         '--graph-gutter': `${GRAPH_LABEL_GUTTER}px`,
-        '--main-color': this.mainBranch.color || '#005b90',
+        '--main-color': this.trunkColor,
       }
     },
     rawItems() {
@@ -201,10 +266,22 @@ export default {
       return this.laneData.maxLane
     },
     trunkWidth() {
-      return graphWidth(this.maxLane)
+      return this.compactGraph ? mobileGraphWidth(this.maxLane) : graphWidth(this.maxLane)
     },
     trunkX() {
-      return laneX(0)
+      return this.compactGraph ? mobileLaneX(0) : laneX(0)
+    },
+    trunkHeadRadius() {
+      return trunkHeadMetrics(this.compactGraph).radius
+    },
+    trunkHeadCy() {
+      return trunkHeadMetrics(this.compactGraph).cy
+    },
+    trunkLineStart() {
+      return trunkHeadMetrics(this.compactGraph).lineStart
+    },
+    branchHeadY() {
+      return computeBranchHeadY(this.compactGraph, this.emPx)
     },
     trunkHeight() {
       const rows = this.timelineItems
@@ -213,8 +290,9 @@ export default {
       }
 
       const heights = rows.map((item) => this.rowHeights[item.id] || 0)
-      const total = heights.reduce((sum, height) => sum + height, 0)
-      return total + ROW_GAP * Math.max(rows.length - 1, 0)
+      const summed = heights.reduce((sum, height) => sum + height, 0)
+
+      return Math.max(summed, this.measuredTrunkHeight)
     },
     timelineBounds() {
       const items = this.rawItems
@@ -266,6 +344,49 @@ export default {
 
       return markers
     },
+    educationBranchOverlay() {
+      const eduLane = BRANCH_LANE.education
+      const eduItem = this.timelineItems.find((item) => item.branch.id === 'education')
+      const bounds = this.timelineBounds
+      const height = this.trunkHeight
+
+      if (!eduItem || !bounds || height <= 0) {
+        return null
+      }
+
+      const mergeY = monthToTrunkY(eduItem.endMonth, bounds, height)
+      const forkY = monthToTrunkY(eduItem.startMonth, bounds, height)
+
+      if (mergeY == null || forkY == null || forkY <= mergeY) {
+        return null
+      }
+
+      const branchX = this.compactGraph ? mobileLaneX(eduLane) : laneX(eduLane)
+      const mainX = this.trunkX
+      const color = eduItem.branch.color || 'var(--color-branch-education)'
+      const lead = Math.min(
+        GRAPH_CURVE_LEAD,
+        Math.max(20, (forkY - mergeY) * 0.08),
+        Math.max(0, forkY - mergeY - 16) / 2,
+      )
+
+      return {
+        branchX,
+        mainX,
+        color,
+        lineY1: mergeY + lead,
+        lineY2: forkY - lead,
+        mergeY,
+        forkY,
+        lead,
+        mergePath: mergeCurvePath(mainX, branchX, mergeY, lead),
+        forkPath: forkCurvePath(mainX, branchX, forkY, lead),
+        showMerge: Number.isFinite(eduItem.endMonth),
+        showFork: Number.isFinite(eduItem.startMonth),
+        junctionRadius: this.compactGraph ? 4 : 6,
+        strokeWidth: this.compactGraph ? 3.5 : 4,
+      }
+    },
     timelineItems() {
       const { lanes } = this.laneData
 
@@ -278,28 +399,40 @@ export default {
         .sort((left, right) => left.startMonth - right.startMonth)
         .map((item) => {
           const activeItems = enriched.filter((candidate) => intervalsOverlap(item, candidate))
-          const activeLanes = [0]
+          const laneDetailsByLane = new Map()
 
           for (const activeItem of activeItems) {
             const lane = activeItem.lane
-            if (!activeLanes.includes(lane)) {
-              activeLanes.push(lane)
+            if (lane <= 0 || laneDetailsByLane.has(lane)) {
+              continue
             }
+
+            laneDetailsByLane.set(lane, {
+              lane,
+              color:
+                activeItem.branch.color ||
+                (activeItem.branch.id === 'education'
+                  ? 'var(--color-branch-education)'
+                  : 'var(--color-branch-work)'),
+              isOwn: lane === item.lane,
+            })
           }
 
-          activeLanes.sort((left, right) => left - right)
+          const activeLaneDetails = [...laneDetailsByLane.values()]
+            .filter((detail) => detail.lane !== BRANCH_LANE.education)
+            .sort((left, right) => left.lane - right.lane)
 
           return {
             ...item,
             activeItems,
-            activeLanes,
+            activeLaneDetails,
           }
         })
 
       const reversed = [...sorted].reverse()
       const sectionAnchors = new Set()
 
-      return reversed.map((item) => {
+      return reversed.map((item, index) => {
         const sectionId =
           item.branch.sectionId && !sectionAnchors.has(item.branch.sectionId)
             ? item.branch.sectionId
@@ -309,9 +442,14 @@ export default {
           sectionAnchors.add(item.branch.sectionId)
         }
 
+        const older = reversed[index + 1]
+        const newer = reversed[index - 1]
+
         return {
           ...item,
           sectionId,
+          handoffFork: Boolean(older && sameMonthHandoff(item, older)),
+          handoffMerge: Boolean(newer && sameMonthHandoff(newer, item)),
         }
       })
     },
@@ -328,15 +466,29 @@ export default {
     },
   },
   mounted() {
+    this.compactMedia = window.matchMedia(`(max-width: ${PHONE_BREAKPOINT}px)`)
+    this.syncCompactGraph()
+    this.syncEmPx()
+    this.compactMedia.addEventListener('change', this.syncCompactGraph)
     window.addEventListener('resize', this.measureRows)
+    window.addEventListener('resize', this.syncEmPx)
     this.resizeObserver = new ResizeObserver(() => this.measureRows())
     this.$nextTick(this.observeRows)
   },
   beforeUnmount() {
+    this.compactMedia?.removeEventListener('change', this.syncCompactGraph)
     window.removeEventListener('resize', this.measureRows)
+    window.removeEventListener('resize', this.syncEmPx)
     this.resizeObserver?.disconnect()
   },
   methods: {
+    syncEmPx() {
+      this.emPx = Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16
+    },
+    syncCompactGraph() {
+      this.compactGraph = this.compactMedia?.matches ?? false
+      this.$nextTick(this.measureRows)
+    },
     currentMonthValue() {
       const now = new Date()
       return now.getUTCFullYear() * 12 + (now.getUTCMonth() + 1)
@@ -355,13 +507,18 @@ export default {
         const item = this.timelineItems[index]
         if (item && row) {
           const content = row.querySelector('.experience-content')
-          nextHeights[item.id] = Math.max(content?.offsetHeight || row.offsetHeight, 72)
+          nextHeights[item.id] = Math.max(row.offsetHeight, content?.offsetHeight || 0, 72)
           nextRoleLayouts[item.id] = this.measureRoleMarkers(content)
         }
       })
 
       this.rowHeights = nextHeights
       this.roleLayouts = nextRoleLayouts
+
+      this.$nextTick(() => {
+        const graph = this.$refs.timelineGraph
+        this.measuredTrunkHeight = graph?.offsetHeight || 0
+      })
     },
     measureRoleMarkers(content) {
       if (!content) {
@@ -394,6 +551,11 @@ export default {
 
       this.resizeObserver.disconnect()
       const rows = this.$refs.experienceRows
+      const graph = this.$refs.timelineGraph
+
+      if (graph) {
+        this.resizeObserver.observe(graph)
+      }
 
       if (!rows) {
         return
@@ -407,35 +569,13 @@ export default {
       })
     },
     branchStyle(branch) {
-      const accent = branch.color || '#005b90'
+      const accent = branch.color || 'var(--color-trunk)'
 
       return {
         '--branch-accent': accent,
-        '--branch-accent-soft': this.hexToRgba(accent, 0.18),
-        '--branch-accent-faint': this.hexToRgba(accent, 0.08),
+        '--branch-accent-soft': `color-mix(in srgb, ${accent} 18%, transparent)`,
+        '--branch-accent-faint': `color-mix(in srgb, ${accent} 8%, transparent)`,
       }
-    },
-    hexToRgba(hex, alpha) {
-      const normalized = hex.replace('#', '')
-      const expanded =
-        normalized.length === 3
-          ? normalized
-              .split('')
-              .map((value) => value + value)
-              .join('')
-          : normalized
-
-      const parsed = Number.parseInt(expanded, 16)
-
-      if (Number.isNaN(parsed)) {
-        return `rgba(0, 91, 144, ${alpha})`
-      }
-
-      const red = (parsed >> 16) & 255
-      const green = (parsed >> 8) & 255
-      const blue = parsed & 255
-
-      return `rgba(${red}, ${green}, ${blue}, ${alpha})`
     },
   },
 }
@@ -471,7 +611,6 @@ export default {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
     width: 100%;
     max-width: 100%;
   }
@@ -483,28 +622,41 @@ export default {
     width: var(--graph-width);
     pointer-events: none;
     z-index: 0;
+
+    .global-branch {
+      opacity: 0.85;
+    }
   }
 
   .trunk-years {
     position: absolute;
     top: 0;
     left: 0;
-    width: var(--graph-gutter);
     pointer-events: none;
-    z-index: 0;
+    z-index: 2;
   }
 
   .trunk-year {
     position: absolute;
-    right: 0.2rem;
-    transform: translateY(-50%);
-    font-size: 0.62rem;
-    font-weight: 700;
+    transform: translate(-50%, -50%);
+  }
+
+  .trunk-year__pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.22em 0.55em;
+    border-radius: 2em;
+    background: var(--main-color);
+    color: var(--color-text-inverse);
+    font-size: 0.8em;
+    font-weight: 800;
     line-height: 1;
-    letter-spacing: 0.02em;
-    color: var(--main-color);
-    opacity: 0.72;
+    letter-spacing: 0;
+    font-variant-numeric: tabular-nums;
     white-space: nowrap;
+    transform: rotate(-90deg);
+    transform-origin: center center;
   }
 
   .experience-row {
@@ -535,26 +687,29 @@ export default {
   .experience-content {
     min-width: 0;
     max-width: 100%;
+    margin: 0.5em 0;
     padding: 1.15em 1.25em;
     border: none;
     border-radius: 0.9rem;
-    background: $txt-light;
+    background: var(--color-surface);
     box-shadow:
-      0 1px 2px rgba($bg-dark, 0.04),
-      0 4px 12px rgba($bg-dark, 0.06),
-      0 12px 28px rgba($bg-dark, 0.04);
+      0 1px 2px fade(var(--color-shadow), 0.04),
+      0 4px 12px fade(var(--color-shadow), 0.06),
+      0 12px 28px fade(var(--color-shadow), 0.04);
     align-self: start;
     overflow-wrap: anywhere;
     word-break: break-word;
-    transition: box-shadow $tr-s ease, transform $tr-s ease;
+    transition:
+      box-shadow $tr-s ease,
+      transform $tr-s ease;
   }
 
   .experience-row--active {
     .experience-content {
       box-shadow:
-        0 2px 4px rgba($bg-dark, 0.06),
-        0 8px 20px rgba($bg-dark, 0.1),
-        0 16px 36px rgba($bg-dark, 0.08);
+        0 2px 4px fade(var(--color-shadow), 0.06),
+        0 8px 20px fade(var(--color-shadow), 0.1),
+        0 16px 36px fade(var(--color-shadow), 0.08);
       transform: translateY(-1px);
     }
   }
@@ -577,12 +732,12 @@ export default {
 @media only screen and (max-width: $phone-size) {
   #timelineSection {
     .experience-row {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 0.25rem;
+      grid-template-columns: var(--graph-width) minmax(0, 1fr);
+      gap: 0.35rem;
     }
 
-    .graph-column {
-      display: none;
+    .experience-content {
+      padding: 0.75em 0.85em;
     }
   }
 }

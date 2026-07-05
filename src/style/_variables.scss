@@ -1,10 +1,5 @@
-$fot-back: #353533;
-$nav-bg: #ffffff2a;
-
-$shadow: #38353546;
-
-$bg: #ebebeb;
-$bg-dark: #35435c;
+// Layout, motion, and sizing constants.
+// ALL colours live in _theme.scss — never add colour values here.
 
 // Sizes
 $max-width: 1300px;
@@ -14,27 +9,23 @@ $content-width: 1000px;
 $phone-size: 768px;
 $compact-size: 1024px;
 
-$acc-1: #009087;
-$acc-2: #005b90;
-
-$red: #fd2828;
-
-$txt: #202938;
-$txt-grey: #797979;
-$txt-light: #ffffff;
-
 $blur: 30px;
 
-$button-hover: #00908740;
-
-// dots background
+// Dots background
 $dots-size: 1.5px;
 $dots-gap: 2em;
-$dots-color: #8280a6;
 $dots-extend: 300px; // how far the dots reach past the content before fading out
 
+// Motion
 $tr-f: 0.1s;
 $tr-s: 0.3s;
 
+// Radii
 $rad-1: 3em;
 $rad-2: 0.3em;
+
+/// Translucent version of any colour, including var(--…) theme tokens.
+/// fade(var(--color-text), 0.12) → color-mix(in srgb, var(--color-text) 12%, transparent)
+@function fade($color, $alpha) {
+  @return color-mix(in srgb, #{$color} #{$alpha * 100%}, transparent);
+}

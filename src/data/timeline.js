@@ -15,7 +15,8 @@ export const timelineBranches = [
     ref: 'Work',
     sectionId: 'workSection',
     lane: 'left',
-    color: '#2b9b62',
+    // Theme token defined in src/style/_theme.scss.
+    color: 'var(--color-branch-work)',
     description: 'Production engineering and freelance delivery.',
     entries: [
       {
@@ -132,7 +133,7 @@ export const timelineBranches = [
     ref: 'Education',
     sectionId: 'educationSection',
     lane: 'right',
-    color: '#e8892f',
+    color: 'var(--color-branch-education)',
     description: 'Formal software education with a practical delivery focus.',
     entries: [
       {
@@ -140,24 +141,39 @@ export const timelineBranches = [
         organization: 'South East Technological University',
         website: 'https://www.setu.ie/',
         location: 'Carlow, Ireland',
-        engagement: 'Education',
+        engagement: 'Full-time',
         logo: collegeLogo,
-        tagline: 'BSc in Software Development',
+        tagline: 'BSc (Honours) in Software Development',
         roles: [
           {
-            id: 'setu-bsc',
+            id: 'setu-honours',
             title: 'Software Development',
-            subtitle: 'BSc in Software Development',
-            start: '2018-09',
-            end: '2022-05',
+            subtitle: 'Honours Degree',
+            start: '2021-09',
+            end: '2023-05',
             summary:
-              'Built a broad foundation in software engineering through practical coursework spanning frontend development, data science, databases, and team-based delivery.',
+              'Completed the honours year of the software development degree with advanced coursework in data science, machine learning, and team-based delivery using agile practices.',
             highlights: [
-              'Studied software design, front-end development, data science, database systems, and application architecture.',
-              'Developed hands-on experience shipping coursework across multiple languages and frameworks.',
-              'Graduated with a strong grounding in Git-based collaboration and practical software delivery.',
+              'Built neural network and data-science projects with Python, applying analysis and modelling techniques to practical software problems.',
+              'Designed and queried relational databases with MySQL as part of coursework and team projects.',
+              'Delivered coursework in cross-functional teams using agile methodologies, iteration planning, and regular review cycles.',
             ],
-            stack: ['Git', 'Front-end Development', 'Data Science', 'Databases', 'Java', 'C++'],
+            stack: ['Python', 'Data Science', 'Neural Networks', 'MySQL', 'Agile'],
+          },
+          {
+            id: 'setu-bachelors-studies',
+            title: 'Software Development',
+            subtitle: "Bachelor's Studies",
+            start: '2018-09',
+            end: '2021-05',
+            summary:
+              'Spent the first three years of the programme building a broad foundation in software engineering through practical coursework across languages, databases, and application development.',
+            highlights: [
+              'Studied software design, object-oriented programming, front-end development, and database systems.',
+              'Developed hands-on experience shipping coursework in Java, C++, and web technologies.',
+              'Built a strong grounding in Git-based collaboration and practical software delivery.',
+            ],
+            stack: ['Git', 'Java', 'C++', 'Front-end Development', 'MySQL'],
           },
         ],
       },

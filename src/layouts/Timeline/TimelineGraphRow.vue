@@ -14,11 +14,14 @@
       :y1="segment.y1"
       :x2="laneX(segment.lane)"
       :y2="segment.y2"
-      :stroke="branchColor"
-      :stroke-width="strokeWidth(segment.lane)"
+      :style="{ stroke: segment.color }"
+      :stroke-width="strokeWidth(segment.lane, segment.isOwn)"
       stroke-linecap="round"
       class="git-graph__lane"
-      :class="{ 'git-graph__branch': segment.lane === item.lane }"
+      :class="{
+        'git-graph__branch': segment.isOwn,
+        'git-graph__parallel': !segment.isOwn,
+      }"
     />
 
     <!-- Fork at bottom: smooth curve from trunk onto the branch lane -->
@@ -26,7 +29,7 @@
       v-if="item.lane > 0 && forksHere"
       :d="forkPath"
       fill="none"
-      :stroke="branchColor"
+      :style="{ stroke: branchColor }"
       :stroke-width="strokeWidth(item.lane)"
       stroke-linecap="round"
       class="git-graph__lane git-graph__branch"
@@ -37,7 +40,7 @@
       v-if="item.lane > 0 && mergesHere"
       :d="mergePath"
       fill="none"
-      :stroke="branchColor"
+      :style="{ stroke: branchColor }"
       :stroke-width="strokeWidth(item.lane)"
       stroke-linecap="round"
       class="git-graph__lane git-graph__branch"
@@ -49,10 +52,9 @@
       :key="marker.roleId"
       :cx="laneX(item.lane)"
       :cy="marker.y"
-      :r="highlighted ? 6 : 5"
-      :fill="branchColor"
-      stroke="#fff"
-      :stroke-width="highlighted ? 2.5 : 2"
+      :r="roleRadius"
+      :style="{ fill: branchColor, stroke: 'var(--color-surface)' }"
+      :stroke-width="roleStrokeWidth"
       class="git-graph__lane git-graph__branch"
     />
 
@@ -61,8 +63,8 @@
       v-if="item.lane > 0 && forksHere"
       :cx="laneX(0)"
       :cy="forkY"
-      r="6"
-      :fill="mainColor"
+      :r="forkRadius"
+      :style="{ fill: mainColor }"
     />
 
     <!-- Merge junction on the trunk (job end) — branch colour where it rejoins -->
@@ -70,8 +72,8 @@
       v-if="item.lane > 0 && mergesHere"
       :cx="laneX(0)"
       :cy="mergeY"
-      r="6"
-      :fill="branchColor"
+      :r="forkRadius"
+      :style="{ fill: branchColor }"
       class="git-graph__lane git-graph__branch"
     />
 
@@ -79,18 +81,17 @@
     <circle
       v-if="isCurrentRole"
       :cx="laneX(item.lane)"
-      :cy="headY"
-      :r="highlighted ? 8 : 7"
-      :fill="branchColor"
-      stroke="#fff"
-      :stroke-width="highlighted ? 3 : 2.5"
+      :cy="branchHeadY"
+      :r="headRadius"
+      :style="{ fill: branchColor, stroke: 'var(--color-surface)' }"
+      :stroke-width="headStrokeWidth"
       class="git-graph__lane git-graph__branch"
     />
   </svg>
 </template>
 
 <script>
-import { graphWidth, laneX as graphLaneX } from './graphLayout.js'
+import { graphWidth, laneX as graphLaneX, mobileGraphWidth, mobileLaneX } from './graphLayout.js'
 
 const CORNER = 10
 // ~2em of vertical run before a fork/merge curve begins (viewBox units ≈ px).
@@ -103,7 +104,7 @@ export default {
       type: Object,
       required: true,
     },
-    activeLanes: {
+    activeLaneDetails: {
       type: Array,
       required: true,
     },
@@ -113,11 +114,11 @@ export default {
     },
     mainColor: {
       type: String,
-      default: '#005b90',
+      default: 'var(--color-trunk)',
     },
     branchColor: {
       type: String,
-      default: '#2b9b62',
+      default: 'var(--color-branch-work)',
     },
     height: {
       type: Number,
@@ -131,55 +132,114 @@ export default {
       type: Boolean,
       default: false,
     },
+    compact: {
+      type: Boolean,
+      default: false,
+    },
+    branchHeadY: {
+      type: Number,
+      required: true,
+    },
+    handoffFork: {
+      type: Boolean,
+      default: false,
+    },
+    handoffMerge: {
+      type: Boolean,
+      default: false,
+    },
+    isLastRow: {
+      type: Boolean,
+      default: false,
+    },
+    externallyDrawnBranch: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     width() {
-      return graphWidth(this.maxLane)
+      return this.compact ? mobileGraphWidth(this.maxLane) : graphWidth(this.maxLane)
+    },
+    roleRadius() {
+      if (this.compact) {
+        return this.highlighted ? 4 : 3.5
+      }
+
+      return this.highlighted ? 6 : 5
+    },
+    roleStrokeWidth() {
+      if (this.compact) {
+        return this.highlighted ? 2 : 1.5
+      }
+
+      return this.highlighted ? 2.5 : 2
+    },
+    forkRadius() {
+      return this.compact ? 4 : 6
+    },
+    headRadius() {
+      if (this.compact) {
+        return this.highlighted ? 5 : 4.5
+      }
+
+      return this.highlighted ? 8 : 7
+    },
+    headStrokeWidth() {
+      if (this.compact) {
+        return this.highlighted ? 2 : 1.75
+      }
+
+      return this.highlighted ? 3 : 2.5
     },
     forksHere() {
-      return this.item.lane > 0
+      return this.item.lane > 0 && !this.externallyDrawnBranch
     },
     mergesHere() {
-      return this.item.lane > 0 && Number.isFinite(this.item.endMonth)
+      return (
+        this.item.lane > 0 && Number.isFinite(this.item.endMonth) && !this.externallyDrawnBranch
+      )
     },
     isCurrentRole() {
       return this.item.lane > 0 && !Number.isFinite(this.item.endMonth)
     },
     forkY() {
+      if (this.handoffFork || this.isLastRow) {
+        return this.height
+      }
+
       return this.height - CORNER * 2
     },
     mergeY() {
-      return CORNER * 2
-    },
-    headY() {
-      return 10
+      return this.handoffMerge ? 0 : CORNER * 2
     },
     curveLead() {
       const room = Math.max(0, this.forkY - this.mergeY - 16)
       return Math.min(CURVE_LEAD, Math.max(20, this.height * 0.12), room / 2)
     },
     laneSegments() {
+      if (this.externallyDrawnBranch) {
+        return []
+      }
+
       const lead = this.curveLead
 
-      return this.activeLanes
-        .filter((lane) => lane > 0)
-        .map((lane) => {
-          const isOwnLane = lane === this.item.lane
-          let y1 = 0
-          let y2 = this.height
+      return (this.activeLaneDetails || []).map(({ lane, color, isOwn }) => {
+        let y1 = 0
+        let y2 = this.height
 
-          if (isOwnLane && this.mergesHere) {
-            y1 = this.mergeY + lead
-          } else if (isOwnLane && this.isCurrentRole) {
-            y1 = this.headY
-          }
+        if (isOwn && this.mergesHere) {
+          y1 = this.mergeY + lead
+        } else if (isOwn && this.isCurrentRole) {
+          y1 = this.branchHeadY
+        }
 
-          if (isOwnLane && this.forksHere) {
-            y2 = this.forkY - lead
-          }
+        if (isOwn && this.forksHere) {
+          y2 = this.forkY - lead
+        }
 
-          return { lane, y1, y2 }
-        })
+        return { lane, color, isOwn, y1, y2 }
+      })
     },
     forkPath() {
       const mainX = this.laneX(0)
@@ -204,19 +264,25 @@ export default {
   },
   methods: {
     laneX(lane) {
-      return graphLaneX(lane)
+      return this.compact ? mobileLaneX(lane) : graphLaneX(lane)
     },
-    strokeWidth(lane) {
-      if (this.highlighted && lane === this.item.lane) {
+    strokeWidth(lane, isOwn = lane === this.item.lane) {
+      if (this.compact) {
+        return this.highlighted && isOwn ? 3 : 2.5
+      }
+
+      if (this.highlighted && isOwn) {
         return 5
       }
-      return 4
+      return isOwn ? 4 : 3.5
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
+@use '@/style/variables' as *;
+
 .git-graph {
   display: block;
   width: 100%;
@@ -228,9 +294,13 @@ export default {
     transition: opacity 0.2s ease, filter 0.2s ease;
   }
 
+  &__parallel {
+    opacity: 0.55;
+  }
+
   &.git-graph--highlighted .git-graph__branch {
     opacity: 1;
-    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.15));
+    filter: drop-shadow(0 0 4px fade(var(--color-shadow), 0.15));
   }
 }
 </style>

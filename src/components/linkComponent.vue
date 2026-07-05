@@ -34,17 +34,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use '@/style/variables' as *;
-
 .contact_link {
   font-size: 2em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: $txt;
+  color: var(--color-text);
   &:hover,
   &:focus {
-    color: $acc-1;
+    color: var(--color-primary);
   }
 
   .contact_label {

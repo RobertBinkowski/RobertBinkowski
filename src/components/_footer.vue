@@ -9,17 +9,6 @@
         </p>
       </div>
 
-      <nav class="footer-column" aria-label="Site sections">
-        <p class="column-title">Explore</p>
-        <ul>
-          <li><a href="#welcomeSection">Home</a></li>
-          <li><a href="#skills-section">Skills</a></li>
-          <li><a href="#workSection">Experience</a></li>
-          <li><a href="#educationSection">Education</a></li>
-          <li><a href="#contactSection">Contact</a></li>
-        </ul>
-      </nav>
-
       <div class="footer-column">
         <p class="column-title">Connect</p>
         <div class="footer-links">
@@ -50,12 +39,11 @@
 
 <style lang="scss">
 @use '@/style/variables' as *;
-@use 'sass:color';
 
 footer {
   position: relative;
-  background: $fot-back;
-  color: rgba($bg, 0.92);
+  background: var(--color-surface-inverse);
+  color: fade(var(--color-text-inverse), 0.92);
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -66,7 +54,7 @@ footer {
     content: '';
     display: block;
     height: 3px;
-    background: linear-gradient(to right, $acc-1, $acc-2);
+    background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
   }
 
   .footer-content {
@@ -88,14 +76,14 @@ footer {
       margin: 0 0 0.35em;
       font-size: 1.1em;
       font-weight: 900;
-      color: $txt-light;
+      color: var(--color-text-inverse);
     }
 
     .brand-tagline {
       margin: 0;
       font-size: 0.9em;
       line-height: 1.5;
-      color: rgba($bg, 0.65);
+      color: fade(var(--color-text-inverse), 0.65);
       max-width: 28ch;
     }
   }
@@ -107,7 +95,7 @@ footer {
       font-weight: 900;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: color.scale($acc-1, $lightness: 18%);
+      color: var(--color-primary-bright);
     }
 
     ul {
@@ -131,11 +119,11 @@ footer {
     }
 
     a {
-      color: rgba($bg, 0.88);
+      color: fade(var(--color-text-inverse), 0.88);
       transition: $tr-f;
 
       &:hover {
-        color: color.scale($acc-1, $lightness: 18%);
+        color: var(--color-primary-bright);
       }
     }
   }
@@ -147,7 +135,7 @@ footer {
     gap: 0.65em;
 
     .contact_link {
-      color: rgba($bg, 0.88);
+      color: fade(var(--color-text-inverse), 0.88);
     }
   }
 
@@ -160,23 +148,23 @@ footer {
     max-width: $content-width;
     margin: 0 auto;
     padding: 1.25em 1.5em;
-    border-top: 1px solid rgba($bg, 0.12);
+    border-top: 1px solid fade(var(--color-text-inverse), 0.12);
     font-size: 0.8em;
-    color: rgba($bg, 0.78);
+    color: fade(var(--color-text-inverse), 0.78);
 
     p {
       margin: 0;
     }
 
     strong {
-      color: color.scale($acc-1, $lightness: 18%);
+      color: var(--color-primary-bright);
     }
 
     a {
-      color: rgba($bg, 0.88);
+      color: fade(var(--color-text-inverse), 0.88);
 
       &:hover {
-        color: color.scale($acc-1, $lightness: 18%);
+        color: var(--color-primary-bright);
       }
     }
   }

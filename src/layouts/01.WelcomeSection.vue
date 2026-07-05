@@ -54,7 +54,7 @@
     h1 {
       font-size: clamp(3rem, 1rem + 2vw, 5rem);
       margin: 0;
-      color: $acc-2;
+      color: var(--color-secondary);
     }
   }
   #swipe-pill {
@@ -63,7 +63,7 @@
     width: 5em;
     height: 0.4em;
     border-radius: $rad-1;
-    background-color: $bg-dark;
+    background-color: var(--color-scroll-pill);
     position: fixed;
     bottom: 1em;
     z-index: 2;
@@ -86,7 +86,7 @@
       display: block;
       height: var(--icon-size, 1.6em);
       width: auto;
-      fill: $acc-2;
+      fill: var(--color-secondary);
       opacity: 1;
     }
   }

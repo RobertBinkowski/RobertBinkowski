@@ -1,0 +1,109 @@
+@use 'sass:color';
+
+// =====================================================================
+//  THEME — the single source of truth for every colour in the app.
+//
+//  How it works
+//  · The palette below holds the raw colour values (private to this
+//    file — never reference them from components).
+//  · Components consume the semantic tokens (var(--color-*)) only.
+//  · The light theme is the default on :root. The dark theme overrides
+//    the same tokens under [data-theme='dark'] — enable it by setting
+//    <html data-theme="dark">.
+//  · For translucent variants use the fade() helper from _variables:
+//    fade(var(--color-text), 0.12)
+//
+//  This file is imported once, from app.scss.
+// =====================================================================
+
+// ------------------------------------------------------------ palette
+$white: #ffffff;
+$grey-100: #ebebeb; // page background
+$grey-400: #c5c5c5; // neumorphic shadow
+$grey-500: #797979; // muted text
+$charcoal: #353533; // footer surface, text shadows
+$navy: #202938; // body text
+$slate: #35435c; // soft shadow base, scroll pill
+$lavender: #8280a6; // dotted backdrop
+
+$teal: #009087; // primary accent
+$blue: #005b90; // secondary accent, timeline trunk
+$green: #2b9b62; // timeline work branch
+$orange: #e8892f; // timeline education branch
+
+// ------------------------------------------------------- light theme
+:root {
+  color-scheme: light;
+
+  // Surfaces
+  --color-bg: #{$grey-100}; // page background
+  --color-surface: #{$white}; // cards and raised panels
+  --color-surface-inverse: #{$charcoal}; // footer and other dark surfaces
+  --color-glass: #{color.change($white, $alpha: 0.16)}; // nav glass fill
+  --color-glass-sheen: #{$white}; // glass highlight, faded at use
+
+  // Text
+  --color-text: #{$navy};
+  --color-text-muted: #{$grey-500};
+  --color-text-inverse: #{$white}; // text on accents / dark surfaces
+
+  // Accents
+  --color-primary: #{$teal};
+  --color-primary-bright: #{color.scale($teal, $lightness: 18%)}; // link hovers on dark surfaces
+  --color-secondary: #{$blue};
+
+  // Shadows (bases — combine with fade() at the point of use)
+  --color-shadow: #{$slate}; // soft card shadows
+  --color-shadow-text: #{color.change($charcoal, $alpha: 0.27)};
+  --color-shadow-neu-dark: #{$grey-400}; // neumorphic pair
+  --color-shadow-neu-light: #{$white};
+
+  // Decorations
+  --color-dots: #{$lavender}; // dotted page backdrop
+  --color-scroll-pill: #{$slate}; // swipe indicator on the welcome screen
+
+  // Timeline graph
+  --color-trunk: var(--color-secondary);
+  --color-branch-work: #{$green};
+  --color-branch-education: #{$orange};
+}
+
+// -------------------------------------------------------- dark theme
+// Opt-in starter theme: set <html data-theme="dark"> to activate.
+// Tune these values freely — the light theme is unaffected.
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-bg: #131824;
+  --color-surface: #1d2534;
+  --color-surface-inverse: #0b0f17;
+  --color-glass: #{color.change($white, $alpha: 0.08)};
+  --color-glass-sheen: #{$white};
+
+  --color-text: #e9edf4;
+  --color-text-muted: #98a2b3;
+  --color-text-inverse: #{$white};
+
+  --color-primary: #14b8ac;
+  --color-primary-bright: #3ccdc2;
+  --color-secondary: #3e9bd6;
+
+  --color-shadow: #000000;
+  --color-shadow-text: #{color.change(#000000, $alpha: 0.35)};
+  --color-shadow-neu-dark: #0b0e15;
+  --color-shadow-neu-light: #29334a;
+
+  --color-dots: #39415a;
+  --color-scroll-pill: #98a2b3;
+
+  --color-trunk: var(--color-secondary);
+  --color-branch-work: #43b97e;
+  --color-branch-education: #f09a48;
+}
+
+// To follow the OS preference automatically, uncomment:
+// @media (prefers-color-scheme: dark) {
+//   :root:not([data-theme='light']) {
+//     // …copy of the dark token block above…
+//   }
+// }
