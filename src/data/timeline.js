@@ -121,7 +121,7 @@ export const timelineBranches = [
               'Built a streamlined frontend with room for a more flexible backend content workflow.',
               'Set up GitHub Actions based CI/CD and continue to manage hosting, accessibility, SEO, and ongoing improvements.',
             ],
-            stack: ['HTML', 'SCSS', 'JavaScript', 'Performance', 'Accessibility', 'GitHub Actions'],
+            stack: ['HTML', 'SCSS', 'JavaScript', 'Performance', 'GitHub Actions'],
           },
         ],
       },
@@ -158,7 +158,7 @@ export const timelineBranches = [
               'Designed and queried relational databases with MySQL as part of coursework and team projects.',
               'Delivered coursework in cross-functional teams using agile methodologies, iteration planning, and regular review cycles.',
             ],
-            stack: ['Python', 'Data Science', 'Neural Networks', 'MySQL', 'Agile'],
+            stack: ['Python', 'Data Science', 'Neural Networks', 'Agile'],
           },
           {
             id: 'setu-bachelors-studies',
