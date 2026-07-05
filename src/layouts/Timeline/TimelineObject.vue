@@ -198,10 +198,6 @@ export default {
       return (role.stack || []).map((name) => resolveSkill(name) || { name })
     },
     roleDurationLabel(role) {
-      if (this.displayRoles.length <= 1) {
-        return ''
-      }
-
       return this.formatRoleDuration(role.start, role.end)
     },
     formatRoleDuration(start, end) {

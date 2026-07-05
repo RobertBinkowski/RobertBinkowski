@@ -211,27 +211,26 @@ export default {
       return Math.min(CURVE_LEAD, Math.max(20, this.height * 0.12), room / 2)
     },
     laneSegments() {
+      const lane = this.item.lane
+      if (lane <= 0) {
+        return []
+      }
+
       const lead = this.curveLead
+      let y1 = 0
+      let y2 = this.height
 
-      return this.activeLanes
-        .filter((lane) => lane > 0)
-        .map((lane) => {
-          const isOwnLane = lane === this.item.lane
-          let y1 = 0
-          let y2 = this.height
+      if (this.mergesHere) {
+        y1 = this.mergeY + lead
+      } else if (this.isCurrentRole) {
+        y1 = this.branchHeadY
+      }
 
-          if (isOwnLane && this.mergesHere) {
-            y1 = this.mergeY + lead
-          } else if (isOwnLane && this.isCurrentRole) {
-            y1 = this.branchHeadY
-          }
+      if (this.forksHere) {
+        y2 = this.forkY - lead
+      }
 
-          if (isOwnLane && this.forksHere) {
-            y2 = this.forkY - lead
-          }
-
-          return { lane, y1, y2 }
-        })
+      return [{ lane, y1, y2 }]
     },
     forkPath() {
       const mainX = this.laneX(0)
