@@ -9,17 +9,6 @@
         </p>
       </div>
 
-      <nav class="footer-column" aria-label="Site sections">
-        <p class="column-title">Explore</p>
-        <ul>
-          <li><a href="#welcomeSection">Home</a></li>
-          <li><a href="#skills-section">Skills</a></li>
-          <li><a href="#workSection">Experience</a></li>
-          <li><a href="#educationSection">Education</a></li>
-          <li><a href="#contactSection">Contact</a></li>
-        </ul>
-      </nav>
-
       <div class="footer-column">
         <p class="column-title">Connect</p>
         <div class="footer-links">
