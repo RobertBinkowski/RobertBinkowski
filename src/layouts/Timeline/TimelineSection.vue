@@ -131,27 +131,13 @@ const getEntrySpan = (roles) => {
 
 const sameMonthHandoff = (newerItem, olderItem) => newerItem?.startMonth === olderItem?.endMonth
 
-const assignLanes = (items) => {
-  const sorted = [...items].sort((left, right) => left.startMonth - right.startMonth)
-  const laneEnds = []
-  const lanes = new Map()
-
-  for (const item of sorted) {
-    let lane = 1
-
-    while (lane < laneEnds.length && laneEnds[lane] > item.startMonth) {
-      lane += 1
-    }
-
-    laneEnds[lane] = item.endMonth
-    lanes.set(item.id, lane)
-  }
-
-  return {
-    lanes,
-    maxLane: Math.max(1, laneEnds.length - 1),
-  }
-}
+// Each entry is its own row, so overlapping jobs stack vertically rather than
+// fanning out horizontally. Every branch uses lane 1 — the same distance from
+// the trunk — instead of keeping a wider lane from an old overlap.
+const assignLanes = (items) => ({
+  lanes: new Map(items.map((item) => [item.id, 1])),
+  maxLane: 1,
+})
 
 export default {
   name: 'TimelineSection',
