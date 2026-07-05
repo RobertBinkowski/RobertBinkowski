@@ -147,6 +147,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isLastRow: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     width() {
@@ -193,7 +197,11 @@ export default {
       return this.item.lane > 0 && !Number.isFinite(this.item.endMonth)
     },
     forkY() {
-      return this.handoffFork ? this.height : this.height - CORNER * 2
+      if (this.handoffFork || this.isLastRow) {
+        return this.height
+      }
+
+      return this.height - CORNER * 2
     },
     mergeY() {
       return this.handoffMerge ? 0 : CORNER * 2

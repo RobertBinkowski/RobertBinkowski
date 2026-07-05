@@ -1,7 +1,7 @@
 <template>
   <article class="timelineObject">
     <header class="entry-header">
-      <component :is="brandTag" class="entry-brand" v-bind="brandAttributes">
+      <div class="entry-brand">
         <div class="brand-column">
           <div class="brand-logo">
             <img
@@ -19,10 +19,7 @@
           <div class="entry-name-row">
             <p class="entry-name">{{ entry.organization }}</p>
             <span v-if="branchLabel" class="branch-badge">{{ branchLabel }}</span>
-            <p v-if="showEntryPeriod" class="entry-period">
-              {{ formatMonthYear(entryPeriod.start) }} -
-              {{ entryPeriod.end ? formatMonthYear(entryPeriod.end) : 'Present' }}
-            </p>
+            <p v-if="entryPeriodLabel" class="entry-period">{{ entryPeriodLabel }}</p>
           </div>
           <p v-if="entry.tagline" class="entry-tagline">{{ entry.tagline }}</p>
           <div v-if="metaItems.length" class="entry-meta">
@@ -31,7 +28,27 @@
             </span>
           </div>
         </div>
-      </component>
+      </div>
+
+      <a
+        v-if="entry.website"
+        class="entry-link-btn"
+        :href="entry.website"
+        target="_blank"
+        rel="noreferrer noopener"
+        :aria-label="`Visit ${entry.organization} website`"
+      >
+        <svg class="entry-link-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M14 3h7v7M10 14 21 3M15 3h6v6M21 3l-9 9"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </a>
     </header>
 
     <div class="role-list">
@@ -43,8 +60,8 @@
       >
         <div class="role-header">
           <h3 class="role-title">{{ displayRole.title }}</h3>
-          <p v-if="roleDateLabel(displayRole)" class="role-period">
-            {{ roleDateLabel(displayRole) }}
+          <p v-if="roleDurationLabel(displayRole)" class="role-period">
+            {{ roleDurationLabel(displayRole) }}
           </p>
         </div>
         <p v-if="displayRole.subtitle" class="role-subtitle">{{ displayRole.subtitle }}</p>
@@ -145,22 +162,16 @@ export default {
     displayRoles() {
       return [...(this.entry.roles || [])].sort(compareRoles)
     },
-    showEntryPeriod() {
-      return this.displayRoles.length > 1 && this.entryPeriod
-    },
-    brandAttributes() {
-      if (!this.entry.website) {
-        return {}
+    entryPeriodLabel() {
+      if (!this.entryPeriod) {
+        return ''
       }
 
-      return {
-        href: this.entry.website,
-        target: '_blank',
-        rel: 'noreferrer noopener',
-      }
-    },
-    brandTag() {
-      return this.entry.website ? 'a' : 'div'
+      const endLabel = this.entryPeriod.end
+        ? this.formatMonthYear(this.entryPeriod.end)
+        : 'Present'
+
+      return `${this.formatMonthYear(this.entryPeriod.start)} - ${endLabel}`
     },
     initials() {
       return (this.entry.organization || '')
@@ -186,14 +197,12 @@ export default {
     stackSkills(role) {
       return (role.stack || []).map((name) => resolveSkill(name) || { name })
     },
-    roleDateLabel(role) {
-      if (this.displayRoles.length > 1) {
-        return this.formatRoleDuration(role.start, role.end)
+    roleDurationLabel(role) {
+      if (this.displayRoles.length <= 1) {
+        return ''
       }
 
-      return `${this.formatMonthYear(role.start)} - ${
-        role.end ? this.formatMonthYear(role.end) : 'Present'
-      }`
+      return this.formatRoleDuration(role.start, role.end)
     },
     formatRoleDuration(start, end) {
       const startMonths = parseMonthValue(start)
@@ -230,6 +239,10 @@ export default {
   min-width: 0;
 
   .entry-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
     margin-bottom: 0.85rem;
     padding-bottom: 0;
     border-bottom: none;
@@ -239,9 +252,43 @@ export default {
     display: flex;
     gap: 0.65rem;
     align-items: flex-start;
-    color: inherit;
-    text-decoration: none;
     min-width: 0;
+    flex: 1;
+  }
+
+  .entry-link-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid var(--branch-accent-soft);
+    border-radius: 0.55rem;
+    background: var(--branch-accent-faint);
+    color: var(--branch-accent);
+    text-decoration: none;
+    transition:
+      background $tr-s ease,
+      border-color $tr-s ease,
+      color $tr-s ease,
+      transform $tr-s ease;
+
+    &:hover {
+      background: var(--branch-accent-soft);
+      border-color: var(--branch-accent);
+      transform: translateY(-1px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--branch-accent);
+      outline-offset: 2px;
+    }
+  }
+
+  .entry-link-icon {
+    width: 1.05rem;
+    height: 1.05rem;
   }
 
   .brand-column {

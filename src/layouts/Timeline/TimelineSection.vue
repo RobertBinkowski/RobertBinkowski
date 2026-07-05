@@ -1,7 +1,7 @@
 <template>
   <section id="timelineSection">
     <h2 class="timeline-heading">Experience</h2>
-    <div class="timeline-graph" :style="graphColumnStyle">
+    <div class="timeline-graph" :style="graphColumnStyle" ref="timelineGraph">
       <!-- Single continuous main trunk behind all rows -->
       <svg
         v-if="trunkHeight > 0"
@@ -47,7 +47,7 @@
       </div>
 
       <div
-        v-for="item in timelineItems"
+        v-for="(item, rowIndex) in timelineItems"
         :id="item.sectionId"
         :key="item.id"
         class="experience-row"
@@ -71,6 +71,7 @@
             :branch-head-y="branchHeadY"
             :handoff-fork="item.handoffFork"
             :handoff-merge="item.handoffMerge"
+            :is-last-row="rowIndex === timelineItems.length - 1"
           />
         </div>
 
@@ -178,6 +179,7 @@ export default {
       compactGraph: false,
       compactMedia: null,
       emPx: 16,
+      measuredTrunkHeight: 0,
     }
   },
   computed: {
@@ -241,7 +243,9 @@ export default {
       }
 
       const heights = rows.map((item) => this.rowHeights[item.id] || 0)
-      return heights.reduce((sum, height) => sum + height, 0)
+      const summed = heights.reduce((sum, height) => sum + height, 0)
+
+      return Math.max(summed, this.measuredTrunkHeight)
     },
     timelineBounds() {
       const items = this.rawItems
@@ -401,13 +405,18 @@ export default {
         const item = this.timelineItems[index]
         if (item && row) {
           const content = row.querySelector('.experience-content')
-          nextHeights[item.id] = Math.max(content?.offsetHeight || row.offsetHeight, 72)
+          nextHeights[item.id] = Math.max(row.offsetHeight, content?.offsetHeight || 0, 72)
           nextRoleLayouts[item.id] = this.measureRoleMarkers(content)
         }
       })
 
       this.rowHeights = nextHeights
       this.roleLayouts = nextRoleLayouts
+
+      this.$nextTick(() => {
+        const graph = this.$refs.timelineGraph
+        this.measuredTrunkHeight = graph?.offsetHeight || 0
+      })
     },
     measureRoleMarkers(content) {
       if (!content) {
@@ -440,6 +449,11 @@ export default {
 
       this.resizeObserver.disconnect()
       const rows = this.$refs.experienceRows
+      const graph = this.$refs.timelineGraph
+
+      if (graph) {
+        this.resizeObserver.observe(graph)
+      }
 
       if (!rows) {
         return
