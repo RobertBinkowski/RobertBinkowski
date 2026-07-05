@@ -14,11 +14,14 @@
       :y1="segment.y1"
       :x2="laneX(segment.lane)"
       :y2="segment.y2"
-      :style="{ stroke: branchColor }"
-      :stroke-width="strokeWidth(segment.lane)"
+      :style="{ stroke: segment.color }"
+      :stroke-width="strokeWidth(segment.lane, segment.isOwn)"
       stroke-linecap="round"
       class="git-graph__lane"
-      :class="{ 'git-graph__branch': segment.lane === item.lane }"
+      :class="{
+        'git-graph__branch': segment.isOwn,
+        'git-graph__parallel': !segment.isOwn,
+      }"
     />
 
     <!-- Fork at bottom: smooth curve from trunk onto the branch lane -->
@@ -101,7 +104,7 @@ export default {
       type: Object,
       required: true,
     },
-    activeLanes: {
+    activeLaneDetails: {
       type: Array,
       required: true,
     },
@@ -149,6 +152,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    externallyDrawnBranch: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     width() {
@@ -186,10 +193,12 @@ export default {
       return this.highlighted ? 3 : 2.5
     },
     forksHere() {
-      return this.item.lane > 0
+      return this.item.lane > 0 && !this.externallyDrawnBranch
     },
     mergesHere() {
-      return this.item.lane > 0 && Number.isFinite(this.item.endMonth)
+      return (
+        this.item.lane > 0 && Number.isFinite(this.item.endMonth) && !this.externallyDrawnBranch
+      )
     },
     isCurrentRole() {
       return this.item.lane > 0 && !Number.isFinite(this.item.endMonth)
@@ -209,26 +218,28 @@ export default {
       return Math.min(CURVE_LEAD, Math.max(20, this.height * 0.12), room / 2)
     },
     laneSegments() {
-      const lane = this.item.lane
-      if (lane <= 0) {
+      if (this.externallyDrawnBranch) {
         return []
       }
 
       const lead = this.curveLead
-      let y1 = 0
-      let y2 = this.height
 
-      if (this.mergesHere) {
-        y1 = this.mergeY + lead
-      } else if (this.isCurrentRole) {
-        y1 = this.branchHeadY
-      }
+      return (this.activeLaneDetails || []).map(({ lane, color, isOwn }) => {
+        let y1 = 0
+        let y2 = this.height
 
-      if (this.forksHere) {
-        y2 = this.forkY - lead
-      }
+        if (isOwn && this.mergesHere) {
+          y1 = this.mergeY + lead
+        } else if (isOwn && this.isCurrentRole) {
+          y1 = this.branchHeadY
+        }
 
-      return [{ lane, y1, y2 }]
+        if (isOwn && this.forksHere) {
+          y2 = this.forkY - lead
+        }
+
+        return { lane, color, isOwn, y1, y2 }
+      })
     },
     forkPath() {
       const mainX = this.laneX(0)
@@ -255,15 +266,15 @@ export default {
     laneX(lane) {
       return this.compact ? mobileLaneX(lane) : graphLaneX(lane)
     },
-    strokeWidth(lane) {
+    strokeWidth(lane, isOwn = lane === this.item.lane) {
       if (this.compact) {
-        return this.highlighted && lane === this.item.lane ? 3 : 2.5
+        return this.highlighted && isOwn ? 3 : 2.5
       }
 
-      if (this.highlighted && lane === this.item.lane) {
+      if (this.highlighted && isOwn) {
         return 5
       }
-      return 4
+      return isOwn ? 4 : 3.5
     },
   },
 }
@@ -281,6 +292,10 @@ export default {
   &__lane {
     opacity: 0.75;
     transition: opacity 0.2s ease, filter 0.2s ease;
+  }
+
+  &__parallel {
+    opacity: 0.55;
   }
 
   &.git-graph--highlighted .git-graph__branch {

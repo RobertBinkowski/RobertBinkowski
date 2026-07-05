@@ -8,6 +8,39 @@ export const MOBILE_BRANCH_GAP = 6
 export const MOBILE_LANE_STEP = 8
 export const PHONE_BREAKPOINT = 768
 
+export const GRAPH_CORNER = 10
+export const GRAPH_CURVE_LEAD = 32
+
+/** Map a month value onto the trunk's vertical time axis (0 = newest). */
+export const monthToTrunkY = (monthValue, bounds, height) => {
+  if (!bounds || height <= 0 || !Number.isFinite(monthValue)) {
+    return null
+  }
+
+  const { oldest, newest } = bounds
+  const span = newest - oldest
+
+  if (span <= 0) {
+    return null
+  }
+
+  const clamped = Math.min(Math.max(monthValue, oldest), newest)
+
+  return ((newest - clamped) / span) * height
+}
+
+/** Smooth fork curve from trunk onto a branch lane (global or row-local coords). */
+export const forkCurvePath = (mainX, branchX, forkY, lead = GRAPH_CURVE_LEAD) => {
+  const dx = Math.max(branchX - mainX, 1)
+  return `M ${branchX} ${forkY - lead} C ${branchX} ${forkY - lead * 0.35} ${branchX - dx * 0.25} ${forkY - 6} ${mainX} ${forkY}`
+}
+
+/** Smooth merge curve from a branch lane back onto the trunk. */
+export const mergeCurvePath = (mainX, branchX, mergeY, lead = GRAPH_CURVE_LEAD) => {
+  const dx = Math.max(branchX - mainX, 1)
+  return `M ${branchX} ${mergeY + lead} C ${branchX} ${mergeY + lead * 0.35} ${branchX - dx * 0.25} ${mergeY + 6} ${mainX} ${mergeY}`
+}
+
 export const laneX = (lane, gutter = GRAPH_LABEL_GUTTER) => {
   const trunk = gutter + TRUNK_X
   if (lane === 0) {

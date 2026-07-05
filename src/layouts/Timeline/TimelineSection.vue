@@ -27,6 +27,49 @@
           :style="{ fill: trunkColor, stroke: 'var(--color-surface)' }"
           :stroke-width="compactGraph ? 2 : 2.5"
         />
+
+        <!-- Continuous education branch (spans every overlapping row) -->
+        <g v-if="educationBranchOverlay" class="global-branch global-branch--education">
+          <line
+            :x1="educationBranchOverlay.branchX"
+            :y1="educationBranchOverlay.lineY1"
+            :x2="educationBranchOverlay.branchX"
+            :y2="educationBranchOverlay.lineY2"
+            :style="{ stroke: educationBranchOverlay.color }"
+            :stroke-width="educationBranchOverlay.strokeWidth"
+            stroke-linecap="round"
+          />
+          <path
+            v-if="educationBranchOverlay.showMerge"
+            :d="educationBranchOverlay.mergePath"
+            fill="none"
+            :style="{ stroke: educationBranchOverlay.color }"
+            :stroke-width="educationBranchOverlay.strokeWidth"
+            stroke-linecap="round"
+          />
+          <path
+            v-if="educationBranchOverlay.showFork"
+            :d="educationBranchOverlay.forkPath"
+            fill="none"
+            :style="{ stroke: educationBranchOverlay.color }"
+            :stroke-width="educationBranchOverlay.strokeWidth"
+            stroke-linecap="round"
+          />
+          <circle
+            v-if="educationBranchOverlay.showMerge"
+            :cx="trunkX"
+            :cy="educationBranchOverlay.mergeY"
+            :r="educationBranchOverlay.junctionRadius"
+            :style="{ fill: educationBranchOverlay.color }"
+          />
+          <circle
+            v-if="educationBranchOverlay.showFork"
+            :cx="trunkX"
+            :cy="educationBranchOverlay.forkY"
+            :r="educationBranchOverlay.junctionRadius"
+            :style="{ fill: trunkColor }"
+          />
+        </g>
       </svg>
 
       <div
@@ -59,7 +102,7 @@
         <div class="graph-column">
           <TimelineGraphRow
             :item="item"
-            :active-lanes="item.activeLanes"
+            :active-lane-details="item.activeLaneDetails"
             :max-lane="maxLane"
             :main-color="trunkColor"
             :branch-color="item.branch.color || 'var(--color-branch-work)'"
@@ -71,6 +114,7 @@
             :handoff-fork="item.handoffFork"
             :handoff-merge="item.handoffMerge"
             :is-last-row="rowIndex === timelineItems.length - 1"
+            :externally-drawn-branch="item.branch.id === 'education'"
           />
         </div>
 
@@ -90,13 +134,17 @@
 import TimelineGraphRow from './TimelineGraphRow.vue'
 import TimelineObject from './TimelineObject.vue'
 import {
+  GRAPH_CURVE_LEAD,
   GRAPH_LABEL_GUTTER,
   PHONE_BREAKPOINT,
   branchHeadY as computeBranchHeadY,
+  forkCurvePath,
   graphWidth,
   laneX,
+  mergeCurvePath,
   mobileGraphWidth,
   mobileLaneX,
+  monthToTrunkY,
   trunkHeadMetrics,
 } from './graphLayout.js'
 
@@ -131,13 +179,24 @@ const getEntrySpan = (roles) => {
 
 const sameMonthHandoff = (newerItem, olderItem) => newerItem?.startMonth === olderItem?.endMonth
 
-// Each entry is its own row, so overlapping jobs stack vertically rather than
-// fanning out horizontally. Every branch uses lane 1 — the same distance from
-// the trunk — instead of keeping a wider lane from an old overlap.
-const assignLanes = (items) => ({
-  lanes: new Map(items.map((item) => [item.id, 1])),
-  maxLane: 1,
-})
+// Work and education run on fixed parallel lanes so overlapping periods show
+// three lines: master trunk, work branch (lane 1), education branch (lane 2).
+const BRANCH_LANE = {
+  work: 1,
+  education: 2,
+}
+
+const assignLanes = (items) => {
+  const lanes = new Map()
+
+  for (const item of items) {
+    lanes.set(item.id, BRANCH_LANE[item.branch.id] ?? 1)
+  }
+
+  const maxLane = Math.max(1, ...lanes.values())
+
+  return { lanes, maxLane }
+}
 
 export default {
   name: 'TimelineSection',
@@ -285,6 +344,49 @@ export default {
 
       return markers
     },
+    educationBranchOverlay() {
+      const eduLane = BRANCH_LANE.education
+      const eduItem = this.timelineItems.find((item) => item.branch.id === 'education')
+      const bounds = this.timelineBounds
+      const height = this.trunkHeight
+
+      if (!eduItem || !bounds || height <= 0) {
+        return null
+      }
+
+      const mergeY = monthToTrunkY(eduItem.endMonth, bounds, height)
+      const forkY = monthToTrunkY(eduItem.startMonth, bounds, height)
+
+      if (mergeY == null || forkY == null || forkY <= mergeY) {
+        return null
+      }
+
+      const branchX = this.compactGraph ? mobileLaneX(eduLane) : laneX(eduLane)
+      const mainX = this.trunkX
+      const color = eduItem.branch.color || 'var(--color-branch-education)'
+      const lead = Math.min(
+        GRAPH_CURVE_LEAD,
+        Math.max(20, (forkY - mergeY) * 0.08),
+        Math.max(0, forkY - mergeY - 16) / 2,
+      )
+
+      return {
+        branchX,
+        mainX,
+        color,
+        lineY1: mergeY + lead,
+        lineY2: forkY - lead,
+        mergeY,
+        forkY,
+        lead,
+        mergePath: mergeCurvePath(mainX, branchX, mergeY, lead),
+        forkPath: forkCurvePath(mainX, branchX, forkY, lead),
+        showMerge: Number.isFinite(eduItem.endMonth),
+        showFork: Number.isFinite(eduItem.startMonth),
+        junctionRadius: this.compactGraph ? 4 : 6,
+        strokeWidth: this.compactGraph ? 3.5 : 4,
+      }
+    },
     timelineItems() {
       const { lanes } = this.laneData
 
@@ -297,21 +399,33 @@ export default {
         .sort((left, right) => left.startMonth - right.startMonth)
         .map((item) => {
           const activeItems = enriched.filter((candidate) => intervalsOverlap(item, candidate))
-          const activeLanes = [0]
+          const laneDetailsByLane = new Map()
 
           for (const activeItem of activeItems) {
             const lane = activeItem.lane
-            if (!activeLanes.includes(lane)) {
-              activeLanes.push(lane)
+            if (lane <= 0 || laneDetailsByLane.has(lane)) {
+              continue
             }
+
+            laneDetailsByLane.set(lane, {
+              lane,
+              color:
+                activeItem.branch.color ||
+                (activeItem.branch.id === 'education'
+                  ? 'var(--color-branch-education)'
+                  : 'var(--color-branch-work)'),
+              isOwn: lane === item.lane,
+            })
           }
 
-          activeLanes.sort((left, right) => left - right)
+          const activeLaneDetails = [...laneDetailsByLane.values()]
+            .filter((detail) => detail.lane !== BRANCH_LANE.education)
+            .sort((left, right) => left.lane - right.lane)
 
           return {
             ...item,
             activeItems,
-            activeLanes,
+            activeLaneDetails,
           }
         })
 
@@ -508,6 +622,10 @@ export default {
     width: var(--graph-width);
     pointer-events: none;
     z-index: 0;
+
+    .global-branch {
+      opacity: 0.85;
+    }
   }
 
   .trunk-years {
