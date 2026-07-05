@@ -13,7 +13,7 @@
       >
         <line
           :x1="trunkX"
-          :y1="0"
+          :y1="trunkLineStart"
           :x2="trunkX"
           :y2="trunkHeight"
           :stroke="mainBranch.color || '#005b90'"
@@ -22,8 +22,8 @@
         />
         <circle
           :cx="trunkX"
-          cy="10"
-          :r="compactGraph ? 5 : 7"
+          :cy="trunkHeadCy"
+          :r="trunkHeadRadius"
           :fill="mainBranch.color || '#005b90'"
           stroke="#fff"
           :stroke-width="compactGraph ? 2 : 2.5"
@@ -68,6 +68,7 @@
             :role-markers="roleLayouts[item.id] || []"
             :highlighted="hoveredId === item.id"
             :compact="compactGraph"
+            :branch-head-y="branchHeadY"
           />
         </div>
 
@@ -89,10 +90,12 @@ import TimelineObject from './TimelineObject.vue'
 import {
   GRAPH_LABEL_GUTTER,
   PHONE_BREAKPOINT,
+  branchHeadY as computeBranchHeadY,
   graphWidth,
   laneX,
   mobileGraphWidth,
   mobileLaneX,
+  trunkHeadMetrics,
 } from './graphLayout.js'
 
 const parseMonthValue = (value) => {
@@ -170,6 +173,7 @@ export default {
       resizeObserver: null,
       compactGraph: false,
       compactMedia: null,
+      emPx: 16,
     }
   },
   computed: {
@@ -213,6 +217,18 @@ export default {
     },
     trunkX() {
       return this.compactGraph ? mobileLaneX(0) : laneX(0)
+    },
+    trunkHeadRadius() {
+      return trunkHeadMetrics(this.compactGraph).radius
+    },
+    trunkHeadCy() {
+      return trunkHeadMetrics(this.compactGraph).cy
+    },
+    trunkLineStart() {
+      return trunkHeadMetrics(this.compactGraph).lineStart
+    },
+    branchHeadY() {
+      return computeBranchHeadY(this.compactGraph, this.emPx)
     },
     trunkHeight() {
       const rows = this.timelineItems
@@ -337,17 +353,23 @@ export default {
   mounted() {
     this.compactMedia = window.matchMedia(`(max-width: ${PHONE_BREAKPOINT}px)`)
     this.syncCompactGraph()
+    this.syncEmPx()
     this.compactMedia.addEventListener('change', this.syncCompactGraph)
     window.addEventListener('resize', this.measureRows)
+    window.addEventListener('resize', this.syncEmPx)
     this.resizeObserver = new ResizeObserver(() => this.measureRows())
     this.$nextTick(this.observeRows)
   },
   beforeUnmount() {
     this.compactMedia?.removeEventListener('change', this.syncCompactGraph)
     window.removeEventListener('resize', this.measureRows)
+    window.removeEventListener('resize', this.syncEmPx)
     this.resizeObserver?.disconnect()
   },
   methods: {
+    syncEmPx() {
+      this.emPx = Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16
+    },
     syncCompactGraph() {
       this.compactGraph = this.compactMedia?.matches ?? false
       this.$nextTick(this.measureRows)

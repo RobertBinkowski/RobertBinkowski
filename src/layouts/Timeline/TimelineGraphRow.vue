@@ -79,7 +79,7 @@
     <circle
       v-if="isCurrentRole"
       :cx="laneX(item.lane)"
-      :cy="headY"
+      :cy="branchHeadY"
       :r="headRadius"
       :fill="branchColor"
       stroke="#fff"
@@ -135,6 +135,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    branchHeadY: {
+      type: Number,
+      required: true,
+    },
   },
   computed: {
     width() {
@@ -186,9 +190,6 @@ export default {
     mergeY() {
       return CORNER * 2
     },
-    headY() {
-      return 10
-    },
     curveLead() {
       const room = Math.max(0, this.forkY - this.mergeY - 16)
       return Math.min(CURVE_LEAD, Math.max(20, this.height * 0.12), room / 2)
@@ -206,7 +207,7 @@ export default {
           if (isOwnLane && this.mergesHere) {
             y1 = this.mergeY + lead
           } else if (isOwnLane && this.isCurrentRole) {
-            y1 = this.headY
+            y1 = this.branchHeadY
           }
 
           if (isOwnLane && this.forksHere) {
