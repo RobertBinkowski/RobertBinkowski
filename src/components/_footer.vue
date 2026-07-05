@@ -50,11 +50,12 @@
 
 <style lang="scss">
 @use '@/style/variables' as *;
+@use 'sass:color';
 
 footer {
   position: relative;
   background: $fot-back;
-  color: rgba($bg, 0.85);
+  color: rgba($bg, 0.92);
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -106,7 +107,7 @@ footer {
       font-weight: 900;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: $acc-1;
+      color: color.scale($acc-1, $lightness: 18%);
     }
 
     ul {
@@ -130,11 +131,11 @@ footer {
     }
 
     a {
-      color: rgba($bg, 0.75);
+      color: rgba($bg, 0.88);
       transition: $tr-f;
 
       &:hover {
-        color: $acc-1;
+        color: color.scale($acc-1, $lightness: 18%);
       }
     }
   }
@@ -142,11 +143,11 @@ footer {
   .footer-links {
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
+    align-items: flex-start;
+    gap: 0.65em;
 
     .contact_link {
-      font-size: 1.5em;
-      color: rgba($bg, 0.75);
+      color: rgba($bg, 0.88);
     }
   }
 
@@ -161,21 +162,21 @@ footer {
     padding: 1.25em 1.5em;
     border-top: 1px solid rgba($bg, 0.12);
     font-size: 0.8em;
-    color: rgba($bg, 0.55);
+    color: rgba($bg, 0.78);
 
     p {
       margin: 0;
     }
 
     strong {
-      color: $acc-1;
+      color: color.scale($acc-1, $lightness: 18%);
     }
 
     a {
-      color: rgba($bg, 0.75);
+      color: rgba($bg, 0.88);
 
       &:hover {
-        color: $acc-1;
+        color: color.scale($acc-1, $lightness: 18%);
       }
     }
   }

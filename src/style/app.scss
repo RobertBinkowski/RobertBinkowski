@@ -16,16 +16,18 @@
  ***********************************************/
 @font-face {
   font-family: 'Nunito';
-  src: url('./font/Nunito-VariableFont_wght.ttf') format('truetype');
+  src: url('/font/Nunito-VariableFont_wght.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'NunitoItalic';
-  src: url('./font/Nunito-Italic-VariableFont_wght.ttf') format('truetype');
+  src: url('/font/Nunito-Italic-VariableFont_wght.ttf') format('truetype');
   font-weight: normal;
   font-style: italic;
+  font-display: swap;
 }
 
 /***********************************************
@@ -139,12 +141,15 @@ section {
 // Portfolio content sections should size to their content, not 60vh flex boxes.
 #timelineSection,
 #skills-section,
+#timelineSection,
 #contactSection,
 #aboutSection {
   display: block;
   min-height: auto;
   align-items: stretch;
   justify-content: flex-start;
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 800px;
 }
 
 @media only screen and (max-width: $compact-size) {

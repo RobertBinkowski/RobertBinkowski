@@ -3,19 +3,14 @@
     <nav :class="[openNav ? 'nav-open' : 'nav-closed']">
       <!-- Logo -->
       <div class="left-corner">
-        <router-link :to="{ name: 'home' }">
+        <router-link :to="{ name: 'home' }" aria-label="Home">
           <LogoSVG />
         </router-link>
       </div>
 
       <!-- Navigation Links (hidden when there is only one destination) -->
       <div v-if="showNavLinks" class="nav-content">
-        <router-link
-          v-for="item in navLinks"
-          :key="item.label"
-          class="router-link"
-          :to="item.to"
-        >
+        <router-link v-for="item in navLinks" :key="item.label" class="router-link" :to="item.to">
           {{ item.label }}
         </router-link>
       </div>
@@ -81,6 +76,7 @@ export default {
     return {
       progressBarWidth: '0%',
       openNav: false,
+      prevScreenWidth: window.innerWidth || 0,
       navLinks: [
         { label: 'PORTFOLIO', to: { name: 'home' } },
         // { label: 'ARTICLES', to: { name: 'articles.index' } },
@@ -154,7 +150,7 @@ export default {
     .left-corner {
       display: flex;
       flex-direction: row;
-      margin-top: -.5em;
+      margin-top: -0.5em;
       a {
         margin: 1em;
         .svg {
@@ -301,6 +297,10 @@ export default {
         @include boxShadow();
         @include backgroundBlur();
         border-radius: $rad-1;
+
+        .contact_link {
+          padding: 0.3em 0.1em;
+        }
       }
 
       #expand-notification {

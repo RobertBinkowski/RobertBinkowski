@@ -4,7 +4,7 @@
       v-for="(track, trackIdx) in tracks"
       :key="`skills-track-${trackIdx}`"
       class="skills-wrapper"
-      :class="{ backwards: trackIdx % 2 }"
+      :class="{ backwards: trackIdx % 2, 'is-animating': marqueeReady }"
     >
       <skillPill
         v-for="(skill, idx) in track"
@@ -33,6 +33,16 @@ export default {
       type: Array,
       required: true,
     },
+  },
+  data() {
+    return {
+      marqueeReady: false,
+    }
+  },
+  mounted() {
+    requestAnimationFrame(() => {
+      this.marqueeReady = true
+    })
   },
   computed: {
     tracks() {
@@ -66,6 +76,7 @@ export default {
   max-height: none;
   overflow: hidden;
   box-sizing: border-box;
+  padding: 6em 1em;
 
   &::before,
   &::after {
@@ -91,8 +102,12 @@ export default {
   .skills-wrapper {
     display: flex;
     width: max-content;
-    animation: scroll 60s linear infinite;
-    animation-play-state: running;
+    animation: none;
+
+    &.is-animating {
+      animation: scroll 60s linear infinite;
+      animation-play-state: running;
+    }
 
     &:hover {
       animation-play-state: paused;
@@ -112,6 +127,8 @@ export default {
 
 @media only screen and (max-width: $compact-size) {
   #skills-section {
+    padding: 4em 0.75em;
+
     &::before,
     &::after {
       width: min(4rem, 10vw);

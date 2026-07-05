@@ -1,13 +1,25 @@
 <template>
-  <a :href="link.link" :name="link.name" class="contact_link" target="_blank">
-    <i :class="link.icon"></i>
+  <a
+    :href="link.link"
+    :aria-label="link.name"
+    class="contact_link"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <socialIcon :icon="link.icon" />
     <span v-if="name" class="contact_label">{{ link.name }}</span>
+    <span v-else class="sr-only">{{ link.name }}</span>
   </a>
 </template>
 
 <script>
+import socialIcon from './socialIcon.vue'
+
 export default {
   name: 'linkComponent',
+  components: {
+    socialIcon,
+  },
   props: {
     link: {
       type: Object,
@@ -26,7 +38,12 @@ export default {
 
 .contact_link {
   font-size: 2em;
-  &:hover {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: $txt;
+  &:hover,
+  &:focus {
     color: $acc-1;
   }
 
@@ -35,5 +52,17 @@ export default {
     font-size: 0.5em;
     vertical-align: middle;
   }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 </style>

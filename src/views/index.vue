@@ -13,14 +13,13 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
 import WelcomeSection from '@/layouts/01.WelcomeSection.vue'
-import AboutSection from '@/layouts/About/AboutSection.vue'
-import ContactSection from '@/layouts/06.ContactSection.vue'
-import TimelineSection from '@/layouts/Timeline/TimelineSection.vue'
-// import ExperienceSection from '@/layouts/Experiences/ExperienceSection.vue'
-// import ProjectsSection from '@/layouts/Projects/ProjectsSection.vue'
 
-import SkillsSection from '@/layouts/03.SkillsSection.vue'
+const SkillsSection = defineAsyncComponent(() => import('@/layouts/03.SkillsSection.vue'))
+const TimelineSection = defineAsyncComponent(() => import('@/layouts/Timeline/TimelineSection.vue'))
+const ContactSection = defineAsyncComponent(() => import('@/layouts/06.ContactSection.vue'))
+const AboutSection = defineAsyncComponent(() => import('@/layouts/About/AboutSection.vue'))
 import { timelineBranches, timelineMain, getCurrentRoleHeadline } from '@/data/timeline'
 import { featuredSkills } from '@/data/skills'
 
