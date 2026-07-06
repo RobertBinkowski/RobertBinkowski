@@ -46,10 +46,10 @@
       class="git-graph__lane git-graph__branch"
     />
 
-    <!-- Role milestones along the branch (multi-role jobs) -->
+    <!-- Role-change dots along the branch, placed by time (multi-role jobs) -->
     <circle
-      v-for="marker in roleMarkers"
-      :key="marker.roleId"
+      v-for="marker in roleChangeDots"
+      :key="marker.id"
       :cx="laneX(item.lane)"
       :cy="marker.y"
       :r="roleRadius"
@@ -124,7 +124,7 @@ export default {
       type: Number,
       default: 120,
     },
-    roleMarkers: {
+    roleChanges: {
       type: Array,
       default: () => [],
     },
@@ -216,6 +216,21 @@ export default {
     curveLead() {
       const room = Math.max(0, this.forkY - this.mergeY - 16)
       return Math.min(CURVE_LEAD, Math.max(20, this.height * 0.12), room / 2)
+    },
+    // Convert each role-change fraction into a Y offset along this row's branch
+    // line, running from the fork (start, bottom) up to the branch head/merge.
+    roleChangeDots() {
+      if (this.externallyDrawnBranch || this.item.lane <= 0) {
+        return []
+      }
+
+      const bottom = this.forkY
+      const top = this.isCurrentRole ? this.branchHeadY : this.mergeY
+
+      return (this.roleChanges || []).map((change) => ({
+        id: change.id,
+        y: bottom + (top - bottom) * change.fraction,
+      }))
     },
     laneSegments() {
       if (this.externallyDrawnBranch) {
