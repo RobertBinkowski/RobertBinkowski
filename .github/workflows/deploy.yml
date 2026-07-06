@@ -31,6 +31,15 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      # Gate the upload: only publish a build that actually loads in a browser
+      # with its compiled SCSS applied. Guards against the SCSS-not-loading
+      # regression that previously reached production.
+      - name: Smoke test built site
+        run: npm run smoke
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
