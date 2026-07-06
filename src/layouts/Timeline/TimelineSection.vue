@@ -69,6 +69,16 @@
             :r="educationBranchOverlay.junctionRadius"
             :style="{ fill: trunkColor }"
           />
+          <!-- Role-change dots sit on the branch at the month the role changed. -->
+          <circle
+            v-for="marker in educationRoleMarkers"
+            :key="marker.id"
+            :cx="educationBranchOverlay.branchX"
+            :cy="marker.y"
+            :r="compactGraph ? 3.5 : 5"
+            :style="{ fill: educationBranchOverlay.color, stroke: 'var(--color-surface)' }"
+            :stroke-width="compactGraph ? 1.5 : 2"
+          />
         </g>
       </svg>
 
@@ -107,7 +117,7 @@
             :main-color="trunkColor"
             :branch-color="item.branch.color || 'var(--color-branch-work)'"
             :height="rowHeights[item.id] || 100"
-            :role-markers="roleLayouts[item.id] || []"
+            :role-changes="roleMarkerFractions[item.id] || []"
             :highlighted="hoveredId === item.id"
             :compact="compactGraph"
             :branch-head-y="branchHeadY"
@@ -159,6 +169,31 @@ const parseMonthValue = (value) => {
 
 const intervalsOverlap = (leftItem, rightItem) =>
   leftItem.startMonth < rightItem.endMonth && rightItem.startMonth < leftItem.endMonth
+
+// Role changes are the transitions between consecutive roles within one entry.
+// They live in time (at the end of the previous role) rather than at the DOM
+// position of a role card, so the dot lands where the change actually happened.
+const getRoleChanges = (roles) => {
+  const ordered = [...(roles || [])]
+    .filter((role) => role.start)
+    .sort((left, right) => parseMonthValue(left.start) - parseMonthValue(right.start))
+
+  const changes = []
+
+  for (let index = 1; index < ordered.length; index += 1) {
+    const previousRole = ordered[index - 1]
+    const month = parseMonthValue(previousRole.end)
+
+    if (month > 0) {
+      changes.push({
+        id: `${previousRole.id}-to-${ordered[index].id}`,
+        month,
+      })
+    }
+  }
+
+  return changes
+}
 
 const getEntrySpan = (roles) => {
   if (!roles?.length) {
@@ -217,7 +252,6 @@ export default {
   data() {
     return {
       rowHeights: {},
-      roleLayouts: {},
       hoveredId: null,
       resizeObserver: null,
       compactGraph: false,
@@ -387,6 +421,55 @@ export default {
         strokeWidth: this.compactGraph ? 3.5 : 4,
       }
     },
+    roleChangesByItem() {
+      const map = {}
+
+      for (const item of this.rawItems) {
+        map[item.id] = getRoleChanges(item.entry.roles)
+      }
+
+      return map
+    },
+    // Work branches are drawn per-row, so express each role change as a fraction
+    // along the entry's own time span; the row converts it to a local Y offset.
+    roleMarkerFractions() {
+      const map = {}
+      const nowMonth = this.currentMonthValue()
+
+      for (const item of this.rawItems) {
+        const effectiveEnd = Number.isFinite(item.endMonth) ? item.endMonth : nowMonth
+        const span = effectiveEnd - item.startMonth
+
+        map[item.id] =
+          span > 0
+            ? (this.roleChangesByItem[item.id] || []).map((change) => ({
+                id: change.id,
+                fraction: (change.month - item.startMonth) / span,
+              }))
+            : []
+      }
+
+      return map
+    },
+    // The education branch is drawn on the shared time axis, so its role-change
+    // dots are placed by absolute month rather than a per-row fraction.
+    educationRoleMarkers() {
+      const overlay = this.educationBranchOverlay
+      const eduItem = this.timelineItems.find((item) => item.branch.id === 'education')
+      const bounds = this.timelineBounds
+      const height = this.trunkHeight
+
+      if (!overlay || !eduItem || !bounds || height <= 0) {
+        return []
+      }
+
+      return (this.roleChangesByItem[eduItem.id] || [])
+        .map((change) => ({
+          id: change.id,
+          y: monthToTrunkY(change.month, bounds, height),
+        }))
+        .filter((marker) => marker.y != null)
+    },
     timelineItems() {
       const { lanes } = this.laneData
 
@@ -501,47 +584,20 @@ export default {
       }
 
       const nextHeights = {}
-      const nextRoleLayouts = {}
 
       ;(Array.isArray(rows) ? rows : [rows]).forEach((row, index) => {
         const item = this.timelineItems[index]
         if (item && row) {
           const content = row.querySelector('.experience-content')
           nextHeights[item.id] = Math.max(row.offsetHeight, content?.offsetHeight || 0, 72)
-          nextRoleLayouts[item.id] = this.measureRoleMarkers(content)
         }
       })
 
       this.rowHeights = nextHeights
-      this.roleLayouts = nextRoleLayouts
 
       this.$nextTick(() => {
         const graph = this.$refs.timelineGraph
         this.measuredTrunkHeight = graph?.offsetHeight || 0
-      })
-    },
-    measureRoleMarkers(content) {
-      if (!content) {
-        return []
-      }
-
-      const roleCards = content.querySelectorAll('.role-card')
-
-      if (roleCards.length < 2) {
-        return []
-      }
-
-      const contentTop = content.getBoundingClientRect().top
-
-      return Array.from(roleCards).map((card) => {
-        const header = card.querySelector('.role-header') || card
-        const headerRect = header.getBoundingClientRect()
-        const y = headerRect.top - contentTop + headerRect.height / 2
-
-        return {
-          roleId: card.dataset.roleId || '',
-          y,
-        }
       })
     },
     observeRows() {
