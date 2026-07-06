@@ -14,8 +14,17 @@ export default defineConfig(({ mode }) => ({
         entryFileNames: 'assets/[name]-[hash].js',
         chunkFileNames: 'assets/[name]-[hash].js',
         assetFileNames: 'assets/[name]-[hash][extname]',
-        manualChunks: {
-          vue: ['vue', 'vue-router'],
+        // Vite 8 uses Rolldown, which expects manualChunks as a function
+        // rather than the object form. Group the Vue runtime + router into a
+        // single long-lived vendor chunk.
+        manualChunks(id) {
+          if (
+            id.includes('/node_modules/vue/') ||
+            id.includes('/node_modules/@vue/') ||
+            id.includes('/node_modules/vue-router/')
+          ) {
+            return 'vue'
+          }
         },
       },
     },
