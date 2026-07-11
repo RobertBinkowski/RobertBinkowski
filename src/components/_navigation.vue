@@ -146,13 +146,17 @@ export default {
     .left-corner {
       display: flex;
       flex-direction: row;
+      align-items: center;
+      justify-content: center;
       margin-top: -0.5em;
       a {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         margin: 1em;
+        padding: 0;
         color: var(--color-text);
+        line-height: 0;
 
         &:hover,
         &:focus {
@@ -160,9 +164,20 @@ export default {
         }
 
         .nav-logo {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 2.75em;
+          height: 2.75em;
+          line-height: 0;
+
           :deep(svg) {
-            height: 2.5em;
+            display: block;
+            height: 2.35em;
             width: auto;
+            max-width: 100%;
+            margin: auto;
+            vertical-align: middle;
           }
 
           :deep(path) {
@@ -308,7 +323,9 @@ export default {
       }
       .left-corner {
         margin-top: 0;
-        padding: 0 1em;
+        padding: 0.35em 1em;
+        align-items: center;
+        justify-content: center;
 
         @include boxShadow();
         @include backgroundBlur();
@@ -316,7 +333,7 @@ export default {
 
         a {
           margin: 0;
-          padding: 0.3em 0.1em;
+          padding: 0.15em 0.25em;
         }
       }
 
