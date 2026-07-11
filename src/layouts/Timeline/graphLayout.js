@@ -10,9 +10,11 @@ export const PHONE_BREAKPOINT = 768
 
 export const GRAPH_CORNER = 10
 export const GRAPH_CURVE_LEAD = 32
+/** Space below the oldest junction so fork curves and stroke caps are not clipped. */
+export const TRUNK_BOTTOM_PAD = 24
 
 /** Map a month value onto the trunk's vertical time axis (0 = newest). */
-export const monthToTrunkY = (monthValue, bounds, height) => {
+export const monthToTrunkY = (monthValue, bounds, height, { bottomPad = TRUNK_BOTTOM_PAD } = {}) => {
   if (!bounds || height <= 0 || !Number.isFinite(monthValue)) {
     return null
   }
@@ -25,8 +27,9 @@ export const monthToTrunkY = (monthValue, bounds, height) => {
   }
 
   const clamped = Math.min(Math.max(monthValue, oldest), newest)
+  const drawable = Math.max(height - bottomPad, 1)
 
-  return ((newest - clamped) / span) * height
+  return ((newest - clamped) / span) * drawable
 }
 
 /** Smooth fork curve from trunk onto a branch lane (global or row-local coords). */

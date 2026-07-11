@@ -15,7 +15,7 @@
           :x1="trunkX"
           :y1="trunkLineStart"
           :x2="trunkX"
-          :y2="trunkHeight"
+          :y2="trunkLineEnd"
           :style="{ stroke: trunkColor }"
           :stroke-width="compactGraph ? 3 : 5"
           stroke-linecap="round"
@@ -29,7 +29,11 @@
         />
 
         <!-- Continuous education branch (spans every overlapping row) -->
-        <g v-if="educationBranchOverlay" class="global-branch global-branch--education">
+        <g
+          v-if="educationBranchOverlay"
+          class="global-branch global-branch--education"
+          :class="{ 'global-branch--highlighted': isEducationHighlighted }"
+        >
           <line
             :x1="educationBranchOverlay.branchX"
             :y1="educationBranchOverlay.lineY1"
@@ -75,9 +79,9 @@
             :key="marker.id"
             :cx="educationBranchOverlay.branchX"
             :cy="marker.y"
-            :r="compactGraph ? 3.5 : 5"
+            :r="isEducationHighlighted ? (compactGraph ? 4 : 5.5) : compactGraph ? 3.5 : 5"
             :style="{ fill: educationBranchOverlay.color, stroke: 'var(--color-surface)' }"
-            :stroke-width="compactGraph ? 1.5 : 2"
+            :stroke-width="isEducationHighlighted ? (compactGraph ? 2 : 2.5) : compactGraph ? 1.5 : 2"
           />
         </g>
       </svg>
@@ -147,6 +151,7 @@ import {
   GRAPH_CURVE_LEAD,
   GRAPH_LABEL_GUTTER,
   PHONE_BREAKPOINT,
+  TRUNK_BOTTOM_PAD,
   branchHeadY as computeBranchHeadY,
   forkCurvePath,
   graphWidth,
@@ -314,6 +319,21 @@ export default {
     trunkLineStart() {
       return trunkHeadMetrics(this.compactGraph).lineStart
     },
+    trunkLineEnd() {
+      const overlay = this.educationBranchOverlay
+
+      if (overlay?.showFork && overlay.forkY != null) {
+        return Math.max(this.trunkLineStart, overlay.forkY)
+      }
+
+      return Math.max(this.trunkLineStart, this.trunkHeight - TRUNK_BOTTOM_PAD)
+    },
+    educationItemId() {
+      return this.timelineItems.find((item) => item.branch.id === 'education')?.id ?? null
+    },
+    isEducationHighlighted() {
+      return Boolean(this.educationItemId && this.hoveredId === this.educationItemId)
+    },
     branchHeadY() {
       return computeBranchHeadY(this.compactGraph, this.emPx)
     },
@@ -403,6 +423,14 @@ export default {
         Math.max(20, (forkY - mergeY) * 0.08),
         Math.max(0, forkY - mergeY - 16) / 2,
       )
+      const highlighted = this.isEducationHighlighted
+      const strokeWidth = highlighted
+        ? this.compactGraph
+          ? 4.5
+          : 5.5
+        : this.compactGraph
+          ? 3.5
+          : 4
 
       return {
         branchX,
@@ -417,8 +445,14 @@ export default {
         forkPath: forkCurvePath(mainX, branchX, forkY, lead),
         showMerge: Number.isFinite(eduItem.endMonth),
         showFork: Number.isFinite(eduItem.startMonth),
-        junctionRadius: this.compactGraph ? 4 : 6,
-        strokeWidth: this.compactGraph ? 3.5 : 4,
+        junctionRadius: highlighted
+          ? this.compactGraph
+            ? 4.5
+            : 7
+          : this.compactGraph
+            ? 4
+            : 6,
+        strokeWidth,
       }
     },
     roleChangesByItem() {
@@ -682,6 +716,14 @@ export default {
 
     .global-branch {
       opacity: 0.85;
+      transition:
+        opacity 0.2s ease,
+        filter 0.2s ease;
+
+      &.global-branch--highlighted {
+        opacity: 1;
+        filter: drop-shadow(0 0 4px fade(var(--color-shadow), 0.15));
+      }
     }
   }
 
