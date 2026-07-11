@@ -22,8 +22,16 @@
       </div>
     </div>
     <div class="square">
-      <h1 v-if="name">{{ name }}</h1>
-      <pillComponent v-if="title" :value="title" />
+      <div v-if="name" class="welcome-intro">
+        <p class="welcome-greeting">Hi, I'm</p>
+        <h1 class="welcome-name">
+          <span class="welcome-logo" v-html="longLogoMarkup" aria-hidden="true" />
+          <span class="sr-only">{{ name }}</span>
+        </h1>
+      </div>
+      <p v-if="title" class="pill">
+        {{ title }}
+      </p>
     </div>
     <div id="swipe-pill" v-bind:style="{ opacity: computedOpacity }"></div>
   </section>
@@ -45,6 +53,11 @@
   .square {
     position: relative;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     @include backgroundBlur();
     @include boxShadow();
     padding: clamp(1.25em, 5vw, 4em);
@@ -52,10 +65,80 @@
     margin: auto;
     max-width: calc(100% - 2em);
     box-sizing: border-box;
-    h1 {
-      font-size: clamp(3rem, 1rem + 2vw, 5rem);
+
+    .welcome-intro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      gap: 0.4em;
+    }
+
+    .welcome-greeting {
       margin: 0;
-      color: var(--color-secondary);
+      width: 100%;
+      text-align: center;
+      font-size: 1em;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      color: var(--color-text);
+      opacity: 0.88;
+    }
+
+    .welcome-name {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin: 0;
+      line-height: 0;
+
+      .welcome-logo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-secondary);
+        line-height: 0;
+
+        :deep(svg) {
+          display: block;
+          height: clamp(2.75rem, 1.5rem + 4vw, 4.5rem);
+          width: auto;
+          max-width: min(100%, 22rem);
+          margin: 0 auto;
+        }
+
+        :deep(path) {
+          fill: currentColor;
+        }
+      }
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .pill {
+      display: inline-block;
+      width: fit-content;
+      max-width: calc(100% - 1em);
+      margin: 0.75em auto 0;
+      padding: 0.3em 0.7em;
+      background-color: var(--color-primary);
+      border-radius: $rad-1;
+      color: var(--color-text-inverse);
+      overflow-wrap: anywhere;
+      text-align: center;
     }
   }
   #swipe-pill {
@@ -122,7 +205,7 @@
 
 <script>
 import { ref, onUnmounted, computed, onMounted } from 'vue'
-import pillComponent from '../temp/pillComponent.vue'
+import longLogoMarkup from '@/assets/icons/My Long Logo.svg?raw'
 
 const floatingIcons = [
   {
@@ -248,9 +331,6 @@ const floatingIcons = [
 ]
 
 export default {
-  components: {
-    pillComponent,
-  },
   props: {
     name: {
       type: String,
@@ -292,6 +372,7 @@ export default {
       welcomeSection,
       computedOpacity,
       floatingIcons,
+      longLogoMarkup,
     }
   },
 }

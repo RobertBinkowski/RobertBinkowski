@@ -1,41 +1,62 @@
+# Builds the portfolio, smoke-tests the production output, then publishes to GitHub Pages.
+# If the smoke test fails, the artifact is never uploaded and deploy never runs.
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
 
+# Permissions required for GitHub Pages deployment via the official actions.
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: read # read repo source
+  pages: write # upload and publish the Pages site
+  id-token: write # OIDC token used by deploy-pages (no long-lived PAT needed)
 
+# Only one Pages deploy at a time; cancel an in-flight run if a newer push arrives.
 concurrency:
   group: 'pages'
   cancel-in-progress: true
 
 jobs:
+  # Job 1: compile the site, verify it works in a real browser, package dist/ for Pages.
   build:
     runs-on: ubuntu-latest
     steps:
+      # Clone this repository onto the CI runner.
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Install Node.js 20 (matches package.json engines).
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
+      # Clean install from package-lock.json (reproducible CI installs).
       - name: Install dependencies
         run: npm ci
 
+      # Vite production build → outputs static files to ./dist.
       - name: Build
         run: npm run build
 
+      # Playwright needs a Chromium binary on the runner; npm install alone does not include it.
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      # Serve dist/ with vite preview, open in headless Chromium, assert sections from
+      # src/configurations/home.js render correctly. Exits non-zero on failure → job stops here.
+      - name: Smoke test built site
+        run: npm run smoke
+
+      # Package ./dist as the GitHub Pages artifact (only reached if smoke test passed).
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
+  # Job 2: publish the artifact from the build job to GitHub Pages.
+  # Runs only after build succeeds (needs: build).
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -43,6 +64,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # Takes the uploaded artifact and makes it live on GitHub Pages.
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

@@ -306,7 +306,9 @@ export default {
 
   &__lane {
     opacity: 0.75;
-    transition: opacity 0.2s ease, filter 0.2s ease;
+    transition:
+      opacity 0.2s ease,
+      filter 0.2s ease;
   }
 
   &__parallel {

@@ -2,8 +2,7 @@
   <footer>
     <div class="footer-content">
       <div class="footer-brand">
-        <logoSVG />
-        <p class="brand-name">Robert Binkowski</p>
+        <span class="footer-brand-logo" v-html="longLogoMarkup" aria-hidden="true" />
         <p class="brand-tagline">
           Software engineer building reliable web products — from PHP APIs to Vue front-ends.
         </p>
@@ -68,15 +67,21 @@ footer {
   }
 
   .footer-brand {
-    svg {
+    .footer-brand-logo {
+      display: inline-flex;
       margin-bottom: 0.75em;
-    }
-
-    .brand-name {
-      margin: 0 0 0.35em;
-      font-size: 1.1em;
-      font-weight: 900;
       color: var(--color-text-inverse);
+
+      :deep(svg) {
+        display: block;
+        height: 2rem;
+        width: auto;
+        max-width: min(100%, 16rem);
+      }
+
+      :deep(path) {
+        fill: currentColor;
+      }
     }
 
     .brand-tagline {
@@ -195,14 +200,18 @@ footer {
 </style>
 
 <script>
-import LogoSVG from '@/components/_logo.vue'
+import longLogoMarkup from '@/assets/icons/My Long Logo.svg?raw'
 import linkComponent from '@/components/linkComponent.vue'
 
 export default {
   name: 'footerView',
   components: {
-    LogoSVG,
     linkComponent,
+  },
+  data() {
+    return {
+      longLogoMarkup,
+    }
   },
   props: {
     contacts: {

@@ -4,7 +4,7 @@
       <!-- Logo -->
       <div class="left-corner">
         <router-link :to="{ name: 'home' }" aria-label="Home">
-          <LogoSVG />
+          <span class="nav-logo" v-html="logoMarkup" aria-hidden="true" />
         </router-link>
       </div>
 
@@ -45,13 +45,12 @@
 </template>
 
 <script>
-import LogoSVG from '@/components/_logo.vue'
+import logoMarkup from '@/assets/icons/My Logo.svg?raw'
 import linkComponent from './linkComponent.vue'
 
 export default {
   name: 'navigationView',
   components: {
-    LogoSVG,
     linkComponent,
   },
   props: {
@@ -74,13 +73,13 @@ export default {
   },
   data() {
     return {
+      logoMarkup,
       progressBarWidth: '0%',
       openNav: false,
       prevScreenWidth: window.innerWidth || 0,
       navLinks: [
         { label: 'PORTFOLIO', to: { name: 'home' } },
         // { label: 'ARTICLES', to: { name: 'articles.index' } },
-        // { label: 'PROJECTS', to: { name: 'projects.index' } },
       ],
     }
   },
@@ -117,9 +116,6 @@ export default {
       }
       this.prevScreenWidth = currentScreenWidth
     },
-    logout() {
-      this.$emit('logout')
-    },
   },
 }
 </script>
@@ -150,14 +146,48 @@ export default {
     .left-corner {
       display: flex;
       flex-direction: row;
+      align-items: center;
+      justify-content: center;
       margin-top: -0.5em;
       a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         margin: 1em;
-        .svg {
-          stroke: var(--color-text);
-          height: 2.2rem;
-          stroke-width: 1.2;
-          padding: 0.4em;
+        padding: 0;
+        color: var(--color-text);
+        line-height: 0;
+
+        &:hover,
+        &:focus {
+          color: var(--color-primary);
+        }
+
+        .nav-logo {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 2.75em;
+          height: 2.75em;
+          line-height: 0;
+
+          :deep(svg) {
+            display: block;
+            height: 2.35em;
+            width: auto;
+            max-width: 100%;
+            margin: auto;
+            vertical-align: middle;
+          }
+
+          :deep(path) {
+            fill: currentColor;
+            stroke: currentColor;
+            stroke-width: 1;
+            stroke-linejoin: round;
+            stroke-linecap: round;
+            paint-order: stroke fill;
+          }
         }
       }
     }
@@ -291,6 +321,22 @@ export default {
           font-size: 0.85rem;
         }
       }
+      .left-corner {
+        margin-top: 0;
+        padding: 0.35em 1em;
+        align-items: center;
+        justify-content: center;
+
+        @include boxShadow();
+        @include backgroundBlur();
+        border-radius: $rad-1;
+
+        a {
+          margin: 0;
+          padding: 0.15em 0.25em;
+        }
+      }
+
       .right-corner {
         padding: 0 1em;
 
