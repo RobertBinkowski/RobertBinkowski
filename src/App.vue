@@ -70,6 +70,7 @@ main {
 <script>
 import Navigation from './components/_navigation.vue'
 import FooterFile from './components/_footer.vue'
+import { contacts } from '@/data/page'
 
 export default {
   components: {
@@ -78,18 +79,7 @@ export default {
   },
   data() {
     return {
-      contacts: [
-        {
-          name: 'LinkedIn',
-          icon: 'linkedin',
-          link: 'https://www.linkedin.com/in/robert-binkowski-9bb565195/',
-        },
-        {
-          name: 'GitHub',
-          icon: 'github',
-          link: 'https://github.com/RobertBinkowski',
-        },
-      ],
+      contacts,
     }
   },
 }
