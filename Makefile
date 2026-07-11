@@ -8,7 +8,7 @@ build:
 	npm run build
 
 lint:
-	npm run lint
+	npm run format
 
 format:
 	npm run format
