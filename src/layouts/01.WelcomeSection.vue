@@ -23,7 +23,9 @@
     </div>
     <div class="square">
       <h1 v-if="name">{{ name }}</h1>
-      <pillComponent v-if="title" :value="title" />
+      <p v-if="title" class="pill">
+        {{ title }}
+      </p>
     </div>
     <div id="swipe-pill" v-bind:style="{ opacity: computedOpacity }"></div>
   </section>
@@ -56,6 +58,16 @@
       font-size: clamp(3rem, 1rem + 2vw, 5rem);
       margin: 0;
       color: var(--color-secondary);
+    }
+    .pill {
+      margin: 0.5em;
+      padding: 0.3em 0.7em;
+      background-color: var(--color-primary);
+      border-radius: $rad-1;
+      color: var(--color-text-inverse);
+      max-width: calc(100% - 1em);
+      overflow-wrap: anywhere;
+      text-align: center;
     }
   }
   #swipe-pill {
@@ -122,7 +134,6 @@
 
 <script>
 import { ref, onUnmounted, computed, onMounted } from 'vue'
-import pillComponent from '../temp/pillComponent.vue'
 
 const floatingIcons = [
   {
@@ -248,9 +259,6 @@ const floatingIcons = [
 ]
 
 export default {
-  components: {
-    pillComponent,
-  },
   props: {
     name: {
       type: String,
