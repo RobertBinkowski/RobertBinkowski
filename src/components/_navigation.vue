@@ -152,15 +152,11 @@ export default {
         align-items: center;
         justify-content: center;
         margin: 1em;
-        :deep(.svg) {
-          stroke: var(--color-text);
-          height: 2.2rem;
-          stroke-width: 1.2;
-          padding: 0.4em;
+        color: var(--color-text);
 
-          .path1 {
-            fill: var(--color-text);
-          }
+        &:hover,
+        &:focus {
+          color: var(--color-primary);
         }
       }
     }
