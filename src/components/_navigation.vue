@@ -148,12 +148,19 @@ export default {
       flex-direction: row;
       margin-top: -0.5em;
       a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         margin: 1em;
-        .svg {
+        :deep(.svg) {
           stroke: var(--color-text);
           height: 2.2rem;
           stroke-width: 1.2;
           padding: 0.4em;
+
+          .path1 {
+            fill: var(--color-text);
+          }
         }
       }
     }
@@ -287,6 +294,20 @@ export default {
           font-size: 0.85rem;
         }
       }
+      .left-corner {
+        margin-top: 0;
+        padding: 0 1em;
+
+        @include boxShadow();
+        @include backgroundBlur();
+        border-radius: $rad-1;
+
+        a {
+          margin: 0;
+          padding: 0.3em 0.1em;
+        }
+      }
+
       .right-corner {
         padding: 0 1em;
 
