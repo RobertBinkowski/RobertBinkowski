@@ -4,7 +4,7 @@
       <!-- Logo -->
       <div class="left-corner">
         <router-link :to="{ name: 'home' }" aria-label="Home">
-          <LogoSVG />
+          <span class="nav-logo" v-html="logoMarkup" aria-hidden="true" />
         </router-link>
       </div>
 
@@ -45,13 +45,12 @@
 </template>
 
 <script>
-import LogoSVG from '@/components/_logo.vue'
+import logoMarkup from '@/assets/icons/My Logo.svg?raw'
 import linkComponent from './linkComponent.vue'
 
 export default {
   name: 'navigationView',
   components: {
-    LogoSVG,
     linkComponent,
   },
   props: {
@@ -74,6 +73,7 @@ export default {
   },
   data() {
     return {
+      logoMarkup,
       progressBarWidth: '0%',
       openNav: false,
       prevScreenWidth: window.innerWidth || 0,
@@ -157,6 +157,22 @@ export default {
         &:hover,
         &:focus {
           color: var(--color-primary);
+        }
+
+        .nav-logo {
+          :deep(svg) {
+            height: 2.5em;
+            width: auto;
+          }
+
+          :deep(path) {
+            fill: currentColor;
+            stroke: currentColor;
+            stroke-width: 1;
+            stroke-linejoin: round;
+            stroke-linecap: round;
+            paint-order: stroke fill;
+          }
         }
       }
     }
