@@ -1,7 +1,7 @@
 import idPalLogo from '@/assets/icons/ID-Pal Logo.svg'
 import learnosityLogo from '@/assets/icons/Learnosity Logo.svg'
-import sykownoChataLogo from '@/assets/icons/Sykowno Chata logo.svg'
-import collegeLogo from '@/assets/icons/setu-logo.svg'
+import sykownoChataLogo from '@/assets/icons/Sykowno Chata Logo.svg'
+import collegeLogo from '@/assets/icons/SETU Logo.svg'
 
 // Use YYYY-MM for start/end dates so the UI can keep entries sorted newest-first.
 export const timelineMain = {
