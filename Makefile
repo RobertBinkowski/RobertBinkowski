@@ -7,5 +7,9 @@ up:
 build:
 	npm run build
 
+smoke:
+	npm run build
+	npm run smoke
+
 deploy:
 	npm run deploy

@@ -20,6 +20,5 @@ This repository is a single, frontend-only **Vue 3 + Vite** personal portfolio S
 ### Non-obvious notes
 
 - Node must satisfy `engines`: `^20.19.0 || >=22.12.0`. The VM's Node 22 works.
-- `npm run lint` currently reports 2 pre-existing errors in `src/layouts/Experiences/ExperienceSection.vue` (unused `onMounted` import and an unused registered component). These are pre-existing code issues, not an environment problem.
 - There is **no test runner configured** — the `README.md` mention of `npm run test:unit` (Vitest) is leftover scaffolding; no `test:unit` script or test files exist.
 - `vite-plugin-vue-devtools` only loads in development mode (see `vite.config.js`).
