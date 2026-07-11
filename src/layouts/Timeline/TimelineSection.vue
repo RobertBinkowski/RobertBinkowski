@@ -81,7 +81,9 @@
             :cy="marker.y"
             :r="isEducationHighlighted ? (compactGraph ? 4 : 5.5) : compactGraph ? 3.5 : 5"
             :style="{ fill: educationBranchOverlay.color, stroke: 'var(--color-surface)' }"
-            :stroke-width="isEducationHighlighted ? (compactGraph ? 2 : 2.5) : compactGraph ? 1.5 : 2"
+            :stroke-width="
+              isEducationHighlighted ? (compactGraph ? 2 : 2.5) : compactGraph ? 1.5 : 2
+            "
           />
         </g>
       </svg>
@@ -445,13 +447,7 @@ export default {
         forkPath: forkCurvePath(mainX, branchX, forkY, lead),
         showMerge: Number.isFinite(eduItem.endMonth),
         showFork: Number.isFinite(eduItem.startMonth),
-        junctionRadius: highlighted
-          ? this.compactGraph
-            ? 4.5
-            : 7
-          : this.compactGraph
-            ? 4
-            : 6,
+        junctionRadius: highlighted ? (this.compactGraph ? 4.5 : 7) : this.compactGraph ? 4 : 6,
         strokeWidth,
       }
     },

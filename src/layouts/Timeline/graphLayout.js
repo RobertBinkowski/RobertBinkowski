@@ -14,7 +14,12 @@ export const GRAPH_CURVE_LEAD = 32
 export const TRUNK_BOTTOM_PAD = 24
 
 /** Map a month value onto the trunk's vertical time axis (0 = newest). */
-export const monthToTrunkY = (monthValue, bounds, height, { bottomPad = TRUNK_BOTTOM_PAD } = {}) => {
+export const monthToTrunkY = (
+  monthValue,
+  bounds,
+  height,
+  { bottomPad = TRUNK_BOTTOM_PAD } = {},
+) => {
   if (!bounds || height <= 0 || !Number.isFinite(monthValue)) {
     return null
   }
