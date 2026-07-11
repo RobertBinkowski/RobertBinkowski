@@ -7,6 +7,15 @@ up:
 build:
 	npm run build
 
+lint:
+	npm run lint
+
+format:
+	npm run format
+
+format-check:
+	npm run format:check
+
 smoke:
 	npm run build
 	npm run smoke

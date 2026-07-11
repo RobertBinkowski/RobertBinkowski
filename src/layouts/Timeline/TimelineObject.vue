@@ -152,10 +152,7 @@ export default {
       const hasOpenRole = roles.some((role) => !role.end)
       const end = hasOpenRole
         ? null
-        : roles.reduce(
-            (latest, role) => (!latest || role.end > latest ? role.end : latest),
-            null,
-          )
+        : roles.reduce((latest, role) => (!latest || role.end > latest ? role.end : latest), null)
 
       return { start, end }
     },
@@ -167,9 +164,7 @@ export default {
         return ''
       }
 
-      const endLabel = this.entryPeriod.end
-        ? this.formatMonthYear(this.entryPeriod.end)
-        : 'Present'
+      const endLabel = this.entryPeriod.end ? this.formatMonthYear(this.entryPeriod.end) : 'Present'
 
       return `${this.formatMonthYear(this.entryPeriod.start)} - ${endLabel}`
     },

@@ -108,10 +108,7 @@ async function runChecks(page) {
       const sampleSkill = featuredSkills[0]?.name
       if (sampleSkill) {
         const skillsText = await page.textContent(section.selector)
-        assert(
-          skillsText?.includes(sampleSkill),
-          `Skills section should include "${sampleSkill}".`,
-        )
+        assert(skillsText?.includes(sampleSkill), `Skills section should include "${sampleSkill}".`)
       }
     }
 
