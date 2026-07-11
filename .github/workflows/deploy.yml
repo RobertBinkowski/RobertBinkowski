@@ -45,7 +45,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       # Serve dist/ with vite preview, open in headless Chromium, assert sections from
-      # src/data/page.js render correctly. Exits non-zero on failure → job stops here.
+      # src/configurations/home.js render correctly. Exits non-zero on failure → job stops here.
       - name: Smoke test built site
         run: npm run smoke
 

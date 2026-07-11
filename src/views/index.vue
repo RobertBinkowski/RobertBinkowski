@@ -15,7 +15,8 @@ import { defineAsyncComponent } from 'vue'
 import WelcomeSection from '@/layouts/01.WelcomeSection.vue'
 import { timelineBranches, timelineMain, getCurrentRoleHeadline } from '@/data/timeline'
 import { featuredSkills } from '@/data/skills'
-import { portfolio, user as pageUser } from '@/data/page'
+import { portfolio } from '@/configurations/home'
+import { user as profileUser } from '@/data/profile'
 
 const SkillsSection = defineAsyncComponent(() => import('@/layouts/03.SkillsSection.vue'))
 const TimelineSection = defineAsyncComponent(() => import('@/layouts/Timeline/TimelineSection.vue'))
@@ -42,9 +43,9 @@ export default {
       timelineMain,
       timelineBranches,
       user: {
-        name: pageUser.name,
-        title: getCurrentRoleHeadline() ?? pageUser.defaultTitle,
-        bio: pageUser.bio,
+        name: profileUser.name ?? '',
+        title: getCurrentRoleHeadline() ?? profileUser.title,
+        bio: profileUser.bio ?? '',
         skills: featuredSkills,
       },
       portfolio,

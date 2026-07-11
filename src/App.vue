@@ -70,7 +70,7 @@ main {
 <script>
 import Navigation from './components/_navigation.vue'
 import FooterFile from './components/_footer.vue'
-import { contacts } from '@/data/page'
+import { contacts } from '@/data/profile'
 
 export default {
   components: {
