@@ -79,7 +79,7 @@
       margin: 0;
       width: 100%;
       text-align: center;
-      font-size: clamp(1.15rem, 0.85rem + 1.2vw, 1.65rem);
+      font-size: 1em;
       font-weight: 500;
       letter-spacing: 0.03em;
       color: var(--color-text);
