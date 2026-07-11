@@ -80,7 +80,6 @@ export default {
       navLinks: [
         { label: 'PORTFOLIO', to: { name: 'home' } },
         // { label: 'ARTICLES', to: { name: 'articles.index' } },
-        // { label: 'PROJECTS', to: { name: 'projects.index' } },
       ],
     }
   },
@@ -116,9 +115,6 @@ export default {
         this.openNav = false
       }
       this.prevScreenWidth = currentScreenWidth
-    },
-    logout() {
-      this.$emit('logout')
     },
   },
 }
