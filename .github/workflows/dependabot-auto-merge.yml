@@ -1,6 +1,7 @@
-# When Dependabot opens a PR and the Smoke test workflow succeeds, squash-merge
-# it into main. Lint / Lighthouse can still fail without blocking this path;
-# require those checks via a branch ruleset if you want them gated too.
+# When Dependabot opens a PR (minor/patch, major, or security) and the Smoke
+# test workflow succeeds, squash-merge it into main. Lint / Lighthouse can still
+# fail without blocking this path; require those checks via a branch ruleset if
+# you want them gated too.
 name: Dependabot auto-merge
 
 on:
