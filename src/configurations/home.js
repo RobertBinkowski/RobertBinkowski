@@ -32,13 +32,15 @@ export const homeSections = [
     key: 'skills',
     selector: '#skills-section',
     visibleWhen: ({ portfolio: sections }) => sections.SkillsSection,
+    // Exact skill names / counts are asserted from featuredSkills in the smoke test.
     minCount: [{ selector: '.skill-pill', count: 1 }],
   },
   {
     key: 'timeline',
     selector: '#timelineSection',
     visibleWhen: ({ portfolio: sections }) => sections.TimelineSection,
-    minCount: [{ selector: '.timeline-heading', count: 1 }],
+    // Exact organizations / roles are asserted from timelineBranches in the smoke test.
+    minCount: [{ selector: '.timelineObject', count: 1 }],
   },
   {
     key: 'contact',
