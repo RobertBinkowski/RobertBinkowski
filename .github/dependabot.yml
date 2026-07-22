@@ -1,14 +1,26 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
+# Dependabot: monthly batched updates instead of one PR per package.
 # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
 version: 2
 updates:
-  - package-ecosystem: 'npm' # See documentation for possible values
-    directory: '/' # Location of package manifests
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: 'weekly'
-    open-pull-requests-limit: 5
+      # Runs on the first day of each month (UTC).
+      interval: 'monthly'
+    # Cap version-update PRs so only the grouped batch stays open.
+    open-pull-requests-limit: 1
     allow:
       - dependency-type: 'direct'
+    groups:
+      # One PR for all routine version bumps each month.
+      all-dependencies:
+        applies-to: version-updates
+        patterns:
+          - '*'
+      # One PR for security fixes (security updates are not bound to the
+      # monthly schedule; grouping still avoids a PR-per-CVE flood).
+      all-security:
+        applies-to: security-updates
+        patterns:
+          - '*'
