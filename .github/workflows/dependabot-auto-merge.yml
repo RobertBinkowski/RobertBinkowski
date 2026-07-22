@@ -1,0 +1,50 @@
+# When Dependabot opens a PR (minor/patch, major, or security) and the Smoke
+# test workflow succeeds, squash-merge it into main. Lint / Lighthouse can still
+# fail without blocking this path; require those checks via a branch ruleset if
+# you want them gated too.
+name: Dependabot auto-merge
+
+on:
+  workflow_run:
+    workflows: ['Smoke test']
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  merge:
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find Dependabot pull request
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pulls = context.payload.workflow_run.pull_requests;
+            if (!pulls || pulls.length !== 1) {
+              core.setOutput('merge', 'false');
+              return;
+            }
+
+            const { data: pull } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pulls[0].number,
+            });
+
+            const isDependabot = pull.user?.login === 'dependabot[bot]';
+            const isOpen = pull.state === 'open';
+            core.setOutput('merge', String(isDependabot && isOpen));
+            core.setOutput('number', String(pull.number));
+
+      - name: Squash-merge into base branch
+        if: steps.pr.outputs.merge == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: gh pr merge "${{ steps.pr.outputs.number }}" --squash --delete-branch
