@@ -1,10 +1,35 @@
 # Builds the portfolio, smoke-tests the production output, then publishes to GitHub Pages.
 # If the smoke test fails, the artifact is never uploaded and deploy never runs.
+#
+# Triggers:
+#   - Automatic: every push to main (deploys that commit)
+#   - Manual: Actions → "Deploy to GitHub Pages" → Run workflow
+#       Pick Deploy from = branch or release, then enter the branch name or
+#       release tag (e.g. main, feature/foo, v1.2.0).
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      deploy_from:
+        description: 'Deploy from a branch or a release tag'
+        required: true
+        type: choice
+        default: branch
+        options:
+          - branch
+          - release
+      branch:
+        description: 'Branch to deploy (when Deploy from = branch)'
+        required: false
+        type: string
+        default: main
+      release:
+        description: 'Release tag to deploy (when Deploy from = release), e.g. v1.0.0'
+        required: false
+        type: string
 
 # Permissions required for GitHub Pages deployment via the official actions.
 permissions:
@@ -18,13 +43,83 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Job 0: turn the trigger (push SHA, branch name, or release tag) into a
+  # concrete commit SHA that the build job checks out. Keeps manual deploys
+  # pinned even if the branch tip moves while the workflow is running.
+  resolve-ref:
+    runs-on: ubuntu-latest
+    outputs:
+      ref: ${{ steps.target.outputs.ref }}
+      sha: ${{ steps.sha.outputs.sha }}
+      source: ${{ steps.target.outputs.source }}
+    steps:
+      # Map workflow_dispatch inputs (or the push SHA) to a git ref string.
+      - name: Choose deploy target
+        id: target
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          DEPLOY_FROM: ${{ inputs.deploy_from }}
+          BRANCH: ${{ inputs.branch }}
+          RELEASE: ${{ inputs.release }}
+          PUSH_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            if [ "$DEPLOY_FROM" = "release" ]; then
+              if [ -z "${RELEASE// }" ]; then
+                echo "::error::Release tag is required when Deploy from = release (e.g. v1.0.0)."
+                exit 1
+              fi
+              REF="$RELEASE"
+              SOURCE="release"
+            else
+              if [ -z "${BRANCH// }" ]; then
+                echo "::error::Branch name is required when Deploy from = branch."
+                exit 1
+              fi
+              REF="$BRANCH"
+              SOURCE="branch"
+            fi
+          else
+            REF="$PUSH_SHA"
+            SOURCE="push"
+          fi
+
+          {
+            echo "ref=$REF"
+            echo "source=$SOURCE"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "Deploy source=$SOURCE ref=$REF"
+
+      # Fetch full history so release tags and older branch tips resolve reliably.
+      - name: Checkout target ref
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.target.outputs.ref }}
+          fetch-depth: 0
+
+      # Pin the build to this exact commit (output consumed by the build job).
+      - name: Resolve commit SHA
+        id: sha
+        run: |
+          set -euo pipefail
+          SHA="$(git rev-parse HEAD)"
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          echo "Resolved commit: $SHA"
+          git log -1 --oneline
+
   # Job 1: compile the site, verify it works in a real browser, package dist/ for Pages.
   build:
+    needs: resolve-ref
     runs-on: ubuntu-latest
     steps:
-      # Clone this repository onto the CI runner.
-      - name: Checkout
+      # Clone the exact commit resolved above (branch tip or release tag).
+      - name: Checkout resolved commit
         uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.resolve-ref.outputs.sha }}
 
       # Install Node.js 20 (matches package.json engines).
       - name: Setup Node
@@ -44,8 +139,9 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      # Serve dist/ with vite preview, open in headless Chromium, assert sections from
-      # src/configurations/home.js render correctly. Exits non-zero on failure → job stops here.
+      # Serve dist/ with vite preview, open in headless Chromium, and assert the
+      # home page against live src/data + src/configurations content. Exits
+      # non-zero on failure → artifact upload and deploy never run.
       - name: Smoke test built site
         run: npm run smoke
 
@@ -56,9 +152,9 @@ jobs:
           path: ./dist
 
   # Job 2: publish the artifact from the build job to GitHub Pages.
-  # Runs only after build succeeds (needs: build).
+  # Runs only after resolve-ref and build both succeed.
   deploy:
-    needs: build
+    needs: [resolve-ref, build]
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -68,3 +164,22 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      # Record what went live (source, ref, commit, URL) on the Actions run summary.
+      - name: Summarize deployment
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+          SOURCE: ${{ needs.resolve-ref.outputs.source }}
+          REF: ${{ needs.resolve-ref.outputs.ref }}
+          SHA: ${{ needs.resolve-ref.outputs.sha }}
+        run: |
+          {
+            echo "## Deployed to GitHub Pages"
+            echo ""
+            echo "| | |"
+            echo "| --- | --- |"
+            echo "| **Source** | \`$SOURCE\` |"
+            echo "| **Ref** | \`$REF\` |"
+            echo "| **Commit** | \`$SHA\` |"
+            echo "| **URL** | $PAGE_URL |"
+          } >> "$GITHUB_STEP_SUMMARY"
