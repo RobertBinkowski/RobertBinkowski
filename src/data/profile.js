@@ -16,4 +16,9 @@ export const contacts = [
     icon: 'github',
     link: 'https://github.com/RobertBinkowski',
   },
+  {
+    name: 'Strava',
+    icon: 'strava',
+    link: 'https://www.strava.com/athletes/121422919',
+  },
 ]
