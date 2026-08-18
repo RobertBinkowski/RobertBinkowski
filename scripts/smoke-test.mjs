@@ -201,7 +201,14 @@ async function assertTimelineContent(page, section, timelineEntries) {
   }
 }
 
-async function assertContactSection(page, section, contacts) {
+async function assertContactSection(page, section, contacts, viewport) {
+  const cards = page.locator(`${section.selector} .bento-card`)
+  const cardCount = await cards.count()
+  assert(
+    cardCount === contacts.length,
+    `Contact section should render ${contacts.length} bento cards, found ${cardCount}.`,
+  )
+
   for (const contact of contacts) {
     const link = page.locator(`${section.selector} a[href="${contact.link}"]`).first()
     await assertExternalLink(page, link, contact, 'Contact section')
@@ -211,6 +218,33 @@ async function assertContactSection(page, section, contacts) {
       label === contact.name,
       `Contact section link aria-label should be "${contact.name}", got "${label}".`,
     )
+
+    assert(
+      await link.evaluate((el) => el.classList.contains('bento-card')),
+      `Contact section link for "${contact.name}" should be a bento card.`,
+    )
+
+    if (contact.background) {
+      const photo = link.locator('.bento-photo').first()
+      await photo.waitFor({ state: 'visible', timeout: 15_000 })
+      const loaded = await photo.evaluate((img) => img.complete && img.naturalWidth > 0)
+      assert(loaded, `Background photo for "${contact.name}" failed to load.`)
+    }
+  }
+
+  const firstCard = cards.first()
+  const details = firstCard.locator('.bento-details').first()
+
+  if (viewport.width >= COMPACT_BREAKPOINT) {
+    await firstCard.hover()
+    const revealed = await details.evaluate((el) => {
+      const style = getComputedStyle(el)
+      return style.opacity === '1' && style.maxHeight !== '0px'
+    })
+    assert(revealed, 'Hovering a bento card should reveal the detail overlay.')
+  } else {
+    const visibleOnTouch = await details.evaluate((el) => getComputedStyle(el).opacity === '1')
+    assert(visibleOnTouch, 'Bento card details should stay visible on small viewports.')
   }
 }
 
@@ -350,7 +384,7 @@ async function runChecks(page, expectations, viewport) {
     }
 
     if (section.key === 'contact') {
-      await assertContactSection(page, section, expectations.contacts)
+      await assertContactSection(page, section, expectations.contacts, viewport)
     }
 
     for (const rule of section.minCount ?? []) {
