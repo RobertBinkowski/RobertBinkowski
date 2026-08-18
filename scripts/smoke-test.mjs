@@ -202,6 +202,8 @@ async function assertTimelineContent(page, section, timelineEntries) {
 }
 
 async function assertContactSection(page, section, contacts, viewport) {
+  await page.locator(section.selector).scrollIntoViewIfNeeded()
+
   const cards = page.locator(`${section.selector} .bento-card`)
   const cardCount = await cards.count()
   assert(
@@ -211,6 +213,7 @@ async function assertContactSection(page, section, contacts, viewport) {
 
   for (const contact of contacts) {
     const link = page.locator(`${section.selector} a[href="${contact.link}"]`).first()
+    await link.scrollIntoViewIfNeeded()
     await assertExternalLink(page, link, contact, 'Contact section')
 
     const label = await link.getAttribute('aria-label')
@@ -227,8 +230,20 @@ async function assertContactSection(page, section, contacts, viewport) {
     if (contact.background) {
       const photo = link.locator('.bento-photo').first()
       await photo.waitFor({ state: 'visible', timeout: 15_000 })
-      const loaded = await photo.evaluate((img) => img.complete && img.naturalWidth > 0)
-      assert(loaded, `Background photo for "${contact.name}" failed to load.`)
+      await photo.evaluate((img) => {
+        img.loading = 'eager'
+        if (img.complete && img.naturalWidth > 0) {
+          return
+        }
+        // Force a reload if the lazy image was skipped while off-screen.
+        const src = img.currentSrc || img.src
+        img.src = src
+      })
+      await page.waitForFunction(
+        (el) => el instanceof HTMLImageElement && el.complete && el.naturalWidth > 0,
+        await photo.elementHandle(),
+        { timeout: 15_000 },
+      )
     }
   }
 
@@ -236,12 +251,16 @@ async function assertContactSection(page, section, contacts, viewport) {
   const details = firstCard.locator('.bento-details').first()
 
   if (viewport.width >= COMPACT_BREAKPOINT) {
+    await firstCard.scrollIntoViewIfNeeded()
     await firstCard.hover()
-    const revealed = await details.evaluate((el) => {
-      const style = getComputedStyle(el)
-      return style.opacity === '1' && style.maxHeight !== '0px'
-    })
-    assert(revealed, 'Hovering a bento card should reveal the detail overlay.')
+    await page.waitForFunction(
+      (el) => {
+        const style = getComputedStyle(el)
+        return style.opacity === '1' && style.maxHeight !== '0px'
+      },
+      await details.elementHandle(),
+      { timeout: 5_000 },
+    )
   } else {
     const visibleOnTouch = await details.evaluate((el) => getComputedStyle(el).opacity === '1')
     assert(visibleOnTouch, 'Bento card details should stay visible on small viewports.')

@@ -272,12 +272,14 @@ export default {
 
 @media (hover: hover) and (min-width: $phone-size) {
   .bento-card:hover .bento-photo,
-  .bento-card:focus-visible .bento-photo {
+  .bento-card:focus-visible .bento-photo,
+  .bento-card:focus-within .bento-photo {
     transform: scale(1.08);
   }
 
   .bento-card:hover .bento-veil,
-  .bento-card:focus-visible .bento-veil {
+  .bento-card:focus-visible .bento-veil,
+  .bento-card:focus-within .bento-veil {
     background:
       linear-gradient(
         180deg,
@@ -293,7 +295,8 @@ export default {
   }
 
   .bento-card:hover .bento-details,
-  .bento-card:focus-visible .bento-details {
+  .bento-card:focus-visible .bento-details,
+  .bento-card:focus-within .bento-details {
     max-height: 18rem;
     opacity: 1;
     transform: translateY(0);
