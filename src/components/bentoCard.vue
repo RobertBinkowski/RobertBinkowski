@@ -79,7 +79,6 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  height: 100%;
   min-height: 16rem;
   overflow: hidden;
   border-radius: 1.15rem;
@@ -174,7 +173,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 0.35em;
-  padding: 1.25rem 1.2rem 1.15rem;
+  padding: 4.25rem 1.2rem 1.15rem;
 }
 
 .bento-name {
@@ -257,13 +256,19 @@ export default {
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  background: var(--bento-accent);
-  color: var(--color-text-inverse);
+  background: var(--color-text-inverse);
+  color: var(--bento-accent);
 
   &::after {
     content: '→';
     font-size: 0.95em;
   }
+}
+
+.bento-card:hover .bento-cta,
+.bento-card:focus-visible .bento-cta,
+.bento-card:focus-within .bento-cta {
+  color: var(--bento-accent);
 }
 
 .bento-card--featured {
@@ -315,6 +320,11 @@ export default {
   .bento-photo {
     transform: scale(1.04);
   }
+
+  .bento-card,
+  .bento-card--featured {
+    min-height: 22rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -331,11 +341,6 @@ export default {
 @media only screen and (max-width: $phone-size) {
   .bento-stats {
     grid-template-columns: 1fr;
-  }
-
-  .bento-card,
-  .bento-card--featured {
-    min-height: 18rem;
   }
 }
 </style>
