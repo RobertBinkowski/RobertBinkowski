@@ -1,10 +1,5 @@
 <template>
   <section id="contactSection">
-    <header class="contact-heading">
-      <p class="eyebrow">Connect</p>
-      <h2>Find me elsewhere</h2>
-    </header>
-
     <div class="bento-grid">
       <bentoCard v-for="contact in contacts" :key="contact.name" :link="contact" />
     </div>
@@ -20,25 +15,6 @@
   padding: 4em 1.25em 5em;
   box-sizing: border-box;
   overflow-x: clip;
-
-  .contact-heading {
-    margin: 0 0 1.5em;
-    text-align: left;
-
-    .eyebrow {
-      margin: 0 0 0.4em;
-      font-size: 0.8em;
-      font-weight: 900;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--color-primary);
-    }
-
-    h2 {
-      margin: 0;
-      font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.2rem);
-    }
-  }
 
   .bento-grid {
     display: grid;
