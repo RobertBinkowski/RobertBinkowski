@@ -201,9 +201,19 @@ async function assertTimelineContent(page, section, timelineEntries) {
   }
 }
 
-async function assertContactSection(page, section, contacts) {
+async function assertContactSection(page, section, contacts, viewport) {
+  await page.locator(section.selector).scrollIntoViewIfNeeded()
+
+  const cards = page.locator(`${section.selector} .bento-card`)
+  const cardCount = await cards.count()
+  assert(
+    cardCount === contacts.length,
+    `Contact section should render ${contacts.length} bento cards, found ${cardCount}.`,
+  )
+
   for (const contact of contacts) {
     const link = page.locator(`${section.selector} a[href="${contact.link}"]`).first()
+    await link.scrollIntoViewIfNeeded()
     await assertExternalLink(page, link, contact, 'Contact section')
 
     const label = await link.getAttribute('aria-label')
@@ -211,6 +221,49 @@ async function assertContactSection(page, section, contacts) {
       label === contact.name,
       `Contact section link aria-label should be "${contact.name}", got "${label}".`,
     )
+
+    assert(
+      await link.evaluate((el) => el.classList.contains('bento-card')),
+      `Contact section link for "${contact.name}" should be a bento card.`,
+    )
+
+    if (contact.background) {
+      const photo = link.locator('.bento-photo').first()
+      await photo.waitFor({ state: 'visible', timeout: 15_000 })
+      await photo.evaluate((img) => {
+        img.loading = 'eager'
+        if (img.complete && img.naturalWidth > 0) {
+          return
+        }
+        // Force a reload if the lazy image was skipped while off-screen.
+        const src = img.currentSrc || img.src
+        img.src = src
+      })
+      await page.waitForFunction(
+        (el) => el instanceof HTMLImageElement && el.complete && el.naturalWidth > 0,
+        await photo.elementHandle(),
+        { timeout: 15_000 },
+      )
+    }
+  }
+
+  const firstCard = cards.first()
+  const details = firstCard.locator('.bento-details').first()
+
+  if (viewport.width >= COMPACT_BREAKPOINT) {
+    await firstCard.scrollIntoViewIfNeeded()
+    await firstCard.hover()
+    await page.waitForFunction(
+      (el) => {
+        const style = getComputedStyle(el)
+        return style.opacity === '1' && style.maxHeight !== '0px'
+      },
+      await details.elementHandle(),
+      { timeout: 5_000 },
+    )
+  } else {
+    const visibleOnTouch = await details.evaluate((el) => getComputedStyle(el).opacity === '1')
+    assert(visibleOnTouch, 'Bento card details should stay visible on small viewports.')
   }
 }
 
@@ -350,7 +403,7 @@ async function runChecks(page, expectations, viewport) {
     }
 
     if (section.key === 'contact') {
-      await assertContactSection(page, section, expectations.contacts)
+      await assertContactSection(page, section, expectations.contacts, viewport)
     }
 
     for (const rule of section.minCount ?? []) {
