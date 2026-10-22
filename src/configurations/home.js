@@ -46,6 +46,7 @@ export const homeSections = [
     key: 'contact',
     selector: '#contactSection',
     visibleWhen: ({ portfolio: sections }) => sections.ContactSection,
+    minCount: [{ selector: '.bento-card', count: 1 }],
   },
 ]
 
